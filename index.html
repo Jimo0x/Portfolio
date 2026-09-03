@@ -3,679 +3,268 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Julio DAHOU — Cybersecurity Specialist & Software Engineer, Cotonou</title>
-<meta name="description" content="Portfolio de Julio DAHOU, spécialiste cybersécurité et développeur logiciel à Cotonou (Bénin), ouvert au remote. Pentest, low-level C, Python, SOC.">
+<title>Julio DAHOU — Cybersecurity Specialist & Software Engineer</title>
+<meta name="description" content="Portfolio de Julio DAHOU, spécialiste cybersécurité et développeur logiciel à Cotonou, ouvert au remote. Pentest, low-level C, Python, SOC.">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,560&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#06080A;
-    --bg2:#0A0E12;
-    --panel:#0C1116;
-    --line:#1B2733;
-    --ink:#E7F0E9;
-    --muted:#7D8B94;
-    --neon:#3DFFA2;
-    --neon-dim:rgba(61,255,162,.16);
-    --cyan:#4FD8FF;
-    --amber:#FFC46B;
-    --danger:#FF5C6C;
-    --mono:'JetBrains Mono',monospace;
-    --sans:'Space Grotesk',sans-serif;
-    --serif:'Fraunces',serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--sans);
-    font-size:17px;
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  ::selection{background:var(--neon);color:#04120B;}
-  a{color:inherit;text-decoration:none;}
-  h1,h2,h3{font-weight:600;line-height:1.12;letter-spacing:-0.01em;}
-  em{font-style:normal;color:var(--neon);}
-  code{font-family:var(--mono);}
-
-  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(20px,5vw,48px);position:relative;z-index:2;}
-
-  /* ===== fond : grille perspective + bruit + lueurs ===== */
-  .bg-stage{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-  .bg-grid{
-    position:absolute;left:-50%;right:-50%;top:-10%;height:120%;
-    background-image:
-      linear-gradient(rgba(61,255,162,.055) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(61,255,162,.055) 1px,transparent 1px);
-    background-size:56px 56px;
-    transform:perspective(600px) rotateX(60deg) translateZ(0);
-    animation:gridDrift 24s linear infinite;
-    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 65%,transparent);
-            mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 65%,transparent);
-  }
-  @keyframes gridDrift{
-    from{background-position:0 0,0 0;}
-    to{background-position:0 56px,0 56px;}
-  }
-  .glow-a{position:absolute;top:-20%;left:-10%;width:60vw;height:60vw;border-radius:50%;
-    background:radial-gradient(circle,rgba(61,255,162,.10),transparent 60%);filter:blur(40px);}
-  .glow-b{position:absolute;bottom:-25%;right:-10%;width:70vw;height:70vw;border-radius:50%;
-    background:radial-gradient(circle,rgba(79,216,255,.08),transparent 60%);filter:blur(50px);}
-  .scanline{
-    position:absolute;inset:0;
-    background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(255,255,255,.012) 3px 4px);
-    mix-blend-mode:overlay;
-  }
-  @media (prefers-reduced-motion:reduce){ .bg-grid{animation:none;} }
-
-  /* ===== header ===== */
-  header.site{
-    position:sticky;top:0;z-index:100;
-    display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
-    max-width:1120px;margin:0 auto;padding:26px clamp(20px,5vw,48px) 22px;
-    border-bottom:1px solid var(--line);
-    background:rgba(6,8,10,.7);
-    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-    transition:padding .35s cubic-bezier(.22,.61,.36,1);
-  }
-  header.site.is-scrolled{padding-top:10px;padding-bottom:10px;}
-  header.site .name{
-    font-family:var(--mono);font-weight:700;font-size:1.02rem;letter-spacing:.02em;
-    display:flex;align-items:center;gap:10px;
-  }
-  header.site .name .prompt{color:var(--neon);}
-  header.site .name .path{color:var(--muted);}
-  header.site nav{display:flex;gap:26px;font-size:0.88rem;color:var(--muted);font-family:var(--mono);}
-  header.site nav a{position:relative;letter-spacing:.02em;}
-  header.site nav a::before{content:'~/';color:rgba(61,255,162,.5);margin-right:2px;}
-  header.site nav a::after{
-    content:'';position:absolute;left:0;bottom:-5px;height:1px;width:100%;
-    background:var(--neon);transform:scaleX(0);transform-origin:100% 50%;
-    transition:transform .3s cubic-bezier(.22,.61,.36,1);
-  }
-  header.site nav a:hover{color:var(--neon);}
-  header.site nav a:hover::after{transform:scaleX(1);transform-origin:0 50%;}
-
-  /* ===== hero ===== */
-  .hero{padding:clamp(80px,14vh,150px) 0 clamp(60px,10vh,100px);}
-  .kicker{
-    font-family:var(--mono);font-size:0.74rem;color:var(--cyan);text-transform:none;
-    letter-spacing:.06em;margin-bottom:22px;display:flex;align-items:center;gap:10px;
-  }
-  .kicker::before{content:'●';color:var(--neon);animation:blink 1.4s step-end infinite;}
-  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
-  .hero h1{font-size:clamp(2.4rem,6vw,4.4rem);margin-bottom:24px;font-weight:600;}
-  .hero h1 .accent{color:var(--neon);}
-  .hero .lede{font-size:clamp(1.02rem,2vw,1.22rem);color:var(--muted);max-width:620px;margin-bottom:38px;}
-  .hero-links{display:flex;gap:18px;flex-wrap:wrap;font-weight:500;margin-bottom:48px;}
-  .btn{
-    font-family:var(--mono);font-size:0.86rem;letter-spacing:.02em;
-    border:1px solid var(--line);color:var(--ink);background:transparent;
-    padding:12px 20px;transition:all .25s ease;position:relative;overflow:hidden;
-  }
-  .btn:hover{border-color:var(--neon);color:var(--neon);transform:translateY(-2px);
-    box-shadow:0 0 22px -6px var(--neon-dim);}
-  .btn.solid{background:var(--neon);border-color:var(--neon);color:#04120B;font-weight:700;}
-  .btn.solid:hover{box-shadow:0 0 30px -6px var(--neon);color:#04120B;}
-
-  /* terminal ============== */
-  .term{
-    width:100%;max-width:720px;margin-top:8px;
-    border:1px solid var(--line);background:rgba(10,14,18,.85);
-    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-    box-shadow:0 40px 80px -40px rgba(0,0,0,.9),0 0 0 1px rgba(61,255,162,.03);
-    overflow:hidden;
-  }
-  .term-bar{
-    display:flex;align-items:center;gap:8px;
-    padding:12px 16px;border-bottom:1px solid var(--line);background:#0A0D11;
-  }
-  .term-bar .dot{width:11px;height:11px;border-radius:50%;font-size:0;}
-  .dot.r{background:#FF5F57;} .dot.y{background:#FEBC2E;} .dot.g{background:#28C840;}
-  .term-bar .title{margin-left:10px;font-family:var(--mono);font-size:0.74rem;color:var(--muted);}
-  .term-body{padding:22px 24px;font-family:var(--mono);font-size:0.88rem;line-height:1.85;min-height:180px;}
-  .term-body .ln{white-space:pre-wrap;}
-  .term-body .cm{color:var(--neon);}
-  .term-body .cm::before{content:'❯ ';color:var(--muted);}
-  .term-body .out{color:var(--ink);}
-  .term-body .dim{color:var(--muted);}
-  .term-body .cyan{color:var(--cyan);}
-  .term-body .amber{color:var(--amber);}
-  .term-body .cursor{display:inline-block;width:9px;height:1.05em;background:var(--neon);
-    vertical-align:text-bottom;margin-left:2px;animation:blink 1s step-end infinite;}
-
-  /* ===== sections ===== */
-  section.block{padding:clamp(60px,10vh,110px) 0;border-top:1px solid var(--line);}
-  .sec-head{max-width:600px;margin-bottom:clamp(40px,7vh,72px);}
-  .sec-head .num{
-    font-family:var(--mono);color:var(--cyan);font-size:0.78rem;letter-spacing:.04em;margin-bottom:14px;
-  }
-  .sec-head .num::before{content:'## ';color:var(--muted);}
-  .sec-head h2{font-size:clamp(1.7rem,3.5vw,2.4rem);margin-bottom:14px;}
-  .sec-head p{color:var(--muted);}
-
-  /* ===== projets : cartes ===== */
-  article.project{
-    display:grid;grid-template-columns:minmax(280px,1fr) minmax(0,1fr);gap:clamp(28px,5vw,60px);
-    padding:clamp(40px,6vh,70px) 0;border-top:1px solid var(--line);
-  }
-  article.project:first-of-type{border-top:none;padding-top:0;}
-  .project .meta{
-    font-family:var(--mono);font-size:0.74rem;color:var(--muted);margin-bottom:14px;letter-spacing:.04em;
-  }
-  .project .meta .tag{color:var(--cyan);}
-  .project h3{font-size:clamp(1.5rem,2.6vw,1.95rem);margin-bottom:6px;display:flex;align-items:center;gap:12px;}
-  .project h3 .arrow{color:var(--neon);opacity:.8;}
-  .project .idx{font-family:var(--mono);font-size:.72rem;color:var(--neon);opacity:.7;align-self:center;}
-  .project .desc{color:var(--muted);margin-bottom:18px;}
-  .project .tech{font-family:var(--mono);font-size:0.78rem;display:flex;flex-wrap:wrap;gap:8px;}
-  .project .tech span{
-    border:1px solid var(--line);color:var(--cyan);padding:4px 10px;background:rgba(79,216,255,.04);
-  }
-
-  figure.media{
-    position:relative;align-self:center;
-    border:1px solid var(--line);background:var(--panel);
-    overflow:hidden;width:fit-content;max-width:100%;justify-self:end;
-    box-shadow:0 30px 60px -40px rgba(0,0,0,.9);
-    transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
-  }
-  figure.media:hover{border-color:rgba(61,255,162,.5);
-    box-shadow:0 0 0 1px var(--neon-dim),0 30px 60px -34px #000,0 0 40px -12px var(--neon-dim);}
-  .media-col{align-self:center;max-width:100%;justify-self:end;}
-  figure.media img{
-    width:auto;height:auto;max-width:100%;display:block;
-    opacity:.92;transition:opacity .3s ease,transform .5s cubic-bezier(.22,.61,.36,1);
-  }
-  figure.media:hover img{opacity:1;transform:scale(1.03);}
-  figure.media::after{
-    content:'';position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(120deg,transparent 30%,rgba(61,255,162,.08) 50%,transparent 70%);
-    background-size:250% 100%;opacity:0;transition:opacity .4s ease;
-  }
-  figure.media:hover::after{opacity:1;animation:shine 1.6s ease;}
-  @keyframes shine{0%{background-position:200% 0;}100%{background-position:-100% 0;}}
-  .mock-note{font-family:var(--mono);font-size:0.76rem;color:var(--muted);margin-top:10px;font-style:normal;}
-
-  @media (max-width:860px){
-    article.project{grid-template-columns:1fr;}
-    figure.media,.media-col{justify-self:start;}
-  }
-
-  .media-ph{
-    height:100%;min-height:120px;display:flex;align-items:center;justify-content:center;
-    padding:30px;font-family:var(--mono);font-size:0.8rem;color:var(--muted);
-    outline:1px dashed var(--line);outline-offset:-10px;text-align:center;
-  }
-
-  /* ===== stack ===== */
-  .stack-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);}
-  @media (max-width:720px){ .stack-cols{grid-template-columns:1fr;} }
-  .stack-col{border:1px solid var(--line);background:var(--panel);padding:26px;}
-  .stack-col h3{
-    font-family:var(--mono);font-weight:700;font-size:0.78rem;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--neon);margin-bottom:16px;
-  }
-  .stack-col ul{list-style:none;}
-  .stack-col li{
-    padding:13px 0;border-top:1px solid var(--line);font-size:1rem;
-    display:flex;justify-content:space-between;gap:16px;
-  }
-  .stack-col li::before{content:'▸';color:var(--neon);}
-  .stack-col li small{color:var(--muted);font-family:var(--mono);font-size:0.76rem;text-align:right;}
-
-  /* ===== parcours ===== */
-  .creator{display:grid;grid-template-columns:7fr 5fr;gap:clamp(28px,5vw,72px);align-items:start;}
-  @media (max-width:860px){ .creator{grid-template-columns:1fr;} }
-  .creator .desc{color:var(--muted);margin-bottom:26px;max-width:520px;}
-  .creator ul{list-style:none;margin-bottom:30px;}
-  .creator li{
-    padding:14px 0;border-top:1px solid var(--line);display:flex;gap:14px;color:var(--muted);
-  }
-  .creator li:last-child{border-bottom:1px solid var(--line);}
-  .creator li .n{font-family:var(--mono);color:var(--neon);min-width:22px;}
-
-  /* ===== contact ===== */
-  footer.contact{text-align:left;}
-  footer.contact h2{font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:18px;}
-  .say{color:var(--muted);max-width:480px;margin-bottom:34px;font-family:var(--mono);font-size:0.9rem;}
-  .mail-big{
-    font-family:var(--mono);font-size:clamp(1.2rem,3.4vw,1.9rem);font-weight:700;color:var(--neon);
-    display:inline-block;position:relative;padding-bottom:6px;
-  }
-  .mail-big::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:2px;
-    background:var(--neon);box-shadow:0 0 12px var(--neon);transform:scaleX(.4);transform-origin:left;}
-  .mail-big:hover::after{transform:scaleX(1);}
-  .contact-cards{display:flex;gap:16px;flex-wrap:wrap;margin-top:34px;}
-  .c-card{
-    display:flex;align-items:center;gap:14px;
-    border:1px solid var(--line);background:var(--panel);
-    padding:14px 20px;transition:all .25s ease;
-  }
-  .c-card:hover{border-color:var(--neon);transform:translateY(-3px);box-shadow:0 0 24px -8px var(--neon-dim);}
-  .c-icon{display:inline-flex;color:var(--neon);flex-shrink:0;}
-  .c-icon svg{width:21px;height:21px;fill:currentColor;display:block;}
-  .c-body{display:flex;flex-direction:column;line-height:1.4;}
-  .c-label{font-family:var(--mono);font-size:0.68rem;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
-  .c-value{font-weight:600;font-size:0.97rem;}
-  .footer-links{
-    display:flex;gap:26px;flex-wrap:wrap;margin-top:56px;padding-top:28px;
-    border-top:1px solid var(--line);font-size:0.9rem;color:var(--muted);
-  }
-  .footer-links a{display:inline-flex;align-items:center;gap:8px;transition:all .25s ease;font-family:var(--mono);}
-  .footer-links a svg{width:15px;height:15px;fill:currentColor;display:block;}
-  .footer-links a:hover{color:var(--neon);transform:translateY(-2px);}
-  .foot-note{
-    margin-top:44px;font-family:var(--mono);font-size:0.76rem;color:var(--muted);
-    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  }
-  .foot-note .ok::before{content:'✓ ';color:var(--neon);}
-
-  /* ===== révélation au scroll ===== */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.61,.36,1);}
-  .reveal.is-visible{opacity:1;transform:none;}
-
-  /* ===== décoration latérale : index fixe ===== */
-  .side-held{
-    position:fixed;left:24px;bottom:26px;z-index:90;
-    display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:0.72rem;color:var(--muted);
-    writing-mode:vertical-rl;
-    letter-spacing:.18em;
-  }
-  @media (max-width:860px){ .side-held{display:none;} }
-
-  /* ===== barre de progression ===== */
-  .progress-bar{
-    position:fixed;top:0;left:0;height:2px;width:100%;
-    background:linear-gradient(90deg,var(--neon),var(--cyan));
-    transform:scaleX(0);transform-origin:left;z-index:200;box-shadow:0 0 12px var(--neon);
-  }
-
-  /* ===== step-nav ===== */
-  .step-nav{
-    position:fixed;right:24px;top:50%;transform:translateY(-50%);
-    display:flex;flex-direction:column;gap:16px;z-index:150;
-  }
-  .step-nav a{
-    display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:0.7rem;color:var(--muted);
-  }
-  .step-nav .pt{
-    width:8px;height:8px;border-radius:50%;background:var(--line);
-    border:1px solid var(--muted);transition:all .25s;transform:rotate(0);
-  }
-  .step-nav a.active .pt{background:var(--neon);border-color:var(--neon);transform:rotate(45deg);
-    box-shadow:0 0 12px var(--neon);}
-  .step-nav a.active{color:var(--neon);}
-  .step-nav .lbl{
-    opacity:0;transform:translateX(6px);transition:all .2s;white-space:nowrap;
-  }
-  .step-nav a.active .lbl,.step-nav a:hover .lbl,.step-nav a:focus-visible .lbl{opacity:1;transform:none;}
-  @media (max-width:860px){ .step-nav{display:none;} }
-
-  :focus-visible{outline:2px solid var(--neon);outline-offset:3px;}
-
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto;}
-    .reveal{opacity:1;transform:none;transition:none;}
-    .cursor,.kicker::before{animation:none;}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="bg-stage" aria-hidden="true">
-  <div class="bg-grid"></div>
-  <div class="glow-a"></div>
-  <div class="glow-b"></div>
-  <div class="scanline"></div>
-</div>
-
+<div id="particles"></div>
+<div class="aurora a"></div>
+<div class="aurora b"></div>
 <div class="progress-bar" id="progressBar"></div>
 
-<nav class="step-nav" id="stepNav" aria-label="Progression dans les projets">
-  <a href="#p-01" data-target="p-01"><span class="pt"></span><span class="lbl">01 FrixX</span></a>
-  <a href="#p-02" data-target="p-02"><span class="pt"></span><span class="lbl">02 Phishing & Threat Detector</span></a>
-  <a href="#p-03" data-target="p-03"><span class="pt"></span><span class="lbl">03 SE Contact Scraper</span></a>
-  <a href="#p-04" data-target="p-04"><span class="pt"></span><span class="lbl">04 Network Recon Tool</span></a>
-  <a href="#p-05" data-target="p-05"><span class="pt"></span><span class="lbl">05 Synergy Craft</span></a>
-</nav>
-
-<div class="side-held" aria-hidden="true">ROOT@JIMO-OX —~ — 2026</div>
-
 <header class="site" id="siteHeader">
-  <a class="name" href="#"><span class="prompt">➜</span> <span class="path">Jimo_ox</span></a>
-  <nav>
-    <a href="#projets">projets</a>
-    <a href="#stack">stack</a>
-    <a href="#parcours">parcours</a>
-    <a href="#contact">contact</a>
-  </nav>
+  <a class="name" href="#accueil">
+    <span class="jd">JD</span>
+    <span>Julio Dahou<span class="tag">Cybersec · Dev</span></span>
+  </a>
 </header>
 
-<main>
-  <div class="wrap">
-    <section class="hero">
-      <p class="kicker">CONNEXION SÉCURISÉE — COTONOU, BÉNIN</p>
-      <h1 class="reveal">Je sécurise des systèmes,<br>et j'en <span class="accent">construis</span> aussi.</h1>
-      <p class="lede reveal">Spécialiste cybersécurité &amp; ingénieur logiciel. Pentest, low-level C, Python et défense SOC — j'analyse, je casse, je corrige, et je documente tout ce que j'apprends.</p>
-      <div class="hero-links reveal">
-        <a class="btn solid" href="#projets">Voir les projets ↓</a>
-        <a class="btn" href="mailto:juliodh2006@gmail.com">M'écrire</a>
+<nav class="dock" id="dock" aria-label="Navigation">
+  <a href="#accueil" data-label="Accueil" data-spy="accueil" aria-label="Accueil">
+    <svg viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>
+  </a>
+  <a href="#projets" data-label="Projets" data-spy="projets" aria-label="Projets">
+    <svg viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z"/></svg>
+  </a>
+  <a href="#parcours" data-label="Parcours" data-spy="parcours" aria-label="Parcours">
+    <svg viewBox="0 0 24 24"><path d="M4 3h2v10.17A3 3 0 1 1 4 13zm6 0h2v10.17a3 3 0 1 1-2 0zM16 3h2v13.17a3 3 0 1 1-2 0z"/></svg>
+  </a>
+  <a href="#stack" data-label="Stack" data-spy="stack" aria-label="Stack">
+    <svg viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6z"/></svg>
+  </a>
+  <a href="#contact" data-label="Contact" data-spy="contact" aria-label="Contact">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5z"/></svg>
+  </a>
+</nav>
+
+<main class="board">
+
+  <!-- ============ ACCUEIL ============ -->
+  <section class="frame hero" id="accueil">
+    <p class="kicker" data-anim>Cybersecurity Specialist &amp; Software Engineer</p>
+    <h1 data-anim>Je sécurise des systèmes, et j'en <span class="ang">construis</span> aussi.</h1>
+    <p class="lede" data-anim>Pentest, low-level C, Python et défense SOC — j'analyse, je casse, je corrige, et je documente tout ce que j'apprends. Basé à Cotonou, ouvert au remote.</p>
+    <div class="hero-links" data-anim>
+      <a class="btn solid" href="#projets">Voir les projets</a>
+      <a class="btn" href="#contact">Me contacter</a>
+    </div>
+  </section>
+
+  <!-- ============ PROJETS ============ -->
+  <section class="frame" id="projets">
+    <p class="sec-label" data-anim>Portfolio</p>
+    <h2 data-anim>Mes <span class="grad">projets</span></h2>
+    <p class="sec-desc" data-anim>Des outils réels, du réseau au web — construits, publiés et documentés.</p>
+
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>01 — Marketplace</p>
+        <h3>FrixX</h3>
+        <p class="desc">Plateforme freelance marketplace complète. Backend migré de Django vers Next.js, API avec Supabase, base de données PostgreSQL et politiques de sécurité RLS (Row Level Security).</p>
+        <div class="tech"><span>Django</span><span>Next.js</span><span>Supabase</span><span>RLS</span><span>PostgreSQL</span></div>
       </div>
+      <figure class="media"><img src="/assets/FrixX.png" alt="FrixX marketplace"></figure>
+    </article>
 
-      <div class="term reveal" id="heroTerm" aria-label="Terminal de présentation">
-        <div class="term-bar">
-          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-          <span class="title">Jimo_ox: ~/whoami</span>
-        </div>
-        <div class="term-body" id="termBody">
-          <div class="ln"><span class="dim"># profil chargeable via — ./init.sh</span></div>
-        </div>
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>02 — SOC / Défensif</p>
+        <h3>Phishing &amp; Threat Detector</h3>
+        <p class="desc">Outil de détection de phishing et de menaces informatiques. Analyse des signaux malveillants, catégorisation des menaces et support des opérations d'analyste Junior SOC.</p>
+        <div class="tech"><span>Python</span><span>SOC</span><span>Threat Detection</span><span>Analysis</span></div>
       </div>
-    </section>
+      <figure class="media"><img src="/assets/Phishing et Threat Detector.png" alt="Phishing and Threat Detector"></figure>
+    </article>
 
-    <section class="block" id="projets">
-      <div class="sec-head reveal">
-        <span class="num">01</span>
-        <h2>Projets</h2>
-        <p>Cinq projets : cybersécurité, systèmes et développement web, pensés pour des cas réels.</p>
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>03 — OSINT</p>
+        <h3>SE Contact Scraper</h3>
+        <p class="desc">Outil OSINT de collecte et de recherche de contacts. Automatisation d'extraction de données publiques pour des investigations et du renseignement de sources ouvertes.</p>
+        <div class="tech"><span>Python</span><span>OSINT</span><span>Scraping</span><span>Automation</span></div>
       </div>
+      <figure class="media">
+        <img src="/assets/SE Contact Scraper1.png" alt="SE Contact Scraper">
+        <p class="mock-note">Capture d'une exécution de l'outil.</p>
+      </figure>
+    </article>
 
-      <article class="project reveal" id="p-01">
-        <div>
-          <p class="meta"><span class="tag">01</span> · web · full-stack</p>
-          <h3><span class="idx">01</span> FrixX <span class="arrow">→</span></h3>
-          <p class="desc">Une marketplace freelance écrite d'abord pour un hackathon de 48 heures en Django, puis refaite de zéro en Next.js avec Supabase : authentification, sécurité des données avec RLS et logique métier repensée proprement.</p>
-          <p class="tech"><span>Django</span><span>Next.js</span><span>Supabase</span><span>PostgreSQL</span><span>RLS</span></p>
-        </div>
-        <figure class="media" data-media="assets/FrixX.png" data-caption="FrixX — marketplace freelance"></figure>
-      </article>
-
-      <article class="project reveal" id="p-02">
-        <div>
-          <p class="meta"><span class="tag">02</span> · défense / soc</p>
-          <h3><span class="idx">02</span> Phishing &amp; Threat Detector <span class="arrow">→</span></h3>
-          <p class="desc">Un outil de détection de campagnes de phishing et de menaces. Il analyse les indicateurs et aide à trier les signalements, en lien avec ma pratique de junior SOC analyst : reconnaître, classer, et proposer une remédiation.</p>
-          <p class="tech"><span>Python</span><span>Analyse d'indicateurs</span><span>SOC</span></p>
-        </div>
-        <figure class="media" data-media="assets/Phishing et Threat Detector.png" data-caption="Phishing & Threat Detector"></figure>
-      </article>
-
-      <article class="project reveal" id="p-03">
-        <div>
-          <p class="meta"><span class="tag">03</span> · automatisation</p>
-          <h3><span class="idx">03</span> SE Contact Scraper <span class="arrow">→</span></h3>
-          <p class="desc">Un outil d'automatisation basé sur l'OSINT (open-source intelligence) : il collecte et structure des contacts et informations publiques pour préparer des engagements de sécurité ou des audits de surface d'attaque.</p>
-          <p class="tech"><span>Python</span><span>OSINT</span><span>Automatisation</span></p>
-        </div>
-        <div class="media-col">
-          <figure class="media" data-media="assets/SE Contact Scraper1.png" data-caption="SE Contact Scraper — interface"></figure>
-          <p class="mock-note">vues : collecte → résultats → export</p>
-        </div>
-      </article>
-
-      <article class="project reveal" id="p-04">
-        <div>
-          <p class="meta"><span class="tag">04</span> · réseau</p>
-          <h3><span class="idx">04</span> Basic Network Recon Tool <span class="arrow">→</span></h3>
-          <p class="desc">Un utilitaire de reconnaissance réseau : découverte d'hôtes, inspection du réseau et collecte de données pour cartographier une infrastructure avant tout test de sécurité.</p>
-          <p class="tech"><span>Python</span><span>Scanners réseau</span><span>Bash</span></p>
-        </div>
-        <figure class="media" data-media="assets/Basic Network Recon Tool.png" data-caption="Basic Network Recon Tool"></figure>
-      </article>
-
-      <article class="project reveal" id="p-05">
-        <div>
-          <p class="meta"><span class="tag">05</span> · plateforme freelance · dual-side</p>
-          <h3><span class="idx">05</span> Synergy Craft <span class="arrow">→</span></h3>
-          <p class="desc">Une plateforme freelance dual-side (clients + freelancers) avec rendu 3D temps réel. Le site utilise Three.js r170+ avec post-processing (UnrealBloom) pour les effets 3D, le tout chargé via CDN + Import Map — aucun npm/node.js requis. Paiements (Stripe/PayPal/Mobile Money) : configurez les clés dans .env et utilisez ngrok pour exposer les webhooks en dev.</p>
-          <p class="tech"><span>Three.js</span><span>UnrealBloom</span><span>CDN+Import Map</span><span>Stripe</span><span>PayPal</span><span>Mobile Money</span></p>
-        </div>
-        <div class="media-col">
-          <figure class="media" data-media="assets/synergy_craftt.png" data-caption="Interface Synergy Craft"></figure>
-          <p class="mock-note">maquette — le rendu final peut différer</p>
-        </div>
-      </article>
-    </section>
-
-    <section class="block" id="stack">
-      <div class="sec-head reveal">
-        <span class="num">02</span>
-        <h2>Ma stack, honnêtement</h2>
-        <p>Classée sans prétention : ce qui sort tous les jours, et ce que j'ai déjà mis en œuvre.</p>
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>04 — Réseau / Recon</p>
+        <h3>Basic Network Recon Tool</h3>
+        <p class="desc">Outil de reconnaissance réseau. Scan et analyse d'hôtes, collecte d'informations sur les services actifs via scripts Python et commandes Bash.</p>
+        <div class="tech"><span>Python</span><span>Scanners</span><span>Bash</span><span>Network</span></div>
       </div>
-      <div class="stack-cols">
-        <div class="stack-col reveal">
-          <h3>Langages</h3>
-          <ul>
-            <li>C <small>low-level &amp; systèmes</small></li>
-            <li>Python <small>scripts &amp; automatisation</small></li>
-            <li>JavaScript / PHP <small>le web, quand il faut</small></li>
-            <li>Java <small>bases solides</small></li>
-            <li>SQL <small>MySQL · MariaDB</small></li>
-          </ul>
-        </div>
-        <div class="stack-col reveal">
-          <h3>Cybersécurité &amp; outils</h3>
-          <ul>
-            <li>Penetration Testing <small>recon &amp; exploitation</small></li>
-            <li>Vulnerability Assessment <small>audit &amp; remédiation</small></li>
-            <li>Junior SOC Analysis <small>défense &amp; tri des alertes</small></li>
-            <li>Kali Linux <small>mon environnement de test</small></li>
-            <li>Linux · Docker · Git <small>sysadmin &amp; DevOps</small></li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      <figure class="media"><img src="/assets/Basic Network Recon Tool.png" alt="Basic Network Recon Tool"></figure>
+    </article>
 
-    <section class="block" id="parcours">
-      <div class="creator">
-        <div class="reveal">
-          <div class="sec-head" style="margin-bottom:32px;">
-            <span class="num">03</span>
-            <h2>Mon parcours</h2>
-          </div>
-          <p class="desc">En formation continue en cybersécurité &amp; expertise informatique, je cumule projets d'école, labs de sécurité et outils publiés sur GitHub. J'ai aussi passé de la main au code : maintenance IT, Arduino et automatisation en Python.</p>
-          <a class="btn" href="https://github.com/Jimo0x" rel="noopener">Voir mes repos GitHub ↗</a>
-        </div>
-        <ul class="reveal">
-          <li><span class="n">a.</span> Game engines 2D en C, événements et structures de données modulaires</li>
-          <li><span class="n">b.</span> Labs d'audit réseau simulés : repérer les failles, proposer les correctifs</li>
-          <li><span class="n">c.</span> Mutualisation IT : Arduino, intégration matérielle et scripts Python</li>
-          <li><span class="n">d.</span> Français natif, anglais technique — prêt pour un rôle international à distance</li>
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>05 — Rendu 3D / Web</p>
+        <h3>Synergy Craft</h3>
+        <p class="desc">Plateforme freelance dual-side (clients + freelancers) avec rendu 3D temps réel. Le site utilise Three.js r170+ avec post-processing (UnrealBloom) pour les effets 3D, le tout chargé via CDN + Import Map — aucun npm/node.js requis. Paiements (Stripe/PayPal/Mobile Money) : clés dans .env, webhooks exposés par ngrok en dev.</p>
+        <div class="tech"><span>Three.js</span><span>UnrealBloom</span><span>CDN + Import Map</span><span>Stripe</span><span>PayPal</span><span>Mobile Money</span></div>
+      </div>
+      <figure class="media">
+        <img src="/assets/synergy_craftt.png" alt="Synergy Craft">
+        <p class="mock-note">Rendu 3D temps réel avec effets de post-processing.</p>
+      </figure>
+    </article>
+  </section>
+
+  <!-- ============ PARCOURS ============ -->
+  <section class="frame" id="parcours">
+    <p class="sec-label" data-anim>Parcours</p>
+    <h2 data-anim>Le <span class="grad">parcours</span></h2>
+    <p class="sec-desc" data-anim>Expérience, formation et chiffres clés pour situer le profil.</p>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="val">5<span>+</span></div><div class="lbl">Projets &amp; outils publiés</div></div>
+      <div class="stat"><div class="val"><em>Off</em></div><div class="lbl">+ défensif (off./SOC)</div></div>
+      <div class="stat"><div class="val"><em>C·Py</em></div><div class="lbl">Stacks C · Python · Web</div></div>
+      <div class="stat"><div class="val"><em>∞</em></div><div class="lbl">Curiosité technique</div></div>
+    </div>
+
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>Expérience</p>
+        <h3>IT Systems &amp; Maintenance Trainee</h3>
+        <p class="desc">Stagiaire chez <strong>Accompli Technologie et Services</strong>, Cotonou. Maintenance de systèmes informatiques, gestion de réseaux, dépannage matériel et projets embarqués sur Arduino.</p>
+        <div class="tech"><span>Arduino</span><span>Réseaux</span><span>Dépannage matériel</span></div>
+      </div>
+    </article>
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>Formation</p>
+        <h3>Cybersecurity &amp; IT Expertise</h3>
+        <p class="desc">Étudiant en Cybersécurité et Expertise Informatique — <strong>ESGIS Benin &amp; Epitech Benin University</strong>. Formation orientée offensive security, systèmes et programmation bas niveau.</p>
+        <div class="tech"><span>Cybersécurité</span><span>Low-level C</span><span>SOC</span></div>
+      </div>
+    </article>
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>Formation</p>
+        <h3>Baccalauréat F2 — Électronique &amp; Sciences Industrielles</h3>
+        <p class="desc">Lycée Don Bosco. Bases en électronique, systèmes industriels et informatique.</p>
+        <div class="tech"><span>Électronique</span><span>Sciences industrielles</span></div>
+      </div>
+    </article>
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>Certification</p>
+        <h3>Network Certification</h3>
+        <p class="desc">Certification réseaux obtenue chez <strong>Accompli Tech</strong>.</p>
+        <div class="tech"><span>Réseaux</span></div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="frame" id="stack">
+    <p class="sec-label" data-anim>Stack</p>
+    <h2 data-anim>Outils &amp; <span class="grad">compétences</span></h2>
+    <p class="sec-desc" data-anim>Une pile orientée cybersécurité, systèmes et développement web.</p>
+
+    <div class="stack-cols reveal">
+      <div class="stack-col">
+        <h3>Langages</h3>
+        <ul>
+          <li>C<span><small>low-level, systèmes</small></span></li>
+          <li>Python<span><small>automatisation, scripts</small></span></li>
+          <li>JavaScript / PHP<span><small>web</small></span></li>
+          <li>Java<span><small>applications</small></span></li>
+          <li>SQL<span><small>bases de données</small></span></li>
         </ul>
       </div>
-    </section>
+      <div class="stack-col">
+        <h3>Cybersécurité &amp; Outils</h3>
+        <ul>
+          <li>Pentest &amp; Vulnerability Assessment<span><small>offensif</small></span></li>
+          <li>Analysis Junior SOC<span><small>défensif</small></span></li>
+          <li>Kali Linux<span><small>boîte à outils</small></span></li>
+          <li>Linux / Docker / Git<span><small>sysadmin &amp; devops</small></span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="stack-cols reveal">
+      <div class="stack-col">
+        <h3>Frameworks Web</h3>
+        <ul>
+          <li>Django<span><small>backend Python</small></span></li>
+          <li>Next.js / Node.js<span><small>moderne JS</small></span></li>
+          <li>XAMPP<span><small>environnement local</small></span></li>
+        </ul>
+      </div>
+      <div class="stack-col">
+        <h3>Bases de données</h3>
+        <ul>
+          <li>MySQL<span><small>relationnelle</small></span></li>
+          <li>MariaDB<span><small>relationnelle</small></span></li>
+          <li>PostgreSQL / Supabase<span><small>avec RLS</small></span></li>
+        </ul>
+      </div>
+    </div>
 
-    <footer class="contact block" id="contact">
-      <h2 class="reveal">Sécurisons <em>quelque chose</em> ensemble&nbsp;?</h2>
-      <p class="say reveal">$ contact --role "Application Security / DevSecOps / Pentest" --remote</p>
-      <a class="mail-big reveal" href="mailto:juliodh2006@gmail.com">juliodh2006@gmail.com</a>
-      <div class="contact-cards reveal">
-        <a class="c-card" href="tel:+2290162257004">
-          <span class="c-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></span>
-          <span class="c-body">
-            <span class="c-label">Téléphone</span>
-            <span class="c-value">+229 01 62 25 70 04</span>
-          </span>
-        </a>
-        <a class="c-card" href="mailto:juliodh2006@gmail.com">
-          <span class="c-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
-          <span class="c-body">
-            <span class="c-label">Email</span>
-            <span class="c-value">juliodh2006@gmail.com</span>
-          </span>
-        </a>
+    <div class="curios reveal">
+      <div class="stack-col">
+        <h3>Ce qui me <span class="g">fait avancer</span></h3>
+        <p class="sec-desc" style="margin-bottom:8px;font-size:0.9rem;">Au-delà des compétences, ce sont les curiosités qui construisent un profil.</p>
       </div>
-      <div class="footer-links reveal">
-        <a href="https://github.com/Jimo0x" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub — Jimo0x</a>
+      <div class="stack-col">
+        <ul>
+          <li><span class="n">01</span>Game engines 2D en C</li>
+          <li><span class="n">02</span>Labs d'audit réseau</li>
+          <li><span class="n">03</span>Mutualisation IT (Arduino/Python)</li>
+          <li><span class="n">04</span>Français natif · anglais technique</li>
+          <li><span class="n">05</span>Open to remote</li>
+        </ul>
       </div>
-      <div class="foot-note">
-        <span class="ok">connexion établie</span>
-        <span>Jimo_ox · dernière session : septembre 2026</span>
-      </div>
-    </footer>
-  </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="frame contact" id="contact">
+    <p class="sec-label" data-anim>Contact</p>
+    <h2 data-anim>Travaillons <span class="grad">ensemble</span></h2>
+    <p class="say" data-anim>Une mission, un projet ou simplement une discussion sur la cybersécurité ? Mon inbox est ouvert, et je réponds vite.</p>
+    <a class="mail-big" href="mailto:juliodh2006@gmail.com" data-anim>juliodh2006@gmail.com</a>
+
+    <div class="contact-cards reveal">
+      <a class="c-card" href="mailto:juliodh2006@gmail.com">
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5z"/></svg></span>
+        <span class="c-body"><span class="c-label">Email</span><span class="c-value">juliodh2006@gmail.com</span></span>
+      </a>
+      <a class="c-card" href="tel:+2290162257004">
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .7-.2 1z"/></svg></span>
+        <span class="c-body"><span class="c-label">Téléphone</span><span class="c-value">+229 01 62 25 70 04</span></span>
+      </a>
+      <a class="c-card" href="https://github.com/Jimo0x" target="_blank" rel="noopener">
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></span>
+        <span class="c-body"><span class="c-label">GitHub</span><span class="c-value">github.com/Jimo0x</span></span>
+      </a>
+    </div>
+
+    <div class="footer-links reveal">
+      <a href="https://github.com/Jimo0x" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
+        GitHub — Jimo_ox
+      </a>
+    </div>
+
+    <div class="foot-note reveal">
+      <span>© 2026 Julio Dahou · Cotonou, Bénin</span>
+      <span>Designed &amp; built with care — Vite · tsparticles</span>
+    </div>
+  </section>
+
 </main>
 
-<script>
-(function(){
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  document.body.classList.add('ready');
-  var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
-  if(reduced || !('IntersectionObserver' in window)){
-    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
-  } else {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
-    revealEls.forEach(function(el){ io.observe(el); });
-  }
-
-  var header = document.getElementById('siteHeader');
-  function onScrollHeader(){
-    if(window.scrollY > 40){ header.classList.add('is-scrolled'); }
-    else { header.classList.remove('is-scrolled'); }
-  }
-  window.addEventListener('scroll', onScrollHeader, {passive:true});
-  onScrollHeader();
-
-  /* ===== terminal typing ===== */
-  var termBody = document.getElementById('termBody');
-  var lines = [
-    {t:'out', v:'$ whoami'},
-    {t:'dim', v:'Jimo_ox — Cybersecurity Specialist & Software Engineer'},
-    {t:'out', v:'$ cat roles.txt'},
-    {t:'dim', v:'[+] penetration testing'},
-    {t:'dim', v:'[+] vulnerability assessment'},
-    {t:'dim', v:'[+] junior soc analysis'},
-    {t:'dim', v:'[+] low-level C / python'},
-    {t:'out', v:'$ tail -1 status.log'},
-    {t:'cyan', v:'> OPEN TO REMOTE — COTONOU, BÉNIN'},
-    {t:'out', v:'$ _'}
-  ];
-  var cur = document.createElement('span');
-  cur.className = 'cursor';
-  if(reduced){
-    lines.forEach(function(l){
-      var div = document.createElement('div'); div.className='ln';
-      var s = document.createElement('span'); s.className = l.t; s.textContent = l.v;
-      div.appendChild(s); termBody.appendChild(div);
-    });
-    termBody.appendChild(cur);
-  } else {
-    var li = 0;
-    function typeLine(){
-      if(li >= lines.length){
-        termBody.appendChild(cur);
-        return;
-      }
-      var l = lines[li];
-      var div = document.createElement('div'); div.className='ln';
-      var s = document.createElement('span'); s.className = l.t;
-      termBody.appendChild(div); div.appendChild(s);
-      var txt = l.v, i = 0;
-      function tick(){
-        i++;
-        s.textContent = txt.slice(0,i);
-        termBody.scrollTop = termBody.scrollHeight;
-        if(i < txt.length){ setTimeout(tick, 14 + Math.random()*22); }
-        else { li++; setTimeout(typeLine, li >= lines.length ? 500 : 160); }
-      }
-      tick();
-    }
-    setTimeout(typeLine, 400);
-  }
-
-  var videoExt = ['mp4','webm','mov'];
-  document.querySelectorAll('figure[data-media]').forEach(function(fig){
-    var src = fig.getAttribute('data-media');
-    var caption = fig.getAttribute('data-caption') || '';
-
-    function placeholder(){
-      fig.innerHTML = '';
-      var ph = document.createElement('div');
-      ph.className = 'media-ph';
-      ph.textContent = src || 'média à ajouter';
-      fig.appendChild(ph);
-    }
-
-    if(!src){ placeholder(); return; }
-    var ext = src.split('.').pop().toLowerCase();
-
-    if(videoExt.indexOf(ext) !== -1){
-      var v = document.createElement('video');
-      v.muted = true; v.loop = true; v.preload = 'metadata';
-      v.setAttribute('muted',''); v.setAttribute('loop',''); v.setAttribute('playsinline','');
-      if(caption){ v.setAttribute('aria-label', caption); }
-      v.addEventListener('canplay', function(){ if(!reduced){ v.play().catch(function(){}); } });
-      v.addEventListener('error', placeholder);
-      v.src = src;
-      fig.appendChild(v);
-    } else {
-      var img = document.createElement('img');
-      img.alt = caption;
-      img.loading = 'lazy';
-      img.addEventListener('error', placeholder);
-      img.src = src;
-      fig.appendChild(img);
-    }
-  });
-
-  var bar = document.getElementById('progressBar');
-  function updateProgress(){
-    var h = document.documentElement;
-    var scrolled = h.scrollTop;
-    var max = h.scrollHeight - h.clientHeight;
-    var p = max > 0 ? scrolled / max : 0;
-    bar.style.transform = 'scaleX(' + p + ')';
-  }
-
-  var stepLinks = Array.prototype.slice.call(document.querySelectorAll('.step-nav a'));
-  var projectEls = stepLinks.map(function(a){
-    return document.getElementById(a.getAttribute('data-target'));
-  });
-  var stepTicking = false;
-  function updateSteps(){
-    var mid = window.innerHeight * 0.5;
-    var current = 0;
-    projectEls.forEach(function(el, i){
-      if(!el) return;
-      var r = el.getBoundingClientRect();
-      if(r.top < mid){ current = i; }
-    });
-    stepLinks.forEach(function(a, i){
-      a.classList.toggle('active', i === current);
-    });
-    stepTicking = false;
-  }
-
-  var scrollTicking = false;
-  window.addEventListener('scroll', function(){
-    if(!scrollTicking){
-      requestAnimationFrame(function(){ updateProgress(); scrollTicking = false; });
-      scrollTicking = true;
-    }
-    if(!stepTicking){
-      requestAnimationFrame(updateSteps);
-      stepTicking = true;
-    }
-  }, {passive:true});
-  updateProgress();
-  updateSteps();
-})();
-</script>
-
+<script type="module" src="/src/app.js"></script>
 </body>
 </html>
