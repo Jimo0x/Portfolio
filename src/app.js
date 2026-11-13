@@ -1,10 +1,12 @@
 import { initParticles } from "./particles.js";
+import { initTerminal } from "./terminal.js";
 import "./style.css";
 
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 document.addEventListener("DOMContentLoaded", () => {
   initParticles("particles");
+  initTerminal();
 
   /* header réduit au scroll */
   const header = document.getElementById("siteHeader");
