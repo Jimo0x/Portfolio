@@ -37,6 +37,9 @@
   <a href="#stack" data-label="Stack" data-spy="stack" aria-label="Stack">
     <svg viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6z"/></svg>
   </a>
+  <a href="#terminal" data-label="Terminal" data-terminal aria-label="Ouvrir le terminal">
+    <svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zm2 2v10h14V7zm1.5 1.5L10 12l-3.5 3.5-1.06-1.06L7.88 12 5.44 9.56zM11 15h5v1.5h-5z"/></svg>
+  </a>
   <a href="#contact" data-label="Contact" data-spy="contact" aria-label="Contact">
     <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5z"/></svg>
   </a>
@@ -53,6 +56,7 @@
       <a class="btn solid" href="#projets">Voir les projets</a>
       <a class="btn" href="#contact">Me contacter</a>
     </div>
+    <p class="term-hint" data-anim>Plutôt ligne de commande ? <a href="#terminal" data-terminal>Ouvre le terminal</a> ou appuie sur <kbd>`</kbd></p>
   </section>
 
   <!-- ============ PROJETS ============ -->
@@ -67,6 +71,7 @@
         <h3>FrixX</h3>
         <p class="desc">Plateforme freelance marketplace complète. Backend migré de Django vers Next.js, API avec Supabase, base de données PostgreSQL et politiques de sécurité RLS (Row Level Security).</p>
         <div class="tech"><span>Django</span><span>Next.js</span><span>Supabase</span><span>RLS</span><span>PostgreSQL</span></div>
+        <a class="repo" href="https://github.com/Jimo0x/Project_Synergy" target="_blank" rel="noopener">Code source ↗</a>
       </div>
       <figure class="media"><img src="/assets/FrixX.png" alt="FrixX marketplace"></figure>
     </article>
@@ -77,6 +82,7 @@
         <h3>Phishing &amp; Threat Detector</h3>
         <p class="desc">Outil de détection de phishing et de menaces informatiques. Analyse des signaux malveillants, catégorisation des menaces et support des opérations d'analyste Junior SOC.</p>
         <div class="tech"><span>Python</span><span>SOC</span><span>Threat Detection</span><span>Analysis</span></div>
+        <a class="repo" href="https://github.com/Jimo0x/Phishing-Page-Detector" target="_blank" rel="noopener">Code source ↗</a>
       </div>
       <figure class="media"><img src="/assets/Phishing et Threat Detector.png" alt="Phishing and Threat Detector"></figure>
     </article>
@@ -87,6 +93,7 @@
         <h3>SE Contact Scraper</h3>
         <p class="desc">Outil OSINT de collecte et de recherche de contacts. Automatisation d'extraction de données publiques pour des investigations et du renseignement de sources ouvertes.</p>
         <div class="tech"><span>Python</span><span>OSINT</span><span>Scraping</span><span>Automation</span></div>
+        <a class="repo" href="https://github.com/Jimo0x/SE-contact-scraper" target="_blank" rel="noopener">Code source ↗</a>
       </div>
       <figure class="media">
         <img src="/assets/SE Contact Scraper1.png" alt="SE Contact Scraper">
@@ -100,6 +107,7 @@
         <h3>Basic Network Recon Tool</h3>
         <p class="desc">Outil de reconnaissance réseau. Scan et analyse d'hôtes, collecte d'informations sur les services actifs via scripts Python et commandes Bash.</p>
         <div class="tech"><span>Python</span><span>Scanners</span><span>Bash</span><span>Network</span></div>
+        <a class="repo" href="https://github.com/Jimo0x/Basic-Network-Recon-Tool" target="_blank" rel="noopener">Code source ↗</a>
       </div>
       <figure class="media"><img src="/assets/Basic Network Recon Tool.png" alt="Basic Network Recon Tool"></figure>
     </article>
@@ -116,6 +124,38 @@
         <p class="mock-note">Rendu 3D temps réel avec effets de post-processing.</p>
       </figure>
     </article>
+
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>06 — Supply chain</p>
+        <h3>safe-install</h3>
+        <p class="desc">Analyse un paquet npm ou PyPI <strong>avant</strong> de l'installer : typosquatting (<code>lodahs</code> au lieu de <code>lodash</code>), scripts <code>postinstall</code> ajoutés en douce, code qui lit les clés SSH ou exfiltre vers un webhook. Lecture de l'archive en mémoire, sans jamais l'exécuter. Zéro dépendance, testé, utilisable en CI.</p>
+        <div class="tech"><span>Python</span><span>Supply chain</span><span>Analyse statique</span><span>CI</span></div>
+        <a class="repo" href="https://github.com/Jimo0x/safe-install" target="_blank" rel="noopener">Code source ↗</a>
+      </div>
+      <figure class="media code-shot" aria-label="Exemple de sortie de safe-install">
+<pre><span class="d">$</span> safe-install npm lodahs
+<b>lodahs@1.0.1</b> (npm)
+  score   : 100/100
+  verdict : <span class="r">BLOCK</span>
+  raisons :
+    +40  nom proche de : lodash
+    +35  'postinstall' : curl | sh
+    +35  lit des clés SSH
+    +30  script ajouté dans cette version</pre>
+      </figure>
+    </article>
+
+    <article class="project reveal">
+      <div class="text">
+        <p class="meta"><span class="dot"></span>07 — Jeu vidéo</p>
+        <h3>BREACH</h3>
+        <p class="desc">Un metroidvania de hacking jouable dans le navigateur. Chaque pouvoir (dash, double saut, passage du pare-feu) se gagne en résolvant un vrai défi : chiffre de César, Base64, injection SQL avec la requête affichée en direct, reconnaissance via <code>robots.txt</code>. La progression est vérifiée par des tests qui simulent la physique du jeu.</p>
+        <div class="tech"><span>JavaScript</span><span>Canvas 2D</span><span>Game design</span><span>Sécurité offensive</span></div>
+        <a class="repo" href="https://github.com/Jimo0x/breach" target="_blank" rel="noopener">Code source ↗</a>
+      </div>
+      <figure class="media"><img src="/assets/BREACH.png" alt="Capture du jeu BREACH" loading="lazy"></figure>
+    </article>
   </section>
 
   <!-- ============ PARCOURS ============ -->
@@ -125,7 +165,7 @@
     <p class="sec-desc" data-anim>Expérience, formation et chiffres clés pour situer le profil.</p>
 
     <div class="stats reveal">
-      <div class="stat"><div class="val">5<span>+</span></div><div class="lbl">Projets &amp; outils publiés</div></div>
+      <div class="stat"><div class="val">7<span>+</span></div><div class="lbl">Projets &amp; outils publiés</div></div>
       <div class="stat"><div class="val"><em>Off</em></div><div class="lbl">+ défensif (off./SOC)</div></div>
       <div class="stat"><div class="val"><em>C·Py</em></div><div class="lbl">Stacks C · Python · Web</div></div>
       <div class="stat"><div class="val"><em>∞</em></div><div class="lbl">Curiosité technique</div></div>
