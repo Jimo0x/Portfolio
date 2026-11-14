@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SE Contact Scraper | Julio Dahou</title>
+<meta name="description" content="Collecte OSINT de contacts publics pour les audits d&#39;ingénierie sociale. Crawler multi-pages qui extrait emails, téléphones et noms, avec exports CSV, JSON et HTML.">
+<meta name="author" content="Julio Dahou">
+<link rel="canonical" href="https://jimoox.vercel.app/projets/scraper/">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Julio Dahou">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://jimoox.vercel.app/projets/scraper/">
+<meta property="og:title" content="SE Contact Scraper | Julio Dahou">
+<meta property="og:description" content="Collecte OSINT de contacts publics pour les audits d&#39;ingénierie sociale. Crawler multi-pages qui extrait emails, téléphones et noms, avec exports CSV, JSON et HTML.">
+<meta property="og:image" content="https://jimoox.vercel.app/og/projet-scraper.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SE Contact Scraper : Collecte OSINT de contacts publics pour les audits d&#39;ingénierie sociale.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SE Contact Scraper | Julio Dahou">
+<meta name="twitter:description" content="Collecte OSINT de contacts publics pour les audits d&#39;ingénierie sociale. Crawler multi-pages qui extrait emails, téléphones et noms, avec exports CSV, JSON et HTML.">
+<meta name="twitter:image" content="https://jimoox.vercel.app/og/projet-scraper.png">
+<meta name="twitter:image:alt" content="SE Contact Scraper : Collecte OSINT de contacts publics pour les audits d&#39;ingénierie sociale.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://jimoox.vercel.app/"},{"@type":"ListItem","position":2,"name":"Projets","item":"https://jimoox.vercel.app/projets/"},{"@type":"ListItem","position":3,"name":"SE Contact Scraper","item":"https://jimoox.vercel.app/projets/scraper/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"SE Contact Scraper","description":"Collecte OSINT de contacts publics pour les audits d'ingénierie sociale.","url":"https://jimoox.vercel.app/projets/scraper/","image":"https://jimoox.vercel.app/og/projet-scraper.png","inLanguage":"fr","keywords":"Python, OSINT, BeautifulSoup, Selenium","author":{"@type":"Person","name":"Julio Dahou","url":"https://jimoox.vercel.app/"},"codeRepository":"https://github.com/Jimo0x/SE-contact-scraper"}</script>
+</head>
+<body data-page="projet" data-project="scraper">
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<div class="scanline" aria-hidden="true"></div>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header class="mobilebar" id="topbar">
+  <button class="side-toggle" type="button" data-side-toggle aria-controls="side" aria-expanded="false" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  <a class="brand" href="/"><span class="brand-prompt">&gt;</span>julio<b>_</b>dahou</a>
+</header>
+<div class="side-scrim" data-side-close></div>
+<aside class="side" id="side" aria-label="Menu principal">
+  <div class="side-head">
+    <button class="side-toggle" type="button" data-side-toggle aria-controls="side" aria-expanded="false" aria-label="Déplier le menu"><span></span><span></span><span></span></button>
+    <a class="brand" href="/" aria-label="Julio Dahou, retour à l'accueil"><span class="brand-prompt">&gt;</span><span class="lbl">julio<b>_</b>dahou</span></a>
+  </div>
+  <p class="side-caption lbl">Pages</p>
+  <nav class="side-nav" aria-label="Pages">
+      <a href="/" data-label="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg><span class="lbl"><i>0</i>Accueil</span></a>
+      <a href="/projets/" data-label="Projets" class="active" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="8" height="7"/><rect x="13" y="4" width="8" height="7"/><rect x="3" y="13" width="8" height="7"/><rect x="13" y="13" width="8" height="7"/></svg><span class="lbl"><i>1</i>Projets</span></a>
+      <a href="/services/" data-label="Services"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></svg><span class="lbl"><i>2</i>Services</span></a>
+      <a href="/a-propos/" data-label="À propos"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl"><i>3</i>À propos</span></a>
+      <a href="/contact/" data-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="m3 7 9 6 9-6"/></svg><span class="lbl"><i>4</i>Contact</span></a>
+  </nav>
+  <p class="side-caption lbl">Outils</p>
+  <div class="side-tools">
+    <button type="button" id="paletteBtn" data-label="Rechercher"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg><span class="lbl">Rechercher <kbd>Ctrl K</kbd></span></button>
+    <button type="button" id="termBtn" data-terminal data-label="Terminal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 7 5 5-5 5M12 18h7"/></svg><span class="lbl">Terminal <kbd>`</kbd></span></button>
+    <a href="https://github.com/Jimo0x" target="_blank" rel="noopener" data-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg><span class="lbl">GitHub</span></a>
+    <a href="mailto:juliodh2006@gmail.com" data-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="m3 7 9 6 9-6"/></svg><span class="lbl">Email</span></a>
+  </div>
+  <div class="side-foot">
+    <div class="side-meter" aria-hidden="true"><span id="sideMeter"></span></div>
+    <p class="lbl side-status"><span class="dot"></span>Ouvert au remote</p>
+    <p class="lbl side-pct">Cotonou <b data-clock>--:--</b>, lu à <b id="stScroll">0%</b></p>
+  </div>
+</aside>
+
+<main id="contenu">
+  <article class="case" aria-labelledby="caseTitle">
+    <nav class="block crumbs" aria-label="Fil d'Ariane"><a href="/">~</a>/<a href="/projets/">projets</a>/<span aria-current="page">scraper</span></nav>
+    <header class="block case-head">
+      <div class="work-meta"><span class="id">#06</span><span class="kind">Cybersécurité</span></div>
+      <h1 class="case-title" id="caseTitle">SE Contact Scraper</h1>
+      <p class="tagline">Collecte OSINT de contacts publics pour les audits d&#39;ingénierie sociale.</p>
+      <div class="links-row"><a class="btn" href="https://github.com/Jimo0x/SE-contact-scraper" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg> Voir le code</a><a class="btn ghost" href="/contact/">En parler</a></div>
+    </header>
+    <div class="block case-media reveal"><div class="gallery many"><figure class="win"><div class="win-bar"><i></i><i></i><i></i><span>~/projets/scraper (1/3)</span></div><img src="/assets/SE%20Contact%20Scraper1.png" alt="Capture 1 de SE Contact Scraper"  decoding="async"></figure><figure class="win"><div class="win-bar"><i></i><i></i><i></i><span>~/projets/scraper (2/3)</span></div><img src="/assets/SE%20Contact%20Scraper2.png" alt="Capture 2 de SE Contact Scraper" loading="lazy" decoding="async"></figure><figure class="win"><div class="win-bar"><i></i><i></i><i></i><span>~/projets/scraper (3/3)</span></div><img src="/assets/SE%20Contact%20Scraper3.png" alt="Capture 3 de SE Contact Scraper" loading="lazy" decoding="async"></figure></div></div>
+    <div class="block case-cols">
+      <div class="case-text">
+        <p class="case-lead">Crawler multi-pages qui extrait emails, téléphones et noms, avec exports CSV, JSON et HTML.</p>
+        <p>Avant un test de sensibilisation au phishing, il faut savoir quelles informations une organisation expose publiquement. Le crawler parcourt le site, respecte robots.txt et une limite de pages, puis regroupe les contacts trouvés.</p>
+        <p>Les exports sont durcis : le rapport HTML échappe le contenu collecté, et le CSV neutralise les formules qu&#39;un site piégé pourrait glisser dans Excel.</p>
+      </div>
+      <aside class="case-side" aria-label="Fiche technique">
+        <dl class="case-meta">
+          <div><dt>Domaine</dt><dd>Cybersécurité</dd></div>
+          <div><dt>Code</dt><dd><a href="https://github.com/Jimo0x/SE-contact-scraper" target="_blank" rel="noopener">github.com/Jimo0x/SE-contact-scraper</a></dd></div>
+          <div><dt>Technologies</dt><dd class="tags"><span>Python</span><span>OSINT</span><span>BeautifulSoup</span><span>Selenium</span></dd></div>
+        </dl>
+        <h2>Points clés</h2>
+        <ul class="features"><li>Crawler avec profondeur, délai et limite de pages</li><li>Respect de robots.txt</li><li>Exports CSV, JSON et rapport HTML</li><li>Protection contre l&#39;injection de formules CSV</li></ul>
+      </aside>
+    </div>
+    <nav class="block case-nav" aria-label="Autres projets">
+      <a href="/projets/recon/"><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Précédent</small><b>Basic Network Recon Tool</b></a>
+      <a href="/projets/"><small>Retour</small><b>Tous les projets</b></a>
+      <a href="/projets/synergy/"><small>Suivant <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></small><b>SynergyCraft</b></a>
+    </nav>
+  </article>
+</main>
+<div class="wordmark" aria-hidden="true"><span id="wordmark">Julio Dahou</span></div>
+<footer class="foot">
+  <nav class="foot-nav" aria-label="Pied de page"><a href="/">Accueil</a><a href="/projets/">Projets</a><a href="/services/">Services</a><a href="/a-propos/">À propos</a><a href="/contact/">Contact</a></nav>
+  <span>© 2026 Julio Dahou, conçu et codé à Cotonou</span>
+</footer>
+
+<div class="palette" id="palette" hidden>
+  <div class="palette-box" role="dialog" aria-modal="true" aria-label="Palette de commandes">
+    <input id="paletteInput" type="text" placeholder="Chercher un projet ou une page…" autocomplete="off" spellcheck="false" aria-controls="paletteList">
+    <ul id="paletteList" role="listbox"></ul>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="/src/app.js"></script>
+</body>
+</html>

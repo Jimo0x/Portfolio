@@ -4,45 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Julio Dahou, cybersécurité et développement</title>
-<meta name="description" content="Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Outils de sécurité, applications web et un jeu de hacking.">
+<meta name="description" content="Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Quatre outils de sécurité, des applications web et un jeu de hacking.">
+<meta name="author" content="Julio Dahou">
+<link rel="canonical" href="https://jimoox.vercel.app/">
 <meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Julio Dahou">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://jimoox.vercel.app/">
 <meta property="og:title" content="Julio Dahou, cybersécurité et développement">
-<meta property="og:description" content="Outils de sécurité, applications web et un metroidvania de hacking.">
-<meta property="og:image" content="/assets/BREACH.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23050505'/%3E%3Cpath d='M7 11l6 5-6 5' stroke='%23e8e3dc' stroke-width='2.4' fill='none'/%3E%3Crect x='15' y='19' width='10' height='3' fill='%23e3122d'/%3E%3C/svg%3E">
+<meta property="og:description" content="Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Quatre outils de sécurité, des applications web et un jeu de hacking.">
+<meta property="og:image" content="https://jimoox.vercel.app/og/accueil.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Julio Dahou : je casse des systèmes pour mieux les protéger. Carte réseau en pixel art.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Julio Dahou, cybersécurité et développement">
+<meta name="twitter:description" content="Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Quatre outils de sécurité, des applications web et un jeu de hacking.">
+<meta name="twitter:image" content="https://jimoox.vercel.app/og/accueil.png">
+<meta name="twitter:image:alt" content="Julio Dahou : je casse des systèmes pour mieux les protéger. Carte réseau en pixel art.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/src/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Julio Dahou","jobTitle":"Spécialiste cybersécurité et développeur logiciel","email":"mailto:juliodh2006@gmail.com","url":"https://jimoox.vercel.app/","image":"https://jimoox.vercel.app/og/accueil.png","address":{"@type":"PostalAddress","addressLocality":"Cotonou","addressCountry":"BJ"},"sameAs":["https://github.com/Jimo0x"],"knowsAbout":["C","Python","JavaScript","TypeScript","PHP","Java","SQL","Pentest web et réseau","Analyse SOC","OSINT","Kali Linux","nmap","Django","Next.js","Node.js","Supabase","Three.js","PostgreSQL","MySQL","MariaDB","Docker","Git","Linux"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Julio Dahou","url":"https://jimoox.vercel.app/","inLanguage":"fr"}</script>
+<script>(function(){var h=location.hash,m=h.match(/^#projet-([\w-]+)$/),t={"#projets":"/projets/","#services":"/services/","#competences":"/a-propos/","#parcours":"/a-propos/","#contact":"/contact/"};if(m)location.replace("/projets/"+m[1]+"/");else if(t[h])location.replace(t[h]);})();</script>
 </head>
-<body>
+<body data-page="accueil">
 <div class="intro" id="intro" aria-hidden="true">
   <pre class="boot" id="boot"></pre>
 </div>
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 <div class="scanline" aria-hidden="true"></div>
-<a class="skip" href="#projets">Aller aux projets</a>
+<a class="skip" href="#contenu">Aller au contenu</a>
 
-<!-- ============ BARRE LATÉRALE (repliable) ============ -->
 <header class="mobilebar" id="topbar">
   <button class="side-toggle" type="button" data-side-toggle aria-controls="side" aria-expanded="false" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
-  <a class="brand" href="#accueil"><span class="brand-prompt">&gt;</span>julio<b>_</b>dahou</a>
+  <a class="brand" href="/"><span class="brand-prompt">&gt;</span>julio<b>_</b>dahou</a>
 </header>
 <div class="side-scrim" data-side-close></div>
 <aside class="side" id="side" aria-label="Menu principal">
   <div class="side-head">
     <button class="side-toggle" type="button" data-side-toggle aria-controls="side" aria-expanded="false" aria-label="Déplier le menu"><span></span><span></span><span></span></button>
-    <a class="brand" href="#accueil" aria-label="Julio Dahou, retour à l'accueil"><span class="brand-prompt">&gt;</span><span class="lbl">julio<b>_</b>dahou</span></a>
+    <a class="brand" href="/" aria-label="Julio Dahou, retour à l'accueil"><span class="brand-prompt">&gt;</span><span class="lbl">julio<b>_</b>dahou</span></a>
   </div>
-  <p class="side-caption lbl">Sections</p>
-  <nav class="side-nav" aria-label="Sections">
-      <a href="#accueil" data-label="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg><span class="lbl"><i>0</i>Accueil</span></a>
-      <a href="#chiffres" data-label="Rapport"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span class="lbl"><i>1</i>Rapport</span></a>
-      <a href="#projets" data-label="Projets"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="8" height="7"/><rect x="13" y="4" width="8" height="7"/><rect x="3" y="13" width="8" height="7"/><rect x="13" y="13" width="8" height="7"/></svg><span class="lbl"><i>2</i>Projets</span></a>
-      <a href="#services" data-label="Services"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></svg><span class="lbl"><i>3</i>Services</span></a>
-      <a href="#competences" data-label="Compétences"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg><span class="lbl"><i>4</i>Compétences</span></a>
-      <a href="#parcours" data-label="Parcours"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M6 7h6M12 13h6M6 19h6"/></svg><span class="lbl"><i>5</i>Parcours</span></a>
-      <a href="#contact" data-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="m3 7 9 6 9-6"/></svg><span class="lbl"><i>6</i>Contact</span></a>
+  <p class="side-caption lbl">Pages</p>
+  <nav class="side-nav" aria-label="Pages">
+      <a href="/" data-label="Accueil" class="active" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg><span class="lbl"><i>0</i>Accueil</span></a>
+      <a href="/projets/" data-label="Projets"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="8" height="7"/><rect x="13" y="4" width="8" height="7"/><rect x="3" y="13" width="8" height="7"/><rect x="13" y="13" width="8" height="7"/></svg><span class="lbl"><i>1</i>Projets</span></a>
+      <a href="/services/" data-label="Services"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></svg><span class="lbl"><i>2</i>Services</span></a>
+      <a href="/a-propos/" data-label="À propos"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl"><i>3</i>À propos</span></a>
+      <a href="/contact/" data-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="m3 7 9 6 9-6"/></svg><span class="lbl"><i>4</i>Contact</span></a>
   </nav>
   <p class="side-caption lbl">Outils</p>
   <div class="side-tools">
@@ -54,12 +72,11 @@
   <div class="side-foot">
     <div class="side-meter" aria-hidden="true"><span id="sideMeter"></span></div>
     <p class="lbl side-status"><span class="dot"></span>Ouvert au remote</p>
-    <p class="lbl side-pct">Cotonou <b id="stClock">--:--</b>, lu à <b id="stScroll">0%</b></p>
+    <p class="lbl side-pct">Cotonou <b data-clock>--:--</b>, lu à <b id="stScroll">0%</b></p>
   </div>
 </aside>
 
-<main>
-  <!-- ============ ACCUEIL ============ -->
+<main id="contenu">
   <section class="hero" id="accueil" aria-labelledby="heroTitle">
     <div class="aura" aria-hidden="true"></div>
     <canvas id="netmap" aria-hidden="true"></canvas>
@@ -68,108 +85,52 @@
       <h1 id="heroTitle"><span class="decode">Je casse des systèmes</span> <em class="redact decode">pour mieux les protéger.</em></h1>
       <p class="lede">Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Pentest, analyse SOC, C, Python et web.</p>
       <div class="cta">
-        <a class="cmd-btn" href="#projets" id="runBtn"><span class="cmd-ps">$</span> <span class="cmd-text">./voir-les-projets.sh</span><span class="caret"></span></a>
-        <a class="btn ghost" href="#contact">Me contacter</a>
+        <a class="cmd-btn" href="/projets/" id="runBtn"><span class="cmd-ps">$</span> <span class="cmd-text">./voir-les-projets.sh</span><span class="caret"></span></a>
+        <a class="btn ghost" href="/contact/">Me contacter</a>
       </div>
     </div>
     <p class="map-hint" id="mapHint" aria-hidden="true">Chaque nœud est un projet. Clique dessus.</p>
     <ul class="node-list" id="nodeList" aria-label="Projets sur la carte"></ul>
   </section>
 
-  <!-- ============ CHIFFRES : rapport de scan ============ -->
   <section class="block" id="chiffres" aria-labelledby="statsTitle">
     <p class="path">~/rapport</p>
     <h2 id="statsTitle">Le travail, <em>en clair</em></h2>
     <div class="report" id="stats" role="list"></div>
   </section>
 
-  <!-- ============ PROJETS : grille bento ============ -->
-  <section class="block" id="projets" aria-labelledby="projTitle">
-    <p class="path">~/projets</p>
+  <section class="block" id="selection" aria-labelledby="pickTitle">
+    <p class="path">~/projets --selection</p>
     <div class="block-head">
-      <h2 id="projTitle">Ce que <em>j'ai construit</em></h2>
-      <div class="filters" role="group" aria-label="Filtrer les projets" id="filters"></div>
+      <h2 id="pickTitle">Trois projets <em>pour commencer</em></h2>
+      <a class="more" href="/projets/">Voir les 7 projets <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-    <div class="works" id="projectList"></div>
+    <div class="works" id="projectList" data-ids="phishing,safe-install,breach"></div>
   </section>
 
-  <!-- ============ SERVICES : console ============ -->
-  <section class="block" id="services" aria-labelledby="servTitle">
-    <p class="path">~/services</p>
-    <div class="block-head">
-      <h2 id="servTitle">Ce que je <em>peux faire pour toi</em></h2>
-      <p class="intro-text">Choisis une commande : la console te répond.</p>
-    </div>
-    <div class="console" id="console">
-      <div class="console-bar"><i></i><i></i><i></i><span>services.sh</span></div>
-      <div class="console-body">
-        <ul class="console-cmds" id="serviceList" role="tablist" aria-label="Services"></ul>
-        <div class="console-out" id="serviceOut" role="tabpanel" aria-live="polite"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ COMPÉTENCES : scan de ports ============ -->
-  <section class="block" id="competences" aria-labelledby="skillTitle">
-    <p class="path">~/competences</p>
-    <div class="block-head">
-      <h2 id="skillTitle">Scan de <em>mes compétences</em></h2>
-      <p class="intro-text">Tous les ports sont ouverts. Survole une ligne.</p>
-    </div>
-    <div class="scan" id="scan"></div>
-  </section>
-
-  <!-- ============ PARCOURS ============ -->
-  <section class="block" id="parcours" aria-labelledby="pathTitle">
-    <p class="path">~/parcours</p>
-    <h2 id="pathTitle">D'où <em>je viens</em></h2>
-    <div class="timeline" id="timeline"><span class="tl-track" aria-hidden="true"><span class="tl-fill"></span></span></div>
-  </section>
-
-  <!-- ============ CONTACT : poignée de main TCP ============ -->
-  <section class="block contact" id="contact" aria-labelledby="contactTitle">
-    <p class="path">~/contact</p>
-    <h2 id="contactTitle">Établissons <em>la connexion</em></h2>
-    <div class="handshake" id="handshake" aria-hidden="true">
-      <div class="hs-row"><span>toi</span><i class="hs-line"><b></b></i><span>julio</span><code>SYN</code></div>
-      <div class="hs-row back"><span>toi</span><i class="hs-line"><b></b></i><span>julio</span><code>SYN-ACK</code></div>
-      <div class="hs-row"><span>toi</span><i class="hs-line"><b></b></i><span>julio</span><code>ACK</code></div>
-    </div>
-    <p class="lede">Un audit, un projet, un stage : écris-moi, je réponds vite.</p>
-    <a class="mail" id="mailLink" href="mailto:juliodh2006@gmail.com">juliodh2006@gmail.com</a>
-    <div class="contact-actions">
-      <button class="btn" id="copyMail" type="button">Copier l'adresse</button>
-      <a class="btn ghost" href="https://github.com/Jimo0x" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn ghost" href="tel:+2290162257004">+229 01 62 25 70 04</a>
-    </div>
+  <section class="block" id="sommaire" aria-labelledby="dirTitle">
+    <p class="path">ls -l ~/</p>
+    <h2 id="dirTitle">La suite <em>du portfolio</em></h2>
+    <ul class="dirlist">
+      <li><a href="/projets/" class="reveal"><span class="perm">drwxr-xr-x</span><b>projets/</b><span class="dir-d">Les sept projets en détail : outils de sécurité, applications web et un jeu.</span><span class="dir-n">7 entrées</span></a></li>
+      <li><a href="/services/" class="reveal" style="--d:.06s"><span class="perm">drwxr-xr-x</span><b>services/</b><span class="dir-d">Test d'intrusion, revue de code, développement web, outils sur mesure.</span><span class="dir-n">5 services</span></a></li>
+      <li><a href="/a-propos/" class="reveal" style="--d:.12s"><span class="perm">drwxr-xr-x</span><b>a-propos/</b><span class="dir-d">Mon parcours, ma formation et le scan complet de mes compétences.</span><span class="dir-n">3 étapes</span></a></li>
+      <li><a href="/contact/" class="reveal" style="--d:.18s"><span class="perm">-rw-r--r--</span><b>contact</b><span class="dir-d">Email, téléphone et GitHub. Je réponds vite.</span><span class="dir-n">ouvert</span></a></li>
+    </ul>
   </section>
 </main>
-
 <div class="wordmark" aria-hidden="true"><span id="wordmark">Julio Dahou</span></div>
 <footer class="foot">
-  <span>© 2026 Julio Dahou</span>
-  <span>Conçu et codé à Cotonou</span>
+  <nav class="foot-nav" aria-label="Pied de page"><a href="/">Accueil</a><a href="/projets/">Projets</a><a href="/services/">Services</a><a href="/a-propos/">À propos</a><a href="/contact/">Contact</a></nav>
+  <span>© 2026 Julio Dahou, conçu et codé à Cotonou</span>
 </footer>
 
-<!-- Page projet -->
-<div class="sheet" id="sheet" hidden>
-  <div class="sheet-backdrop" data-close></div>
-  <article class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" tabindex="-1">
-    <button class="sheet-close" type="button" data-close aria-label="Fermer">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
-    <div class="sheet-body" id="sheetBody"></div>
-  </article>
-</div>
-
-<!-- Palette de commandes -->
 <div class="palette" id="palette" hidden>
   <div class="palette-box" role="dialog" aria-modal="true" aria-label="Palette de commandes">
-    <input id="paletteInput" type="text" placeholder="Chercher un projet ou une section…" autocomplete="off" spellcheck="false" aria-controls="paletteList">
+    <input id="paletteInput" type="text" placeholder="Chercher un projet ou une page…" autocomplete="off" spellcheck="false" aria-controls="paletteList">
     <ul id="paletteList" role="listbox"></ul>
   </div>
 </div>
-
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script type="module" src="/src/app.js"></script>
