@@ -5,23 +5,37 @@ import { initProjects, openProject } from "./projects.js";
 import { initPalette } from "./palette.js";
 import { initTerminal } from "./terminal.js";
 import { decodeTitle, initReveal, initNav, renderTimeline, renderStack, copyEmail, toast, onKonami } from "./fx.js";
+import { playIntro, initProgress, initAura, initCursor, initMagnetic, initTicker, splitTitles, scrambleOnHover, initWordmark, tiltPeek } from "./motion.js";
+
+const introDone = playIntro();
 
 renderTimeline();
 renderStack();
 initProjects();
 initThemeMenu();
 initNav();
+initTicker();
+splitTitles();
 initReveal();
+initProgress();
+initAura();
+initCursor();
+initMagnetic();
+initWordmark();
+tiltPeek();
+scrambleOnHover(".mail, .links a");
 
 const terminal = initTerminal({ openProject });
 initPalette({ openProject, openTerminal: terminal.open, copyEmail });
 
+// la carte et le titre démarrent quand le rideau d'ouverture se lève
 initNetwork(document.getElementById("netmap"), PROJECTS, {
   onOpen: openProject,
   hint: document.getElementById("mapHint"),
   list: document.getElementById("nodeList"),
+  delay: document.documentElement.classList.contains("intro-on") ? 1650 : 0,
 });
-decodeTitle(document.getElementById("heroTitle"));
+introDone.then(() => decodeTitle(document.getElementById("heroTitle")));
 
 document.getElementById("copyMail").addEventListener("click", copyEmail);
 

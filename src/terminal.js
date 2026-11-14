@@ -25,7 +25,7 @@ export function run(input) {
         L("  cat <projet>      résumé d'un projet (ex: cat breach)"),
         L("  open <projet>     ouvrir la page du projet"),
         L("  repo <projet>     ouvrir le code sur GitHub"),
-        L("  theme [nom]       changer de thème (plan, nuit, phosphore, ambre)"),
+        L("  theme [nom]       changer de thème (obsidienne, amethyste, plan…)"),
         L("  skills            compétences"),
         L("  contact           me contacter"),
         L("  goto <section>    projets, parcours, stack, contact"),
