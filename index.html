@@ -1,309 +1,135 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="plan">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Julio DAHOU — Cybersecurity Specialist & Software Engineer</title>
-<meta name="description" content="Portfolio de Julio DAHOU, spécialiste cybersécurité et développeur logiciel à Cotonou, ouvert au remote. Pentest, low-level C, Python, SOC.">
-<link rel="icon" href="data:,">
+<title>Julio Dahou, cybersécurité et développement</title>
+<meta name="description" content="Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Outils de sécurité, applications web et un jeu de hacking.">
+<meta name="theme-color" content="#eef2f5">
+<meta property="og:title" content="Julio Dahou, cybersécurité et développement">
+<meta property="og:description" content="Outils de sécurité, applications web et un metroidvania de hacking.">
+<meta property="og:image" content="/assets/BREACH.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f2238'/%3E%3Ccircle cx='10' cy='11' r='3' fill='%23e5484d'/%3E%3Ccircle cx='22' cy='21' r='3' fill='%23fff'/%3E%3Cpath d='M10 11 22 21' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
+<!-- Le thème choisi est appliqué avant le premier rendu : pas de flash. -->
+<script>
+  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
+<a class="skip" href="#projets">Aller aux projets</a>
 
-<div id="particles"></div>
-<div class="aurora a"></div>
-<div class="aurora b"></div>
-<div class="progress-bar" id="progressBar"></div>
-
-<header class="site" id="siteHeader">
-  <a class="name" href="#accueil">
-    <span class="jd">JD</span>
-    <span>Julio Dahou<span class="tag">Cybersec · Dev</span></span>
+<header class="topbar" id="topbar">
+  <a class="brand" href="#top" aria-label="Retour en haut">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="3.2"/><circle cx="23" cy="22" r="3.2"/><circle cx="23" cy="8" r="2.2"/><path d="M9 10 23 22M9 10 23 8"/></svg>
+    <span>Julio Dahou</span>
   </a>
+  <nav class="links" aria-label="Sections">
+    <a href="#projets">Projets</a>
+    <a href="#parcours">Parcours</a>
+    <a href="#stack">Compétences</a>
+    <a href="#contact">Contact</a>
+    <span class="nav-ink" aria-hidden="true"></span>
+  </nav>
+  <div class="tools">
+    <button class="tool" id="paletteBtn" type="button" aria-label="Ouvrir la palette de commandes">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg>
+      <kbd class="hide-sm">Ctrl K</kbd>
+    </button>
+    <button class="tool" id="termBtn" type="button" aria-label="Ouvrir le terminal" data-terminal>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 7 5 5-5 5M12 18h7"/></svg>
+    </button>
+    <div class="theme-pick">
+      <button class="tool" id="themeBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Changer de thème">
+        <span class="swatch" aria-hidden="true"></span>
+      </button>
+      <div class="theme-menu" id="themeMenu" role="menu" hidden></div>
+    </div>
+  </div>
 </header>
 
-<nav class="dock" id="dock" aria-label="Navigation">
-  <a href="#accueil" data-label="Accueil" data-spy="accueil" aria-label="Accueil">
-    <svg viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>
-  </a>
-  <a href="#projets" data-label="Projets" data-spy="projets" aria-label="Projets">
-    <svg viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z"/></svg>
-  </a>
-  <a href="#parcours" data-label="Parcours" data-spy="parcours" aria-label="Parcours">
-    <svg viewBox="0 0 24 24"><path d="M4 3h2v10.17A3 3 0 1 1 4 13zm6 0h2v10.17a3 3 0 1 1-2 0zM16 3h2v13.17a3 3 0 1 1-2 0z"/></svg>
-  </a>
-  <a href="#stack" data-label="Stack" data-spy="stack" aria-label="Stack">
-    <svg viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6z"/></svg>
-  </a>
-  <a href="#terminal" data-label="Terminal" data-terminal aria-label="Ouvrir le terminal">
-    <svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zm2 2v10h14V7zm1.5 1.5L10 12l-3.5 3.5-1.06-1.06L7.88 12 5.44 9.56zM11 15h5v1.5h-5z"/></svg>
-  </a>
-  <a href="#contact" data-label="Contact" data-spy="contact" aria-label="Contact">
-    <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5z"/></svg>
-  </a>
-</nav>
-
-<main class="board">
-
-  <!-- ============ ACCUEIL ============ -->
-  <section class="frame hero" id="accueil">
-    <p class="kicker" data-anim>Cybersecurity Specialist &amp; Software Engineer</p>
-    <h1 data-anim>Je sécurise des systèmes, et j'en <span class="ang">construis</span> aussi.</h1>
-    <p class="lede" data-anim>Pentest, low-level C, Python et défense SOC — j'analyse, je casse, je corrige, et je documente tout ce que j'apprends. Basé à Cotonou, ouvert au remote.</p>
-    <div class="hero-links" data-anim>
-      <a class="btn solid" href="#projets">Voir les projets</a>
-      <a class="btn" href="#contact">Me contacter</a>
+<main id="top">
+  <!-- ============ HÉRO : la carte réseau est la navigation ============ -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <canvas id="netmap" aria-hidden="true"></canvas>
+    <div class="hero-copy">
+      <p class="hello">Julio Dahou, Cotonou, ouvert au remote</p>
+      <h1 id="heroTitle" class="decode">Je casse des systèmes pour apprendre à les protéger, et j'en construis aussi.</h1>
+      <p class="lede">Spécialiste cybersécurité et développeur : pentest, analyse SOC, C bas niveau, Python et web. Chaque nœud de la carte est un projet, clique dessus.</p>
+      <div class="cta">
+        <a class="btn primary" href="#projets">Voir les projets</a>
+        <a class="btn" href="#contact">Me contacter</a>
+      </div>
     </div>
-    <p class="term-hint" data-anim>Plutôt ligne de commande ? <a href="#terminal" data-terminal>Ouvre le terminal</a> ou appuie sur <kbd>`</kbd></p>
+    <ul class="node-list" id="nodeList" aria-label="Projets sur la carte"></ul>
+    <p class="map-hint" id="mapHint" aria-hidden="true">Survole un nœud</p>
   </section>
 
   <!-- ============ PROJETS ============ -->
-  <section class="frame" id="projets">
-    <p class="sec-label" data-anim>Portfolio</p>
-    <h2 data-anim>Mes <span class="grad">projets</span></h2>
-    <p class="sec-desc" data-anim>Des outils réels, du réseau au web — construits, publiés et documentés.</p>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>01 — Marketplace</p>
-        <h3>FrixX</h3>
-        <p class="desc">Plateforme freelance marketplace complète. Backend migré de Django vers Next.js, API avec Supabase, base de données PostgreSQL et politiques de sécurité RLS (Row Level Security).</p>
-        <div class="tech"><span>Django</span><span>Next.js</span><span>Supabase</span><span>RLS</span><span>PostgreSQL</span></div>
-        <a class="repo" href="https://github.com/Jimo0x/Project_Synergy" target="_blank" rel="noopener">Code source ↗</a>
-      </div>
-      <figure class="media"><img src="/assets/FrixX.png" alt="FrixX marketplace"></figure>
-    </article>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>02 — SOC / Défensif</p>
-        <h3>Phishing &amp; Threat Detector</h3>
-        <p class="desc">Outil de détection de phishing et de menaces informatiques. Analyse des signaux malveillants, catégorisation des menaces et support des opérations d'analyste Junior SOC.</p>
-        <div class="tech"><span>Python</span><span>SOC</span><span>Threat Detection</span><span>Analysis</span></div>
-        <a class="repo" href="https://github.com/Jimo0x/Phishing-Page-Detector" target="_blank" rel="noopener">Code source ↗</a>
-      </div>
-      <figure class="media"><img src="/assets/Phishing et Threat Detector.png" alt="Phishing and Threat Detector"></figure>
-    </article>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>03 — OSINT</p>
-        <h3>SE Contact Scraper</h3>
-        <p class="desc">Outil OSINT de collecte et de recherche de contacts. Automatisation d'extraction de données publiques pour des investigations et du renseignement de sources ouvertes.</p>
-        <div class="tech"><span>Python</span><span>OSINT</span><span>Scraping</span><span>Automation</span></div>
-        <a class="repo" href="https://github.com/Jimo0x/SE-contact-scraper" target="_blank" rel="noopener">Code source ↗</a>
-      </div>
-      <figure class="media">
-        <img src="/assets/SE Contact Scraper1.png" alt="SE Contact Scraper">
-        <p class="mock-note">Capture d'une exécution de l'outil.</p>
-      </figure>
-    </article>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>04 — Réseau / Recon</p>
-        <h3>Basic Network Recon Tool</h3>
-        <p class="desc">Outil de reconnaissance réseau. Scan et analyse d'hôtes, collecte d'informations sur les services actifs via scripts Python et commandes Bash.</p>
-        <div class="tech"><span>Python</span><span>Scanners</span><span>Bash</span><span>Network</span></div>
-        <a class="repo" href="https://github.com/Jimo0x/Basic-Network-Recon-Tool" target="_blank" rel="noopener">Code source ↗</a>
-      </div>
-      <figure class="media"><img src="/assets/Basic Network Recon Tool.png" alt="Basic Network Recon Tool"></figure>
-    </article>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>05 — Rendu 3D / Web</p>
-        <h3>Synergy Craft</h3>
-        <p class="desc">Plateforme freelance dual-side (clients + freelancers) avec rendu 3D temps réel. Le site utilise Three.js r170+ avec post-processing (UnrealBloom) pour les effets 3D, le tout chargé via CDN + Import Map — aucun npm/node.js requis. Paiements (Stripe/PayPal/Mobile Money) : clés dans .env, webhooks exposés par ngrok en dev.</p>
-        <div class="tech"><span>Three.js</span><span>UnrealBloom</span><span>CDN + Import Map</span><span>Stripe</span><span>PayPal</span><span>Mobile Money</span></div>
-      </div>
-      <figure class="media">
-        <img src="/assets/synergy_craftt.png" alt="Synergy Craft">
-        <p class="mock-note">Rendu 3D temps réel avec effets de post-processing.</p>
-      </figure>
-    </article>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>06 — Supply chain</p>
-        <h3>safe-install</h3>
-        <p class="desc">Analyse un paquet npm ou PyPI <strong>avant</strong> de l'installer : typosquatting (<code>lodahs</code> au lieu de <code>lodash</code>), scripts <code>postinstall</code> ajoutés en douce, code qui lit les clés SSH ou exfiltre vers un webhook. Lecture de l'archive en mémoire, sans jamais l'exécuter. Zéro dépendance, testé, utilisable en CI.</p>
-        <div class="tech"><span>Python</span><span>Supply chain</span><span>Analyse statique</span><span>CI</span></div>
-        <a class="repo" href="https://github.com/Jimo0x/safe-install" target="_blank" rel="noopener">Code source ↗</a>
-      </div>
-      <figure class="media code-shot" aria-label="Exemple de sortie de safe-install">
-<pre><span class="d">$</span> safe-install npm lodahs
-<b>lodahs@1.0.1</b> (npm)
-  score   : 100/100
-  verdict : <span class="r">BLOCK</span>
-  raisons :
-    +40  nom proche de : lodash
-    +35  'postinstall' : curl | sh
-    +35  lit des clés SSH
-    +30  script ajouté dans cette version</pre>
-      </figure>
-    </article>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>07 — Jeu vidéo</p>
-        <h3>BREACH</h3>
-        <p class="desc">Un metroidvania de hacking jouable dans le navigateur. Chaque pouvoir (dash, double saut, passage du pare-feu) se gagne en résolvant un vrai défi : chiffre de César, Base64, injection SQL avec la requête affichée en direct, reconnaissance via <code>robots.txt</code>. La progression est vérifiée par des tests qui simulent la physique du jeu.</p>
-        <div class="tech"><span>JavaScript</span><span>Canvas 2D</span><span>Game design</span><span>Sécurité offensive</span></div>
-        <a class="repo" href="https://github.com/Jimo0x/breach" target="_blank" rel="noopener">Code source ↗</a>
-      </div>
-      <figure class="media"><img src="/assets/BREACH.png" alt="Capture du jeu BREACH" loading="lazy"></figure>
-    </article>
+  <section class="block" id="projets" aria-labelledby="projTitle">
+    <div class="block-head">
+      <h2 id="projTitle">Projets</h2>
+      <div class="filters" role="group" aria-label="Filtrer les projets" id="filters"></div>
+    </div>
+    <ol class="project-list" id="projectList"></ol>
+    <div class="peek" id="peek" aria-hidden="true"><img alt=""></div>
   </section>
 
   <!-- ============ PARCOURS ============ -->
-  <section class="frame" id="parcours">
-    <p class="sec-label" data-anim>Parcours</p>
-    <h2 data-anim>Le <span class="grad">parcours</span></h2>
-    <p class="sec-desc" data-anim>Expérience, formation et chiffres clés pour situer le profil.</p>
-
-    <div class="stats reveal">
-      <div class="stat"><div class="val">7<span>+</span></div><div class="lbl">Projets &amp; outils publiés</div></div>
-      <div class="stat"><div class="val"><em>Off</em></div><div class="lbl">+ défensif (off./SOC)</div></div>
-      <div class="stat"><div class="val"><em>C·Py</em></div><div class="lbl">Stacks C · Python · Web</div></div>
-      <div class="stat"><div class="val"><em>∞</em></div><div class="lbl">Curiosité technique</div></div>
-    </div>
-
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>Expérience</p>
-        <h3>IT Systems &amp; Maintenance Trainee</h3>
-        <p class="desc">Stagiaire chez <strong>Accompli Technologie et Services</strong>, Cotonou. Maintenance de systèmes informatiques, gestion de réseaux, dépannage matériel et projets embarqués sur Arduino.</p>
-        <div class="tech"><span>Arduino</span><span>Réseaux</span><span>Dépannage matériel</span></div>
-      </div>
-    </article>
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>Formation</p>
-        <h3>Cybersecurity &amp; IT Expertise</h3>
-        <p class="desc">Étudiant en Cybersécurité et Expertise Informatique — <strong>ESGIS Benin &amp; Epitech Benin University</strong>. Formation orientée offensive security, systèmes et programmation bas niveau.</p>
-        <div class="tech"><span>Cybersécurité</span><span>Low-level C</span><span>SOC</span></div>
-      </div>
-    </article>
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>Formation</p>
-        <h3>Baccalauréat F2 — Électronique &amp; Sciences Industrielles</h3>
-        <p class="desc">Lycée Don Bosco. Bases en électronique, systèmes industriels et informatique.</p>
-        <div class="tech"><span>Électronique</span><span>Sciences industrielles</span></div>
-      </div>
-    </article>
-    <article class="project reveal">
-      <div class="text">
-        <p class="meta"><span class="dot"></span>Certification</p>
-        <h3>Network Certification</h3>
-        <p class="desc">Certification réseaux obtenue chez <strong>Accompli Tech</strong>.</p>
-        <div class="tech"><span>Réseaux</span></div>
-      </div>
-    </article>
+  <section class="block" id="parcours" aria-labelledby="pathTitle">
+    <div class="block-head"><h2 id="pathTitle">Parcours</h2></div>
+    <div class="timeline" id="timeline"><span class="tl-track" aria-hidden="true"><span class="tl-fill"></span></span></div>
   </section>
 
-  <!-- ============ STACK ============ -->
-  <section class="frame" id="stack">
-    <p class="sec-label" data-anim>Stack</p>
-    <h2 data-anim>Outils &amp; <span class="grad">compétences</span></h2>
-    <p class="sec-desc" data-anim>Une pile orientée cybersécurité, systèmes et développement web.</p>
-
-    <div class="stack-cols reveal">
-      <div class="stack-col">
-        <h3>Langages</h3>
-        <ul>
-          <li>C<span><small>low-level, systèmes</small></span></li>
-          <li>Python<span><small>automatisation, scripts</small></span></li>
-          <li>JavaScript / PHP<span><small>web</small></span></li>
-          <li>Java<span><small>applications</small></span></li>
-          <li>SQL<span><small>bases de données</small></span></li>
-        </ul>
-      </div>
-      <div class="stack-col">
-        <h3>Cybersécurité &amp; Outils</h3>
-        <ul>
-          <li>Pentest &amp; Vulnerability Assessment<span><small>offensif</small></span></li>
-          <li>Analysis Junior SOC<span><small>défensif</small></span></li>
-          <li>Kali Linux<span><small>boîte à outils</small></span></li>
-          <li>Linux / Docker / Git<span><small>sysadmin &amp; devops</small></span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="stack-cols reveal">
-      <div class="stack-col">
-        <h3>Frameworks Web</h3>
-        <ul>
-          <li>Django<span><small>backend Python</small></span></li>
-          <li>Next.js / Node.js<span><small>moderne JS</small></span></li>
-          <li>XAMPP<span><small>environnement local</small></span></li>
-        </ul>
-      </div>
-      <div class="stack-col">
-        <h3>Bases de données</h3>
-        <ul>
-          <li>MySQL<span><small>relationnelle</small></span></li>
-          <li>MariaDB<span><small>relationnelle</small></span></li>
-          <li>PostgreSQL / Supabase<span><small>avec RLS</small></span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="curios reveal">
-      <div class="stack-col">
-        <h3>Ce qui me <span class="g">fait avancer</span></h3>
-        <p class="sec-desc" style="margin-bottom:8px;font-size:0.9rem;">Au-delà des compétences, ce sont les curiosités qui construisent un profil.</p>
-      </div>
-      <div class="stack-col">
-        <ul>
-          <li><span class="n">01</span>Game engines 2D en C</li>
-          <li><span class="n">02</span>Labs d'audit réseau</li>
-          <li><span class="n">03</span>Mutualisation IT (Arduino/Python)</li>
-          <li><span class="n">04</span>Français natif · anglais technique</li>
-          <li><span class="n">05</span>Open to remote</li>
-        </ul>
-      </div>
-    </div>
+  <!-- ============ COMPÉTENCES ============ -->
+  <section class="block" id="stack" aria-labelledby="stackTitle">
+    <div class="block-head"><h2 id="stackTitle">Compétences</h2></div>
+    <div class="stack-grid" id="stackGrid"></div>
   </section>
 
   <!-- ============ CONTACT ============ -->
-  <section class="frame contact" id="contact">
-    <p class="sec-label" data-anim>Contact</p>
-    <h2 data-anim>Travaillons <span class="grad">ensemble</span></h2>
-    <p class="say" data-anim>Une mission, un projet ou simplement une discussion sur la cybersécurité ? Mon inbox est ouvert, et je réponds vite.</p>
-    <a class="mail-big" href="mailto:juliodh2006@gmail.com" data-anim>juliodh2006@gmail.com</a>
-
-    <div class="contact-cards reveal">
-      <a class="c-card" href="mailto:juliodh2006@gmail.com">
-        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5z"/></svg></span>
-        <span class="c-body"><span class="c-label">Email</span><span class="c-value">juliodh2006@gmail.com</span></span>
-      </a>
-      <a class="c-card" href="tel:+2290162257004">
-        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .7-.2 1z"/></svg></span>
-        <span class="c-body"><span class="c-label">Téléphone</span><span class="c-value">+229 01 62 25 70 04</span></span>
-      </a>
-      <a class="c-card" href="https://github.com/Jimo0x" target="_blank" rel="noopener">
-        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></span>
-        <span class="c-body"><span class="c-label">GitHub</span><span class="c-value">github.com/Jimo0x</span></span>
-      </a>
+  <section class="block contact" id="contact" aria-labelledby="contactTitle">
+    <h2 id="contactTitle">Un audit, un projet, un stage ?</h2>
+    <p class="lede">Écris-moi, je réponds vite.</p>
+    <div class="mail-row">
+      <a class="mail" id="mailLink" href="mailto:juliodh2006@gmail.com">juliodh2006@gmail.com</a>
+      <button class="btn small" id="copyMail" type="button">Copier l'adresse</button>
     </div>
-
-    <div class="footer-links reveal">
-      <a href="https://github.com/Jimo0x" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
-        GitHub — Jimo_ox
-      </a>
-    </div>
-
-    <div class="foot-note reveal">
-      <span>© 2026 Julio Dahou · Cotonou, Bénin</span>
-      <span>Designed &amp; built with care — Vite · tsparticles</span>
-    </div>
+    <ul class="contact-links">
+      <li><a href="https://github.com/Jimo0x" target="_blank" rel="noopener">GitHub : Jimo0x</a></li>
+      <li><a href="tel:+2290162257004">+229 01 62 25 70 04</a></li>
+    </ul>
   </section>
-
 </main>
+
+<footer class="foot">
+  <span>© 2026 Julio Dahou</span>
+  <span>Raccourcis : <kbd>Ctrl K</kbd> palette, <kbd>`</kbd> terminal, <kbd>T</kbd> thème</span>
+</footer>
+
+<!-- Page projet -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-backdrop" data-close></div>
+  <article class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" tabindex="-1">
+    <button class="sheet-close" type="button" data-close aria-label="Fermer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="sheet-body" id="sheetBody"></div>
+  </article>
+</div>
+
+<!-- Palette de commandes -->
+<div class="palette" id="palette" hidden>
+  <div class="palette-box" role="dialog" aria-modal="true" aria-label="Palette de commandes">
+    <input id="paletteInput" type="text" placeholder="Chercher un projet, une section, un thème…" autocomplete="off" spellcheck="false" aria-controls="paletteList">
+    <ul id="paletteList" role="listbox"></ul>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script type="module" src="/src/app.js"></script>
 </body>
