@@ -3,8 +3,8 @@ import { initNetwork } from "./network.js";
 import { initProjects, openProject } from "./projects.js";
 import { initPalette } from "./palette.js";
 import { initTerminal } from "./terminal.js";
-import { decodeTitle, initReveal, initNav, renderTimeline, renderStack, renderStats, initServices, initHandshake, copyEmail, toast, onKonami } from "./fx.js";
-import { playIntro, initProgress, initAura, initCursor, initMagnetic, initTicker, splitTitles, scrambleOnHover, initWordmark } from "./motion.js";
+import { decodeTitle, initReveal, initNav, renderTimeline, renderStack, renderStats, initServices, initHandshake, initSide, copyEmail, toast, onKonami } from "./fx.js";
+import { playIntro, initProgress, initAura, initCursor, initMagnetic, splitTitles, scrambleOnHover, initWordmark } from "./motion.js";
 
 const introDone = playIntro();
 
@@ -14,14 +14,14 @@ renderStack();
 initProjects();
 initServices();
 initHandshake();
+initSide();
 initNav();
-initTicker();
 splitTitles();
 initReveal();
 initProgress();
 initAura();
 initCursor();
-initMagnetic();
+initMagnetic(".btn, .cmd-btn, .side-toggle, .sheet-close");
 initWordmark();
 scrambleOnHover(".mail, .cmd-text");
 

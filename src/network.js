@@ -35,10 +35,10 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
     seed = 7;
 
     // sur grand écran, la carte occupe la colonne de droite sans passer sous le texte
-    const textRight = mobile ? 0 : (document.querySelector(".hero-copy")?.getBoundingClientRect().right || W * 0.5);
+    const textRight = mobile ? 0 : ((document.querySelector(".hero-copy")?.getBoundingClientRect().right ?? W * 0.5) - r.left);
     const cx = mobile ? W * 0.5 : (textRight + W) / 2 + 10;
     const cy = mobile ? H * 0.21 : H * 0.53;
-    const rx = mobile ? W * 0.36 : Math.min((W - textRight) / 2 - 130, 330);
+    const rx = mobile ? W * 0.36 : Math.max(120, Math.min((W - textRight) / 2 - 130, 330));
     const ry = mobile ? H * 0.1 : Math.min(H * 0.32, 300);
 
     const center = { id: "julio", label: "julio", x: cx, y: cy, r: 9, kind: "self", born: 0, phase: 0 };

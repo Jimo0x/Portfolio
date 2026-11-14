@@ -43,23 +43,19 @@ export function initReveal() {
 
 export function initNav() {
   const bar = document.getElementById("topbar");
-  const links = [...document.querySelectorAll(".st-tabs a")];
+  const links = [...document.querySelectorAll(".side-nav a")];
   const sections = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
-  const pct = document.getElementById("stScroll");
-  let lastActive = null;
+  const pct = document.getElementById("stScroll"), meter = document.getElementById("sideMeter");
   const update = () => {
-    bar.classList.toggle("scrolled", scrollY > 30);
+    bar?.classList.toggle("scrolled", scrollY > 30);
     const y = innerHeight * 0.4;
     let active = links[0];
     sections.forEach((s, i) => { if (s.getBoundingClientRect().top < y) active = links[i]; });
-    if (active !== lastActive) {
-      links.forEach(a => a.classList.toggle("active", a === active));
-      const tabs = active.parentElement;
-      tabs.scrollTo({ left: active.offsetLeft - tabs.clientWidth / 2 + active.offsetWidth / 2, behavior: "smooth" });
-      lastActive = active;
-    }
+    links.forEach(a => a.classList.toggle("active", a === active));
     const max = document.documentElement.scrollHeight - innerHeight;
-    pct.textContent = Math.round(max > 0 ? (scrollY / max) * 100 : 0) + "%";
+    const p = max > 0 ? scrollY / max : 0;
+    pct.textContent = Math.round(p * 100) + "%";
+    meter.style.transform = `scaleX(${p})`;
   };
   addEventListener("scroll", update, { passive: true }); update();
 
@@ -68,6 +64,33 @@ export function initNav() {
   const fmt = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Africa/Porto-Novo" });
   const tick = () => { clock.textContent = fmt.format(new Date()); };
   tick(); setInterval(tick, 15000);
+}
+
+/* Barre latérale : repliée par défaut, dépliable. Le choix est mémorisé sur grand écran. */
+export function initSide() {
+  const body = document.body;
+  const toggles = document.querySelectorAll("[data-side-toggle]");
+  const wide = () => innerWidth >= 1200;
+  const set = open => {
+    body.classList.toggle("side-open", open);
+    toggles.forEach(t => { t.setAttribute("aria-expanded", String(open)); t.setAttribute("aria-label", open ? "Replier le menu" : "Déplier le menu"); });
+    if (wide()) { try { localStorage.setItem("side", open ? "1" : "0"); } catch (e) {} }
+  };
+  let saved = null;
+  try { saved = localStorage.getItem("side"); } catch (e) {}
+  set(wide() && saved === "1");
+  toggles.forEach(t => t.addEventListener("click", () => set(!body.classList.contains("side-open"))));
+  document.querySelector("[data-side-close]")?.addEventListener("click", () => set(false));
+  // sur petit écran, choisir une section referme le menu
+  document.querySelectorAll(".side-nav a, .side-tools a, .side-tools button").forEach(a =>
+    a.addEventListener("click", () => { if (!wide()) set(false); }));
+  addEventListener("keydown", e => {
+    if (e.key === "Escape" && body.classList.contains("side-open") && !wide()) set(false);
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
+    if (!typing && e.key === "[" ) set(!body.classList.contains("side-open"));
+  });
+  // le carte réseau du héro dépend de la largeur : on la prévient
+  body.addEventListener("transitionend", e => { if (e.propertyName === "padding-left") dispatchEvent(new Event("resize")); });
 }
 
 /* Chiffres clés : un rapport de scan, chaque ligne compte et sa barre se remplit. */

@@ -26,7 +26,7 @@ function renderFilters() {
     if (!b) return;
     box.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
     const f = b.dataset.filter;
-    const rows = [...document.querySelectorAll(".tile")];
+    const rows = [...document.querySelectorAll(".work")];
     // FLIP : les tuiles restantes glissent à leur nouvelle place
     const before = new Map(rows.map(r => { const b = r.getBoundingClientRect(); return [r, { x: b.left, y: b.top, shown: !r.hidden }]; }));
     $("projectList").classList.toggle("filtered", f !== "all");
@@ -40,31 +40,43 @@ function renderFilters() {
   });
 }
 
-/* ---------------- grille bento ---------------- */
-// largeur de chaque tuile sur 6 colonnes : un rythme irrégulier, pas une grille de cartes identiques
-const SPANS = [4, 2, 2, 4, 3, 3, 6];
-
-function tileMedia(p) {
-  if (p.images[0]) return `<div class="tile-media"><img src="${imageUrl(p.images[0])}" alt="" loading="lazy"></div>`;
-  return `<pre class="tile-code">${esc(p.code || p.name).replace(/BLOCK/, "<b>BLOCK</b>")}</pre>`;
+/* ---------------- projets : captures dans des fenêtres ---------------- */
+function windowView(p) {
+  if (p.images[0]) return `<img src="${imageUrl(p.images[0])}" alt="Capture de ${esc(p.name)}" loading="lazy">`;
+  return `<pre>${esc(p.code || p.name).replace(/BLOCK/, "<b>BLOCK</b>")}</pre>`;
 }
 
 function renderList() {
-  $("projectList").innerHTML = PROJECTS.map((p, i) => {
-    const span = SPANS[i % SPANS.length];
-    return `
-    <article class="tile reveal ${span >= 4 ? "big" : ""}" data-kind="${p.kind}" data-id="${p.id}" style="--span:${span};--d:${(i % 3) * 0.07}s">
+  $("projectList").innerHTML = PROJECTS.map((p, i) => `
+    <article class="work reveal ${i === 0 ? "featured" : ""}" data-kind="${p.kind}" data-id="${p.id}" style="--d:${(i % 2) * 0.08}s">
       <a class="cover" href="#projet-${p.id}" aria-label="Voir le projet ${esc(p.name)}"></a>
-      ${tileMedia(p)}
-      <div class="tile-top"><span class="id">#${String(i + 1).padStart(2, "0")}</span><span>${KINDS[p.kind].toLowerCase()}</span></div>
-      <div class="tile-body">
-        <h3>${esc(p.name)}</h3>
-        <p>${esc(p.tagline)}</p>
-        <div class="stack">${p.stack.slice(0, 4).map(t => `<span>${esc(t)}</span>`).join("")}</div>
+      <div class="window"><div class="win">
+        <div class="win-bar"><i></i><i></i><i></i><span>~/projets/${p.id}</span></div>
+        <div class="win-view">${windowView(p)}</div>
+      </div></div>
+      <div class="work-info">
+        <div class="work-meta"><span class="id">#${String(i + 1).padStart(2, "0")}</span><span class="kind">${KINDS[p.kind]}</span></div>
+        <h3>${esc(p.name)}<span class="arrow" aria-hidden="true">${ARROW}</span></h3>
+        <p>${esc(i === 0 ? p.summary : p.tagline)}</p>
+        <div class="stack">${p.stack.slice(0, 5).map(t => `<span>${esc(t)}</span>`).join("")}</div>
       </div>
-      <span class="open" aria-hidden="true">${ARROW}</span>
-    </article>`;
-  }).join("");
+    </article>`).join("");
+  initTilt();
+}
+
+/* La fenêtre s'incline légèrement vers le curseur. */
+function initTilt() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !matchMedia("(pointer: fine)").matches) return;
+  document.querySelectorAll(".work").forEach(w => {
+    const win = w.querySelector(".win");
+    w.addEventListener("pointermove", e => {
+      const r = win.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      win.style.setProperty("--ry", (x * 7).toFixed(2) + "deg");
+      win.style.setProperty("--rx", (-y * 6).toFixed(2) + "deg");
+    });
+    w.addEventListener("pointerleave", () => { win.style.setProperty("--ry", "0deg"); win.style.setProperty("--rx", "0deg"); });
+  });
 }
 
 /* ---------------- page projet ---------------- */
