@@ -43,26 +43,20 @@ export function initReveal() {
 
 export function initNav() {
   const bar = document.getElementById("topbar");
-  const links = [...document.querySelectorAll(".side-nav a")];
-  const sections = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
   const pct = document.getElementById("stScroll"), meter = document.getElementById("sideMeter");
   const update = () => {
     bar?.classList.toggle("scrolled", scrollY > 30);
-    const y = innerHeight * 0.4;
-    let active = links[0];
-    sections.forEach((s, i) => { if (s.getBoundingClientRect().top < y) active = links[i]; });
-    links.forEach(a => a.classList.toggle("active", a === active));
     const max = document.documentElement.scrollHeight - innerHeight;
     const p = max > 0 ? scrollY / max : 0;
-    pct.textContent = Math.round(p * 100) + "%";
-    meter.style.transform = `scaleX(${p})`;
+    if (pct) pct.textContent = Math.round(p * 100) + "%";
+    if (meter) meter.style.transform = `scaleX(${p})`;
   };
   addEventListener("scroll", update, { passive: true }); update();
 
-  // heure locale de Cotonou (UTC+1)
-  const clock = document.getElementById("stClock");
+  // heure locale de Cotonou (UTC+1), partout où la page l'affiche
+  const clocks = document.querySelectorAll("[data-clock]");
   const fmt = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Africa/Porto-Novo" });
-  const tick = () => { clock.textContent = fmt.format(new Date()); };
+  const tick = () => { const t = fmt.format(new Date()); clocks.forEach(c => (c.textContent = t)); };
   tick(); setInterval(tick, 15000);
 }
 
@@ -81,7 +75,7 @@ export function initSide() {
   set(wide() && saved === "1");
   toggles.forEach(t => t.addEventListener("click", () => set(!body.classList.contains("side-open"))));
   document.querySelector("[data-side-close]")?.addEventListener("click", () => set(false));
-  // sur petit écran, choisir une section referme le menu
+  // sur petit écran, choisir une page referme le menu
   document.querySelectorAll(".side-nav a, .side-tools a, .side-tools button").forEach(a =>
     a.addEventListener("click", () => { if (!wide()) set(false); }));
   addEventListener("keydown", e => {

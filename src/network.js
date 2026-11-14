@@ -8,13 +8,16 @@ const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 }) {
   const ctx = canvas.getContext("2d");
   let W = 0, H = 0, DPR = 1, mobile = false;
+  // en dessous de 1025 px, la carte a sa propre zone au-dessus du texte (voir style.css)
+  const stacked = matchMedia("(max-width: 1024px)");
   let colors = readColors();
   let nodes = [], edges = [], packets = [];
   let hover = null, mouse = { x: -9999, y: -9999 };
   let t0 = performance.now() + delay, running = true, raf = 0;
 
   // liens accessibles au clavier pour chaque nœud
-  list.innerHTML = projects.map(p => `<li><a href="#projet-${p.id}">${p.name}</a></li>`).join("");
+  list.innerHTML = projects.map(p => `<li><a href="/projets/${p.id}/">${p.name}</a></li>`).join("");
+  const FONT = '"Chakra Petch", system-ui, sans-serif', MONO = '"JetBrains Mono", ui-monospace, monospace';
 
   function readColors() {
     const s = getComputedStyle(document.documentElement);
@@ -31,34 +34,52 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
     W = r.width; H = r.height; DPR = Math.min(2, devicePixelRatio || 1);
     canvas.width = W * DPR; canvas.height = H * DPR;
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    mobile = W < 760;
+    mobile = stacked.matches;
     seed = 7;
 
-    // sur grand écran, la carte occupe la colonne de droite sans passer sous le texte
-    const textRight = mobile ? 0 : ((document.querySelector(".hero-copy")?.getBoundingClientRect().right ?? W * 0.5) - r.left);
-    const cx = mobile ? W * 0.5 : (textRight + W) / 2 + 10;
-    const cy = mobile ? H * 0.21 : H * 0.53;
-    const rx = mobile ? W * 0.36 : Math.max(120, Math.min((W - textRight) / 2 - 130, 330));
-    const ry = mobile ? H * 0.1 : Math.min(H * 0.32, 300);
-
-    const center = { id: "julio", label: "julio", x: cx, y: cy, r: 9, kind: "self", born: 0, phase: 0 };
-    nodes = [center];
-    projects.forEach((p, i) => {
-      const a = -Math.PI / 2 + (i / projects.length) * Math.PI * 2 + 0.25;
-      const j = 0.82 + rnd() * 0.3;
-      nodes.push({
-        id: p.id, label: p.name, kind: p.kind, project: p,
-        x: cx + Math.cos(a) * rx * j, y: cy + Math.sin(a) * ry * j,
-        r: 7, born: 0.35 + i * 0.09, phase: rnd() * 6.28,
+    if (mobile) {
+      /* Petit écran : un anneau régulier centré dans sa zone. Les étiquettes (noms courts)
+         passent sous chaque nœud, assez espacées pour ne jamais se chevaucher. */
+      const cx = W / 2, cy = H * 0.47;
+      const rx = Math.min(W * 0.34, 250), ry = Math.min(H * 0.34, 130);
+      const center = { id: "julio", label: "julio", x: cx, y: cy, r: 8, kind: "self", born: 0, phase: 0 };
+      nodes = [center];
+      projects.forEach((p, i) => {
+        const a = -Math.PI / 2 + (i / projects.length) * Math.PI * 2;
+        nodes.push({ id: p.id, label: p.id, kind: p.kind, project: p,
+          x: cx + Math.cos(a) * rx, y: cy + Math.sin(a) * ry, r: 6.5, born: 0.35 + i * 0.09, phase: rnd() * 6.28 });
       });
-    });
-    // hôtes de décor, plus discrets
-    const decor = mobile ? 10 : 26;
-    for (let i = 0; i < decor; i++) {
-      const x = mobile ? rnd() * W : textRight + 20 + rnd() * (W - textRight - 20);
-      const y = mobile ? 70 + rnd() * H * 0.26 : 80 + rnd() * (H - 140);
-      nodes.push({ id: "d" + i, x, y, r: 2.2 + rnd() * 1.6, kind: "decor", born: 0.2 + rnd() * 0.9, phase: rnd() * 6.28 });
+      const main = nodes.slice();
+      // hôtes de décor : jamais collés à un nœud ou à son étiquette
+      for (let i = 0, tries = 0; i < 12 && tries < 400; tries++) {
+        const x = 14 + rnd() * (W - 28), y = 14 + rnd() * (H - 28);
+        if (main.some(m => Math.abs(m.x - x) < 46 && y > m.y - 16 && y < m.y + 34)) continue;
+        nodes.push({ id: "d" + i++, x, y, r: 1.8 + rnd() * 1.4, kind: "decor", born: 0.2 + rnd() * 0.9, phase: rnd() * 6.28 });
+      }
+    } else {
+      // grand écran : la carte occupe la colonne de droite sans passer sous le texte
+      const textRight = (document.querySelector(".hero-copy")?.getBoundingClientRect().right ?? W * 0.5) - r.left;
+      const cx = (textRight + W) / 2 + 10, cy = H * 0.53;
+      const rx = Math.max(120, Math.min((W - textRight) / 2 - 130, 330));
+      const ry = Math.min(H * 0.32, 300);
+      const center = { id: "julio", label: "julio", x: cx, y: cy, r: 9, kind: "self", born: 0, phase: 0 };
+      nodes = [center];
+      projects.forEach((p, i) => {
+        const a = -Math.PI / 2 + (i / projects.length) * Math.PI * 2 + 0.25;
+        const j = 0.82 + rnd() * 0.3;
+        nodes.push({
+          id: p.id, label: p.name, kind: p.kind, project: p,
+          x: cx + Math.cos(a) * rx * j, y: cy + Math.sin(a) * ry * j,
+          r: 7, born: 0.35 + i * 0.09, phase: rnd() * 6.28,
+        });
+      });
+      for (let i = 0; i < 26; i++) {
+        const x = textRight + 20 + rnd() * (W - textRight - 20);
+        const y = 80 + rnd() * (H - 140);
+        nodes.push({ id: "d" + i, x, y, r: 2.2 + rnd() * 1.6, kind: "decor", born: 0.2 + rnd() * 0.9, phase: rnd() * 6.28 });
+      }
     }
+    const center = nodes[0];
     nodes.forEach(n => { n.bx = n.x; n.by = n.y; });
 
     edges = [];
@@ -163,25 +184,34 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
         if (isHover) { ctx.fillStyle = ctx.strokeStyle; ctx.beginPath(); ctx.arc(n.x, n.y, r * 0.42, 0, 7); ctx.fill(); }
       }
 
-      // étiquette
-      ctx.font = `${isHover ? 650 : 500} ${isHover ? 16 : (mobile ? 12 : 13.5)}px "Sora", system-ui, sans-serif`;
-      // étiquette du côté extérieur, sauf si elle sortirait de l'écran
-      const lw = ctx.measureText(n.label).width;
-      let right = n.x >= nodes[0].x ? 1 : -1;
-      if (right > 0 && n.x + r + 10 + lw > W - 12) right = -1;
-      if (right < 0 && n.x - r - 10 - lw < 12) right = 1;
-      const tx = n.x + right * (r + (n.kind === "self" ? 22 : 10));
-      ctx.textAlign = right > 0 ? "left" : "right";
-      ctx.fillStyle = n.kind === "self" ? colors.signal : colors.ink;
+      // étiquette (l'onde du centre a modifié l'opacité : on la rétablit)
+      ctx.globalAlpha = (dim ? 0.35 : 1) * p;
+      ctx.font = `${isHover ? 600 : 500} ${isHover && !mobile ? 16 : (mobile ? 12 : 14)}px ${mobile ? MONO : FONT}`;
       const label = n.label;
+      const lw = ctx.measureText(label).width;
+      let tx, ty = n.y;
+      if (mobile) {
+        // sous le nœud, centrée, sans sortir de la zone
+        ctx.textAlign = "center";
+        tx = Math.min(W - lw / 2 - 8, Math.max(lw / 2 + 8, n.x));
+        ty = n.y + r + (n.kind === "self" ? 16 : 13);
+      } else {
+        // du côté extérieur, sauf si elle sortirait de l'écran
+        let right = n.x >= nodes[0].x ? 1 : -1;
+        if (right > 0 && n.x + r + 10 + lw > W - 12) right = -1;
+        if (right < 0 && n.x - r - 10 - lw < 12) right = 1;
+        tx = n.x + right * (r + (n.kind === "self" ? 22 : 10));
+        ctx.textAlign = right > 0 ? "left" : "right";
+      }
+      ctx.fillStyle = n.kind === "self" ? colors.signal : colors.ink;
       // halo pour rester lisible sur la grille
-      ctx.lineWidth = 4; ctx.strokeStyle = colors.bg; ctx.strokeText(label, tx, n.y);
-      ctx.fillText(label, tx, n.y);
-      if (isHover && n.project) {
-        ctx.font = `400 12px "Bitcount Single", monospace`;
+      ctx.lineWidth = 4; ctx.strokeStyle = colors.bg; ctx.strokeText(label, tx, ty);
+      ctx.fillText(label, tx, ty);
+      if (isHover && n.project && !mobile) {
+        ctx.font = `400 12px ${MONO}`;
         ctx.fillStyle = colors.muted;
         const sub = KINDS[n.kind];
-        ctx.strokeText(sub, tx, n.y + 18); ctx.fillText(sub, tx, n.y + 18);
+        ctx.strokeText(sub, tx, ty + 18); ctx.fillText(sub, tx, ty + 18);
       }
     }
     ctx.globalAlpha = 1;
@@ -194,7 +224,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
   }
 
   function pick(x, y) {
-    let best = null, bd = mobile ? 34 : 26;
+    let best = null, bd = mobile ? 30 : 26;
     for (const n of nodes) {
       if (!n.project) continue;
       const d = Math.hypot(n.x - x, n.y - y);

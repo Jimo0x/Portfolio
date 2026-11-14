@@ -1,4 +1,4 @@
-/* Palette de commandes (Ctrl+K) : projets, sections, thèmes et actions au clavier. */
+/* Palette de commandes (Ctrl+K) : projets, pages et actions au clavier. */
 
 import { PROJECTS, KINDS, PROFILE } from "./data.js";
 
@@ -10,15 +10,14 @@ export function initPalette({ openProject, openTerminal, copyEmail }) {
   const list = document.getElementById("paletteList");
   let items = [], sel = 0, lastFocus = null;
 
-  const goto = id => () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const go = href => () => { location.href = href; };
   const ALL = [
-    ...PROJECTS.map(p => ({ label: p.name, hint: "Projet, " + KINDS[p.kind].toLowerCase(), keys: p.tagline, run: () => openProject(p.id) })),
-    { label: "Projets", hint: "Section", run: goto("projets") },
-    { label: "Rapport (chiffres clés)", hint: "Section", run: goto("chiffres") },
-    { label: "Services", hint: "Section", run: goto("services") },
-    { label: "Compétences", hint: "Section", run: goto("competences") },
-    { label: "Parcours", hint: "Section", run: goto("parcours") },
-    { label: "Contact", hint: "Section", run: goto("contact") },
+    ...PROJECTS.map(p => ({ label: p.name, hint: "Projet, " + KINDS[p.kind].toLowerCase(), keys: p.tagline + " " + p.stack.join(" "), run: () => openProject(p.id) })),
+    { label: "Accueil", hint: "Page", keys: "home carte reseau rapport", run: go("/") },
+    { label: "Tous les projets", hint: "Page", keys: "projets travaux", run: go("/projets/") },
+    { label: "Services", hint: "Page", keys: "pentest audit developpement offre methode", run: go("/services/") },
+    { label: "À propos", hint: "Page", keys: "parcours competences formation bio", run: go("/a-propos/") },
+    { label: "Contact", hint: "Page", keys: "email telephone ecrire", run: go("/contact/") },
     { label: "Copier l'adresse email", hint: PROFILE.email, keys: "mail contact", run: copyEmail },
     { label: "Ouvrir le terminal", hint: "Raccourci `", keys: "console shell", run: openTerminal },
     { label: "Profil GitHub", hint: "github.com/" + PROFILE.handle, keys: "code", run: () => window.open(PROFILE.github, "_blank", "noopener") },
@@ -30,7 +29,7 @@ export function initPalette({ openProject, openTerminal, copyEmail }) {
     sel = Math.min(sel, Math.max(0, items.length - 1));
     list.innerHTML = items.length
       ? items.map((i, k) => `<li role="option" id="pal-${k}" aria-selected="${k === sel}" data-k="${k}"><span>${i.label}</span><small>${i.hint}</small></li>`).join("")
-      : `<li class="empty">Aucun résultat pour « ${input.value.replace(/[<>&]/g, "")} ». Essaie un nom de projet ou « thème ».</li>`;
+      : `<li class="empty">Aucun résultat pour « ${input.value.replace(/[<>&]/g, "")} ». Essaie un nom de projet ou de page.</li>`;
     input.setAttribute("aria-activedescendant", items.length ? "pal-" + sel : "");
     list.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: "nearest" });
   }
