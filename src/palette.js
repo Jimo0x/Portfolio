@@ -14,7 +14,7 @@ export function initPalette({ openProject, openTerminal, copyEmail }) {
   const ALL = [
     ...PROJECTS.map(p => ({ label: p.name, hint: "Projet, " + KINDS[p.kind].toLowerCase(), keys: p.tagline, run: () => openProject(p.id) })),
     { label: "Projets", hint: "Section", run: goto("projets") },
-    { label: "Chiffres clés", hint: "Section", run: goto("chiffres") },
+    { label: "Rapport (chiffres clés)", hint: "Section", run: goto("chiffres") },
     { label: "Services", hint: "Section", run: goto("services") },
     { label: "Compétences", hint: "Section", run: goto("competences") },
     { label: "Parcours", hint: "Section", run: goto("parcours") },

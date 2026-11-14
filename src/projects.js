@@ -26,9 +26,10 @@ function renderFilters() {
     if (!b) return;
     box.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
     const f = b.dataset.filter;
-    const rows = [...document.querySelectorAll(".card")];
-    // FLIP : les lignes restantes glissent à leur nouvelle place
+    const rows = [...document.querySelectorAll(".tile")];
+    // FLIP : les tuiles restantes glissent à leur nouvelle place
     const before = new Map(rows.map(r => { const b = r.getBoundingClientRect(); return [r, { x: b.left, y: b.top, shown: !r.hidden }]; }));
+    $("projectList").classList.toggle("filtered", f !== "all");
     rows.forEach(r => (r.hidden = f !== "all" && r.dataset.kind !== f));
     rows.filter(r => !r.hidden).forEach((r, i) => {
       const b = r.getBoundingClientRect(), old = before.get(r);
@@ -39,26 +40,31 @@ function renderFilters() {
   });
 }
 
-/* ---------------- cartes ---------------- */
-function cardMedia(p) {
-  if (p.images[0]) return `<img src="${imageUrl(p.images[0])}" alt="" loading="lazy">`;
-  const code = esc(p.code || p.name).replace(/BLOCK/, "<b>BLOCK</b>");
-  return `<pre>${code}</pre>`;
+/* ---------------- grille bento ---------------- */
+// largeur de chaque tuile sur 6 colonnes : un rythme irrégulier, pas une grille de cartes identiques
+const SPANS = [4, 2, 2, 4, 3, 3, 6];
+
+function tileMedia(p) {
+  if (p.images[0]) return `<div class="tile-media"><img src="${imageUrl(p.images[0])}" alt="" loading="lazy"></div>`;
+  return `<pre class="tile-code">${esc(p.code || p.name).replace(/BLOCK/, "<b>BLOCK</b>")}</pre>`;
 }
 
 function renderList() {
-  $("projectList").innerHTML = PROJECTS.map((p, i) => `
-    <article class="card reveal" data-kind="${p.kind}" data-id="${p.id}" style="--d:${(i % 2) * 0.08}s">
+  $("projectList").innerHTML = PROJECTS.map((p, i) => {
+    const span = SPANS[i % SPANS.length];
+    return `
+    <article class="tile reveal ${span >= 4 ? "big" : ""}" data-kind="${p.kind}" data-id="${p.id}" style="--span:${span};--d:${(i % 3) * 0.07}s">
       <a class="cover" href="#projet-${p.id}" aria-label="Voir le projet ${esc(p.name)}"></a>
-      <div class="card-media"><span class="corner tl"></span><span class="corner br"></span>${cardMedia(p)}</div>
-      <div class="card-body">
-        <span class="kind">${KINDS[p.kind]}</span>
+      ${tileMedia(p)}
+      <div class="tile-top"><span class="id">#${String(i + 1).padStart(2, "0")}</span><span>${KINDS[p.kind].toLowerCase()}</span></div>
+      <div class="tile-body">
         <h3>${esc(p.name)}</h3>
         <p>${esc(p.tagline)}</p>
-        <div class="tags">${p.stack.slice(0, 4).map(t => `<span>${esc(t)}</span>`).join("")}</div>
-        <span class="more">Voir le projet ${ARROW}</span>
+        <div class="stack">${p.stack.slice(0, 4).map(t => `<span>${esc(t)}</span>`).join("")}</div>
       </div>
-    </article>`).join("");
+      <span class="open" aria-hidden="true">${ARROW}</span>
+    </article>`;
+  }).join("");
 }
 
 /* ---------------- page projet ---------------- */

@@ -4,14 +4,19 @@ Portfolio de **Julio Dahou**, spécialiste cybersécurité et développeur (Coto
 
 ## Ce qu'on y trouve
 
-- **Un seul thème, noir et rouge** : Sora pour les titres et le texte, Bitcount (police pixel) pour les étiquettes, et des sections numérotées.
-- **Une carte réseau interactive en ouverture** : chaque projet est un hôte relié à « julio ». Le survol isole un nœud, le clic ouvre le projet.
-- **Une constellation rouge en fond de page**, avec des lignes de guide et un menu vertical à droite (en bas sur mobile).
-- **Des chiffres clés animés**, **des cartes projet** (filtrables, avec balayage lumineux au survol), **un carrousel de services** et **des compétences qui défilent**.
-- **Une page par projet** (`#projet-<id>`) avec un lien partageable.
-- **Une palette de commandes** (<kbd>Ctrl</kbd>+<kbd>K</kbd>) et **un terminal** (<kbd>`</kbd>).
-- **Des animations** : ouverture en rideau, titre qui se déchiffre, bouton à texte circulaire, curseur réactif, boutons magnétiques, titres qui montent depuis un masque, barre de progression et signature géante en pied de page.
-- Le site est utilisable au clavier et respecte `prefers-reduced-motion`.
+Le site est pensé comme le poste de travail d'un opérateur sécurité : noir, rouge carmin et blanc cassé, **Chakra Petch** pour les titres et **JetBrains Mono** pour tout ce qui sort d'une machine.
+
+- **Démarrage** : une courte séquence de boot (`[ ok ] chargement du noyau`…), une fois par visite.
+- **Titres caviardés** : une partie de chaque titre est cachée sous une barre rouge qui se retire, comme un document déclassifié.
+- **Carte réseau interactive** : chaque projet est un hôte relié à « julio ». Clique sur un nœud pour ouvrir le projet.
+- **Barre d'état façon tmux** en bas de l'écran : les sections (`0:accueil`, `2:projets`…), la progression et l'heure à Cotonou.
+- **Rapport** : les chiffres clés sortent comme un rapport de scan, avec des barres qui se remplissent.
+- **Projets en grille asymétrique**, avec des captures en noir et blanc qui reprennent leurs couleurs et un léger glitch au survol.
+- **Services dans une console** : on choisit une commande, la réponse s'écrit.
+- **Compétences en scan de ports** (`1379/tcp ouvert Python`).
+- **Contact en poignée de main TCP** : SYN, SYN-ACK, ACK, puis l'email.
+- **Pages projet** avec lien partageable (`#projet-<id>`), **palette de commandes** (<kbd>Ctrl</kbd>+<kbd>K</kbd>) et **terminal** (<kbd>`</kbd>).
+- Utilisable au clavier, respecte `prefers-reduced-motion`.
 
 ## Lancer en local
 
@@ -31,8 +36,8 @@ src/network.js    carte réseau du héro (canvas)
 src/projects.js   liste filtrable, aperçu au survol, pages projet
 src/palette.js    palette de commandes
 src/terminal.js   terminal
-src/fx.js         titre décodé, chiffres clés, services, navigation, parcours
-src/motion.js     ouverture, curseur, constellation, bandeaux, titres masqués, signature
+src/fx.js         titre décodé, rapport, console des services, scan, barre d'état, parcours
+src/motion.js     démarrage, curseur, bandeau, titres masqués, signature
 src/style.css     styles (un seul thème)
 public/assets/    captures des projets
 ```
