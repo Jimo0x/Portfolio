@@ -9,9 +9,9 @@ Le site est pensé comme le poste de travail d'un opérateur sécurité : noir, 
 - **Démarrage** : une courte séquence de boot (`[ ok ] chargement du noyau`…), une fois par visite.
 - **Titres caviardés** : une partie de chaque titre est cachée sous une barre rouge qui se retire, comme un document déclassifié.
 - **Carte réseau interactive** : chaque projet est un hôte relié à « julio ». Clique sur un nœud pour ouvrir le projet.
-- **Barre d'état façon tmux** en bas de l'écran : les sections (`0:accueil`, `2:projets`…), la progression et l'heure à Cotonou.
+- **Barre latérale repliable** à gauche : icônes seules ou icônes + libellés (bouton ou touche <kbd>[</kbd>), sections, outils, progression de lecture et heure à Cotonou. Sur mobile, elle s'ouvre en tiroir.
 - **Rapport** : les chiffres clés sortent comme un rapport de scan, avec des barres qui se remplissent.
-- **Projets en grille asymétrique**, avec des captures en noir et blanc qui reprennent leurs couleurs et un léger glitch au survol.
+- **Projets dans des fenêtres** : chaque capture est présentée en couleur dans une fenêtre qui s'incline vers le curseur et fait défiler la page au survol. Le premier projet est mis en vedette.
 - **Services dans une console** : on choisit une commande, la réponse s'écrit.
 - **Compétences en scan de ports** (`1379/tcp ouvert Python`).
 - **Contact en poignée de main TCP** : SYN, SYN-ACK, ACK, puis l'email.
