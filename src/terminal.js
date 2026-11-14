@@ -26,7 +26,7 @@ export function run(input) {
         L("  repo <projet>     ouvrir le code sur GitHub"),
         L("  skills            compétences"),
         L("  contact           me contacter"),
-        L("  goto <section>    accueil, rapport, projets, services, competences, parcours, contact"),
+        L("  goto <page>       accueil, projets, services, a-propos, contact"),
         L("  clear / exit"),
       ];
     case "whoami":
@@ -53,10 +53,11 @@ export function run(input) {
       return STACK.map(s => L(`  ${s.group.padEnd(18)}${s.items.join(", ")}`));
     case "contact":
       return [L(`  email   ${PROFILE.email}`, "link", `mailto:${PROFILE.email}`), L(`  github  ${PROFILE.github}`, "link", PROFILE.github)];
-    case "goto": {
-      const ok = { accueil: "accueil", rapport: "chiffres", chiffres: "chiffres", projets: "projets", services: "services", competences: "competences", stack: "competences", parcours: "parcours", contact: "contact" };
-      if (!ok[arg]) return [L(`goto: section inconnue. Choix : ${Object.keys(ok).filter(k => k !== "stack").join(", ")}`, "err")];
-      return { action: "goto", id: ok[arg], lines: [] };
+    case "goto": case "cd": {
+      const ok = { accueil: "/", "~": "/", "/": "/", "..": "/", projets: "/projets/", services: "/services/", "a-propos": "/a-propos/", apropos: "/a-propos/", parcours: "/a-propos/", competences: "/a-propos/", contact: "/contact/" };
+      const key = arg.replace(/^~?\//, "").replace(/\/$/, "") || "accueil";
+      if (!ok[key]) return [L(`${cmd}: page inconnue. Choix : accueil, projets, services, a-propos, contact`, "err")];
+      return { action: "goto", href: ok[key], lines: [L(`Ouverture de ${ok[key]}`, "dim")] };
     }
     case "clear": return { action: "clear", lines: [] };
     case "exit": case "quit": return { action: "close", lines: [] };
@@ -67,10 +68,11 @@ export function run(input) {
 }
 
 export function complete(input) {
-  const words = ["help", "whoami", "ls", "cat", "open", "repo", "skills", "contact", "goto", "clear", "exit"];
+  const words = ["help", "whoami", "ls", "cat", "open", "repo", "skills", "contact", "goto", "cd", "clear", "exit"];
   const parts = input.split(" ");
   const pick = (list, w) => { const m = list.filter(x => x.startsWith(w.toLowerCase())); return m.length === 1 ? m[0] : null; };
   if (parts.length === 1) { const m = pick(words, parts[0]); return m ? m + " " : input; }
+  if (["goto", "cd"].includes(parts[0])) { const m = pick(["accueil", "projets", "services", "a-propos", "contact"], parts[1]); return m ? `${parts[0]} ${m}` : input; }
   if (["cat", "open", "repo"].includes(parts[0])) { const m = pick(PROJECTS.map(p => p.id), parts[1]); return m ? `${parts[0]} ${m}` : input; }
   return input;
 }
@@ -124,7 +126,7 @@ export function initTerminal({ openProject }) {
     if (res.action === "close") close();
     if (res.action === "url") window.open(res.url, "_blank", "noopener");
     if (res.action === "project") { close(false); openProject(res.id); }
-    if (res.action === "goto") { close(false); document.getElementById(res.id)?.scrollIntoView({ behavior: "smooth" }); }
+    if (res.action === "goto") { close(false); location.href = res.href; }
   });
   field.addEventListener("keydown", e => {
     if (e.key === "Tab") { e.preventDefault(); field.value = complete(field.value); }
