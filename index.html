@@ -1,48 +1,44 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="obsidienne">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Julio Dahou, cybersécurité et développement</title>
 <meta name="description" content="Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Outils de sécurité, applications web et un jeu de hacking.">
-<meta name="theme-color" content="#09080a">
+<meta name="theme-color" content="#000000">
 <meta property="og:title" content="Julio Dahou, cybersécurité et développement">
 <meta property="og:description" content="Outils de sécurité, applications web et un metroidvania de hacking.">
 <meta property="og:image" content="/assets/BREACH.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f2238'/%3E%3Ccircle cx='10' cy='11' r='3' fill='%23e5484d'/%3E%3Ccircle cx='22' cy='21' r='3' fill='%23fff'/%3E%3Cpath d='M10 11 22 21' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
-<!-- Le thème choisi est appliqué avant le premier rendu : pas de flash. -->
-<script>
-  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Ccircle cx='10' cy='11' r='3.4' fill='%23ff2424'/%3E%3Ccircle cx='22' cy='21' r='3' fill='%23fff'/%3E%3Cpath d='M10 11 22 21' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300..800&family=Bitcount+Single&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
-<!-- Ouverture : une seule fois par visite -->
 <div class="intro" id="intro" aria-hidden="true">
   <div class="intro-name"><span>Julio</span> <span>Dahou</span></div>
   <div class="intro-line"></div>
-  <p class="intro-sub">Cybersécurité et développement</p>
+  <p class="intro-sub">Initialisation du réseau</p>
 </div>
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
-<div class="grain" aria-hidden="true"></div>
+<canvas id="stars" class="stars" aria-hidden="true"></canvas>
+<div class="guides" aria-hidden="true"><i></i><i></i></div>
 <a class="skip" href="#projets">Aller aux projets</a>
 
+<!-- ============ BARRE DU HAUT ============ -->
 <header class="topbar" id="topbar">
-  <a class="brand" href="#top" aria-label="Retour en haut">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="3.2"/><circle cx="23" cy="22" r="3.2"/><circle cx="23" cy="8" r="2.2"/><path d="M9 10 23 22M9 10 23 8"/></svg>
-    <span>Julio Dahou</span>
+  <a class="brand" href="#accueil" aria-label="Julio Dahou, retour à l'accueil">
+    <span class="brand-mark">JD</span><span class="brand-dot"></span>
   </a>
-  <nav class="links" aria-label="Sections">
-    <a href="#projets">Projets</a>
-    <a href="#parcours">Parcours</a>
-    <a href="#stack">Compétences</a>
-    <a href="#contact">Contact</a>
-    <span class="nav-ink" aria-hidden="true"></span>
-  </nav>
   <div class="tools">
+    <a class="tool" href="https://github.com/Jimo0x" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
+    </a>
+    <a class="tool" href="mailto:juliodh2006@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg>
+    </a>
+    <span class="sep" aria-hidden="true"></span>
     <button class="tool" id="paletteBtn" type="button" aria-label="Ouvrir la palette de commandes">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg>
       <kbd class="hide-sm">Ctrl K</kbd>
@@ -50,80 +46,118 @@
     <button class="tool" id="termBtn" type="button" aria-label="Ouvrir le terminal" data-terminal>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 7 5 5-5 5M12 18h7"/></svg>
     </button>
-    <div class="theme-pick">
-      <button class="tool" id="themeBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Changer de thème">
-        <span class="swatch" aria-hidden="true"></span>
-      </button>
-      <div class="theme-menu" id="themeMenu" role="menu" hidden></div>
-    </div>
   </div>
 </header>
 
-<main id="top">
-  <!-- ============ HÉRO : la carte réseau est la navigation ============ -->
-  <section class="hero" aria-labelledby="heroTitle">
+<!-- ============ MENU VERTICAL ============ -->
+<nav class="rail" id="rail" aria-label="Sections">
+  <a href="#accueil" data-label="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg></a>
+  <a href="#chiffres" data-label="Chiffres clés"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></a>
+  <a href="#projets" data-label="Projets"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="8" height="7"/><rect x="13" y="4" width="8" height="7"/><rect x="3" y="13" width="8" height="7"/><rect x="13" y="13" width="8" height="7"/></svg></a>
+  <a href="#services" data-label="Services"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></svg></a>
+  <a href="#competences" data-label="Compétences"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg></a>
+  <a href="#parcours" data-label="Parcours"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M6 7h6M12 13h6M6 19h6"/></svg></a>
+  <a href="#contact" data-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg></a>
+</nav>
+
+<main>
+  <!-- ============ 01 ACCUEIL ============ -->
+  <section class="hero" id="accueil" aria-labelledby="heroTitle">
     <div class="aura" aria-hidden="true"></div>
     <canvas id="netmap" aria-hidden="true"></canvas>
     <div class="hero-copy">
-      <p class="hello">Julio Dahou, Cotonou, ouvert au remote</p>
-      <h1 id="heroTitle" class="decode">Je casse des systèmes pour apprendre à les protéger, et j'en construis aussi.</h1>
-      <p class="lede">Spécialiste cybersécurité et développeur : pentest, analyse SOC, C, Python et web. Chaque nœud de la carte est un projet, clique dessus.</p>
+      <p class="label">01 / Accueil</p>
+      <h1 id="heroTitle"><span class="decode">Je casse des systèmes</span> <em class="decode">pour mieux les protéger.</em></h1>
+      <p class="lede">Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Pentest, analyse SOC, C, Python et web.</p>
       <div class="cta">
-        <a class="btn primary" href="#projets">Voir les projets</a>
-        <a class="btn" href="#contact">Me contacter</a>
+        <a class="orbit" href="#projets" aria-label="Voir les projets">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <defs><path id="circ" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs>
+            <text><textPath href="#circ">voir les projets ✦ voir les projets ✦ </textPath></text>
+          </svg>
+          <span class="orbit-core"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="btn ghost" href="#contact">Me contacter</a>
       </div>
     </div>
+    <p class="map-hint" id="mapHint" aria-hidden="true">Chaque nœud est un projet : clique dessus</p>
     <ul class="node-list" id="nodeList" aria-label="Projets sur la carte"></ul>
-    <p class="map-hint" id="mapHint" aria-hidden="true">Survole un nœud</p>
   </section>
 
   <!-- ============ BANDEAU ============ -->
   <div class="ticker" aria-hidden="true">
     <div class="ticker-row" id="tickerA"></div>
-    <div class="ticker-row reverse" id="tickerB"></div>
   </div>
 
-  <!-- ============ PROJETS ============ -->
-  <section class="block" id="projets" aria-labelledby="projTitle">
-    <div class="block-head">
-      <h2 id="projTitle">Projets</h2>
-      <div class="filters" role="group" aria-label="Filtrer les projets" id="filters"></div>
-    </div>
-    <ol class="project-list" id="projectList"></ol>
-    <div class="peek" id="peek" aria-hidden="true"><img alt=""></div>
+  <!-- ============ 02 CHIFFRES ============ -->
+  <section class="block" id="chiffres" aria-labelledby="statsTitle">
+    <p class="label">02 / Chiffres clés</p>
+    <h2 id="statsTitle">Le travail <em>en chiffres</em></h2>
+    <div class="stats" id="stats"></div>
   </section>
 
-  <!-- ============ PARCOURS ============ -->
+  <!-- ============ 03 PROJETS ============ -->
+  <section class="block" id="projets" aria-labelledby="projTitle">
+    <p class="label">03 / Projets</p>
+    <div class="block-head">
+      <h2 id="projTitle">Projets <em>réalisés</em></h2>
+      <div class="filters" role="group" aria-label="Filtrer les projets" id="filters"></div>
+    </div>
+    <div class="cards" id="projectList"></div>
+  </section>
+
+  <!-- ============ 04 SERVICES ============ -->
+  <section class="block" id="services" aria-labelledby="servTitle">
+    <p class="label">04 / Services</p>
+    <div class="block-head">
+      <h2 id="servTitle">Ce que je <em>peux faire</em></h2>
+      <p class="intro-text">Sécurité offensive, développement et automatisation : de l'audit d'une application à sa construction.</p>
+    </div>
+    <div class="slider" id="slider" aria-roledescription="carrousel" aria-label="Services">
+      <div class="slide-stage" id="slideStage" aria-live="polite"></div>
+      <div class="slider-ctrl">
+        <button class="btn ghost small" type="button" id="prevService" aria-label="Service précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <span class="slide-count" id="slideCount"></span>
+        <button class="btn ghost small" type="button" id="nextService">Service suivant <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 COMPÉTENCES ============ -->
+  <section class="block" id="competences" aria-labelledby="skillTitle">
+    <p class="label">05 / Compétences</p>
+    <h2 id="skillTitle">Technologies <em>maîtrisées</em></h2>
+  </section>
+  <div class="skills-marquee" id="skills"></div>
+  <div class="block skills-groups" id="stackGrid"></div>
+
+  <!-- ============ 06 PARCOURS ============ -->
   <section class="block" id="parcours" aria-labelledby="pathTitle">
-    <div class="block-head"><h2 id="pathTitle">Parcours</h2></div>
+    <p class="label">06 / Parcours</p>
+    <h2 id="pathTitle">Mon <em>parcours</em></h2>
     <div class="timeline" id="timeline"><span class="tl-track" aria-hidden="true"><span class="tl-fill"></span></span></div>
   </section>
 
-  <!-- ============ COMPÉTENCES ============ -->
-  <section class="block" id="stack" aria-labelledby="stackTitle">
-    <div class="block-head"><h2 id="stackTitle">Compétences</h2></div>
-    <div class="stack-grid" id="stackGrid"></div>
-  </section>
-
-  <!-- ============ CONTACT ============ -->
+  <!-- ============ 07 CONTACT ============ -->
   <section class="block contact" id="contact" aria-labelledby="contactTitle">
-    <h2 id="contactTitle">Un audit, un projet, un stage ?</h2>
+    <span class="ghost-word" aria-hidden="true">CONTACT</span>
+    <p class="label">07 / Contact</p>
+    <h2 id="contactTitle">Un audit, un projet, <em>un stage ?</em></h2>
     <p class="lede">Écris-moi, je réponds vite.</p>
-    <div class="mail-row">
-      <a class="mail" id="mailLink" href="mailto:juliodh2006@gmail.com">juliodh2006@gmail.com</a>
-      <button class="btn small" id="copyMail" type="button">Copier l'adresse</button>
+    <a class="mail" id="mailLink" href="mailto:juliodh2006@gmail.com">juliodh2006@gmail.com</a>
+    <div class="contact-actions">
+      <button class="btn" id="copyMail" type="button">Copier l'adresse</button>
+      <a class="btn ghost" href="https://github.com/Jimo0x" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn ghost" href="tel:+2290162257004">+229 01 62 25 70 04</a>
     </div>
-    <ul class="contact-links">
-      <li><a href="https://github.com/Jimo0x" target="_blank" rel="noopener">GitHub : Jimo0x</a></li>
-      <li><a href="tel:+2290162257004">+229 01 62 25 70 04</a></li>
-    </ul>
   </section>
 </main>
 
 <div class="wordmark" aria-hidden="true"><span id="wordmark">Julio Dahou</span></div>
 <footer class="foot">
-  <span>© 2026 Julio Dahou</span>
-  <span>Raccourcis : <kbd>Ctrl K</kbd> palette, <kbd>`</kbd> terminal, <kbd>T</kbd> thème</span>
+  <span class="brand-mark small">JD</span>
+  <span>© 2026 Julio Dahou, tous droits réservés</span>
+  <span class="keys"><kbd>Ctrl K</kbd> palette <kbd>`</kbd> terminal</span>
 </footer>
 
 <!-- Page projet -->
@@ -140,7 +174,7 @@
 <!-- Palette de commandes -->
 <div class="palette" id="palette" hidden>
   <div class="palette-box" role="dialog" aria-modal="true" aria-label="Palette de commandes">
-    <input id="paletteInput" type="text" placeholder="Chercher un projet, une section, un thème…" autocomplete="off" spellcheck="false" aria-controls="paletteList">
+    <input id="paletteInput" type="text" placeholder="Chercher un projet ou une section…" autocomplete="off" spellcheck="false" aria-controls="paletteList">
     <ul id="paletteList" role="listbox"></ul>
   </div>
 </div>
