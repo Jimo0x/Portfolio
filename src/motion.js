@@ -73,7 +73,7 @@ export function initCursor() {
 
   const refresh = t => {
     if (!t) return;
-    const row = t.closest?.(".tile");
+    const row = t.closest?.(".work");
     const hot = t.closest?.("a, button, [role=option], input");
     const node = document.querySelector(".hero")?.style.cursor === "pointer";
     ring.classList.toggle("big", !!row || node);
@@ -116,26 +116,6 @@ export function initMagnetic(selector = ".btn, .tool, .sheet-close") {
 }
 
 /* ---------- Bandeau défilant ---------- */
-export function initTicker() {
-  const words = ["Analyser", "Casser", "Comprendre", "Corriger", "Documenter", "Construire", "Sécuriser"];
-  const row = document.getElementById("tickerA");
-  if (row) {
-    const chunk = words.map(w => `<span>${w}</span><i></i>`).join("");
-    row.innerHTML = `<div class="ticker-track">${chunk}${chunk}${chunk}${chunk}</div>`;
-  }
-  if (REDUCED) return;
-  // le bandeau accélère avec la vitesse de défilement
-  let last = scrollY, boost = 0;
-  const tracks = document.querySelectorAll(".ticker .ticker-track");
-  const tick = () => {
-    const v = Math.abs(scrollY - last); last = scrollY;
-    boost += (Math.min(v, 60) / 60 - boost) * 0.08;
-    tracks.forEach(r => r.style.setProperty("--boost", (1 + boost * 3).toFixed(2)));
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-}
-
 /* ---------- Titres de section : les mots montent depuis un masque ---------- */
 export function splitTitles(selector = ".block h2") {
   const els = document.querySelectorAll(selector);
