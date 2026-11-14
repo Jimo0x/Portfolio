@@ -4,15 +4,19 @@ Portfolio de **Julio Dahou**, spécialiste cybersécurité et développeur (Coto
 
 ## Ce qu'on y trouve
 
-- **Une carte réseau interactive en ouverture** : chaque projet est un hôte relié à « julio ». Des paquets circulent sur les liens, le survol isole un nœud et le clic ouvre le projet.
-- **Une page par projet** (`#projet-<id>`), avec captures, explications, points clés, technologies, lien vers le code et navigation précédent / suivant. Chaque page a son propre lien, qu'on peut partager.
-- **6 thèmes** : Obsidienne (noir et rouge, par défaut), Améthyste (violet), Plan (clair), Nuit, Phosphore (CRT vert) et Ambre. On passe de l'un à l'autre par une transition circulaire, et le choix est mémorisé.
-- **Animations** : ouverture en rideau (une fois par visite), titre qui se déchiffre, aura qui suit la souris, curseur qui réagit aux liens et aux projets, boutons magnétiques avec reflet, bandeau défilant qui accélère avec le scroll, titres qui montent depuis un masque, barre de progression, et signature géante qui se remplit en bas de page.
-- **Une liste de projets filtrable**, avec un aperçu qui suit le curseur.
-- **Une palette de commandes** (<kbd>Ctrl</kbd>+<kbd>K</kbd>) pour aller à un projet, une section, un thème ou copier l'email.
-- **Un terminal** (<kbd>`</kbd>) avec les commandes `ls`, `cat breach`, `open frixx`, `repo recon`, `theme nuit`, `goto contact`…
-- Le raccourci <kbd>T</kbd> change de thème, et un code Konami est caché quelque part.
-- Le site est utilisable au clavier et respecte `prefers-reduced-motion`. La carte réseau s'arrête quand elle sort de l'écran.
+Le site est pensé comme le poste de travail d'un opérateur sécurité : noir, rouge carmin et blanc cassé, **Chakra Petch** pour les titres et **JetBrains Mono** pour tout ce qui sort d'une machine.
+
+- **Démarrage** : une courte séquence de boot (`[ ok ] chargement du noyau`…), une fois par visite.
+- **Titres caviardés** : une partie de chaque titre est cachée sous une barre rouge qui se retire, comme un document déclassifié.
+- **Carte réseau interactive** : chaque projet est un hôte relié à « julio ». Clique sur un nœud pour ouvrir le projet.
+- **Barre d'état façon tmux** en bas de l'écran : les sections (`0:accueil`, `2:projets`…), la progression et l'heure à Cotonou.
+- **Rapport** : les chiffres clés sortent comme un rapport de scan, avec des barres qui se remplissent.
+- **Projets en grille asymétrique**, avec des captures en noir et blanc qui reprennent leurs couleurs et un léger glitch au survol.
+- **Services dans une console** : on choisit une commande, la réponse s'écrit.
+- **Compétences en scan de ports** (`1379/tcp ouvert Python`).
+- **Contact en poignée de main TCP** : SYN, SYN-ACK, ACK, puis l'email.
+- **Pages projet** avec lien partageable (`#projet-<id>`), **palette de commandes** (<kbd>Ctrl</kbd>+<kbd>K</kbd>) et **terminal** (<kbd>`</kbd>).
+- Utilisable au clavier, respecte `prefers-reduced-motion`.
 
 ## Lancer en local
 
@@ -30,15 +34,12 @@ src/data.js       TOUT le contenu : projets, parcours, compétences, contact
 src/app.js        point d'entrée
 src/network.js    carte réseau du héro (canvas)
 src/projects.js   liste filtrable, aperçu au survol, pages projet
-src/theme.js      thèmes et transition
 src/palette.js    palette de commandes
 src/terminal.js   terminal
-src/fx.js         titre décodé, apparitions, navigation, parcours
-src/motion.js     ouverture, curseur, boutons magnétiques, bandeau, titres masqués, signature
-src/style.css     styles et variables des thèmes
+src/fx.js         titre décodé, rapport, console des services, scan, barre d'état, parcours
+src/motion.js     démarrage, curseur, bandeau, titres masqués, signature
+src/style.css     styles (un seul thème)
 public/assets/    captures des projets
 ```
 
 **Ajouter un projet** : ajoute une entrée dans `PROJECTS` (`src/data.js`) et sa capture dans `public/assets/`. La carte, la liste, la page projet, la palette et le terminal se mettent à jour tout seuls.
-
-**Ajouter un thème** : ajoute un bloc `[data-theme="…"]` dans `src/style.css` et une entrée dans `THEMES` (`src/theme.js`).

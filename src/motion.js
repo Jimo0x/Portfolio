@@ -11,12 +11,30 @@ export function playIntro() {
   let seen = false;
   try { seen = sessionStorage.getItem("intro") === "1"; sessionStorage.setItem("intro", "1"); } catch (e) {}
   if (!el) return Promise.resolve(0);
-  if (REDUCED || seen) { el.remove(); return Promise.resolve(0); }
+  // pas d'ouverture quand on arrive directement sur une page projet partagée
+  if (REDUCED || seen || location.hash.startsWith("#projet-")) { el.remove(); return Promise.resolve(0); }
   document.documentElement.classList.add("intro-on");
+  const boot = document.getElementById("boot");
+  const lines = [
+    ["chargement du noyau", "ok"],
+    ["montage de ~/projets", "ok"],
+    ["connexion au réseau", "ok"],
+    ["vérification des accès", "autorisé"],
+  ];
   return new Promise(resolve => {
-    requestAnimationFrame(() => el.classList.add("play"));
-    setTimeout(() => { el.classList.add("leave"); resolve(400); }, 1450);
-    setTimeout(() => { el.remove(); document.documentElement.classList.remove("intro-on"); }, 2300);
+    let i = 0;
+    const next = () => {
+      if (i < lines.length) {
+        const [txt, st] = lines[i++];
+        boot.insertAdjacentHTML("beforeend", `<span>[ <span class="ok">${st}</span> ] ${txt}</span>\n`);
+        setTimeout(next, 190);
+      } else {
+        boot.insertAdjacentHTML("beforeend", `<span class="big">Julio Dahou</span>`);
+        setTimeout(() => { el.classList.add("leave"); resolve(400); }, 650);
+        setTimeout(() => { el.remove(); document.documentElement.classList.remove("intro-on"); }, 1500);
+      }
+    };
+    setTimeout(next, 150);
   });
 }
 
@@ -55,7 +73,7 @@ export function initCursor() {
 
   const refresh = t => {
     if (!t) return;
-    const row = t.closest?.(".project-row");
+    const row = t.closest?.(".tile");
     const hot = t.closest?.("a, button, [role=option], input");
     const node = document.querySelector(".hero")?.style.cursor === "pointer";
     ring.classList.toggle("big", !!row || node);
@@ -99,23 +117,20 @@ export function initMagnetic(selector = ".btn, .tool, .sheet-close") {
 
 /* ---------- Bandeau défilant ---------- */
 export function initTicker() {
-  const A = ["Pentest", "Analyse SOC", "OSINT", "Supply chain", "Reconnaissance réseau", "Python", "C", "Next.js", "Supabase", "Django"];
-  const B = ["Je casse", "Je comprends", "Je corrige", "Je documente", "Je construis", "Je sécurise"];
-  const fill = (id, words) => {
-    const row = document.getElementById(id);
-    if (!row) return;
+  const words = ["Analyser", "Casser", "Comprendre", "Corriger", "Documenter", "Construire", "Sécuriser"];
+  const row = document.getElementById("tickerA");
+  if (row) {
     const chunk = words.map(w => `<span>${w}</span><i></i>`).join("");
-    row.innerHTML = `<div class="ticker-track">${chunk}${chunk}</div>`;
-  };
-  fill("tickerA", A); fill("tickerB", B);
-  // le bandeau accélère légèrement avec la vitesse de défilement
+    row.innerHTML = `<div class="ticker-track">${chunk}${chunk}${chunk}${chunk}</div>`;
+  }
   if (REDUCED) return;
+  // le bandeau accélère avec la vitesse de défilement
   let last = scrollY, boost = 0;
-  const rows = document.querySelectorAll(".ticker-track");
+  const tracks = document.querySelectorAll(".ticker .ticker-track");
   const tick = () => {
     const v = Math.abs(scrollY - last); last = scrollY;
     boost += (Math.min(v, 60) / 60 - boost) * 0.08;
-    rows.forEach(r => r.style.setProperty("--boost", (1 + boost * 3).toFixed(2)));
+    tracks.forEach(r => r.style.setProperty("--boost", (1 + boost * 3).toFixed(2)));
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
@@ -125,9 +140,15 @@ export function initTicker() {
 export function splitTitles(selector = ".block h2") {
   const els = document.querySelectorAll(selector);
   els.forEach(h => {
-    const words = h.textContent.trim().split(/\s+/);
     h.setAttribute("aria-label", h.textContent.trim());
-    h.innerHTML = words.map((w, i) => `<span class="w" aria-hidden="true"><span style="--i:${i}">${w}</span></span>`).join(" ");
+    let i = 0;
+    const parts = [];
+    h.childNodes.forEach(node => {
+      const red = node.nodeName === "EM";
+      node.textContent.split(/\s+/).filter(Boolean).forEach(w =>
+        parts.push(`<span class="w${red ? " red" : ""}" aria-hidden="true"><span style="--i:${i++}">${w}</span></span>`));
+    });
+    h.innerHTML = parts.join(" ");
     h.classList.add("split");
   });
   if (REDUCED) { els.forEach(h => h.classList.add("in")); return; }
@@ -172,14 +193,3 @@ export function initWordmark() {
   addEventListener("scroll", update, { passive: true }); update();
 }
 
-/* ---------- Aperçu de projet : inclinaison selon la vitesse de la souris ---------- */
-export function tiltPeek() {
-  const peek = document.getElementById("peek");
-  if (!peek || REDUCED || !FINE) return;
-  let lastX = 0, rot = 0;
-  addEventListener("pointermove", e => {
-    const v = e.clientX - lastX; lastX = e.clientX;
-    rot += (Math.max(-12, Math.min(12, v * 0.6)) - rot) * 0.25;
-    peek.style.setProperty("--rot", rot.toFixed(2) + "deg");
-  }, { passive: true });
-}

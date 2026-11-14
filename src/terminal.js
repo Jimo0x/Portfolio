@@ -2,7 +2,6 @@
    Ouverture : bouton du haut ou touche ` (backtick). */
 
 import { PROJECTS, KINDS, PROFILE, STACK } from "./data.js";
-import { THEMES, setTheme, currentTheme } from "./theme.js";
 
 const L = (text, cls, href) => ({ text, cls, href });
 
@@ -25,10 +24,9 @@ export function run(input) {
         L("  cat <projet>      résumé d'un projet (ex: cat breach)"),
         L("  open <projet>     ouvrir la page du projet"),
         L("  repo <projet>     ouvrir le code sur GitHub"),
-        L("  theme [nom]       changer de thème (obsidienne, amethyste, plan…)"),
         L("  skills            compétences"),
         L("  contact           me contacter"),
-        L("  goto <section>    projets, parcours, stack, contact"),
+        L("  goto <section>    accueil, rapport, projets, services, competences, parcours, contact"),
         L("  clear / exit"),
       ];
     case "whoami":
@@ -51,19 +49,13 @@ export function run(input) {
       if (!p.repo) return [L(`${p.name} est un dépôt privé.`, "dim")];
       return { action: "url", url: p.repo, lines: [L(`Ouverture de ${p.repo}`, "dim")] };
     }
-    case "theme": {
-      if (!arg) return [L(`thème actuel : ${currentTheme()}`), L(`disponibles : ${THEMES.map(t => t.id).join(", ")}`, "dim")];
-      const t = THEMES.find(x => x.id === arg || x.name.toLowerCase() === arg);
-      if (!t) return [L(`theme: ${arg}: inconnu. Choix : ${THEMES.map(x => x.id).join(", ")}`, "err")];
-      return { action: "theme", id: t.id, lines: [L(`Thème ${t.name} appliqué.`, "dim")] };
-    }
     case "skills":
       return STACK.map(s => L(`  ${s.group.padEnd(18)}${s.items.join(", ")}`));
     case "contact":
       return [L(`  email   ${PROFILE.email}`, "link", `mailto:${PROFILE.email}`), L(`  github  ${PROFILE.github}`, "link", PROFILE.github)];
     case "goto": {
-      const ok = { projets: "projets", parcours: "parcours", stack: "stack", competences: "stack", contact: "contact" };
-      if (!ok[arg]) return [L(`goto: section inconnue. Choix : projets, parcours, stack, contact`, "err")];
+      const ok = { accueil: "accueil", rapport: "chiffres", chiffres: "chiffres", projets: "projets", services: "services", competences: "competences", stack: "competences", parcours: "parcours", contact: "contact" };
+      if (!ok[arg]) return [L(`goto: section inconnue. Choix : ${Object.keys(ok).filter(k => k !== "stack").join(", ")}`, "err")];
       return { action: "goto", id: ok[arg], lines: [] };
     }
     case "clear": return { action: "clear", lines: [] };
@@ -75,12 +67,11 @@ export function run(input) {
 }
 
 export function complete(input) {
-  const words = ["help", "whoami", "ls", "cat", "open", "repo", "theme", "skills", "contact", "goto", "clear", "exit"];
+  const words = ["help", "whoami", "ls", "cat", "open", "repo", "skills", "contact", "goto", "clear", "exit"];
   const parts = input.split(" ");
   const pick = (list, w) => { const m = list.filter(x => x.startsWith(w.toLowerCase())); return m.length === 1 ? m[0] : null; };
   if (parts.length === 1) { const m = pick(words, parts[0]); return m ? m + " " : input; }
   if (["cat", "open", "repo"].includes(parts[0])) { const m = pick(PROJECTS.map(p => p.id), parts[1]); return m ? `${parts[0]} ${m}` : input; }
-  if (parts[0] === "theme") { const m = pick(THEMES.map(t => t.id), parts[1]); return m ? `theme ${m}` : input; }
   return input;
 }
 
@@ -132,7 +123,6 @@ export function initTerminal({ openProject }) {
     if (res.action === "clear") out.textContent = "";
     if (res.action === "close") close();
     if (res.action === "url") window.open(res.url, "_blank", "noopener");
-    if (res.action === "theme") setTheme(res.id);
     if (res.action === "project") { close(false); openProject(res.id); }
     if (res.action === "goto") { close(false); document.getElementById(res.id)?.scrollIntoView({ behavior: "smooth" }); }
   });
