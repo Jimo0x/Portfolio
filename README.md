@@ -4,15 +4,14 @@ Portfolio de **Julio Dahou**, spécialiste cybersécurité et développeur (Coto
 
 ## Ce qu'on y trouve
 
-- **Une carte réseau interactive en ouverture** : chaque projet est un hôte relié à « julio ». Des paquets circulent sur les liens, le survol isole un nœud et le clic ouvre le projet.
-- **Une page par projet** (`#projet-<id>`), avec captures, explications, points clés, technologies, lien vers le code et navigation précédent / suivant. Chaque page a son propre lien, qu'on peut partager.
-- **6 thèmes** : Obsidienne (noir et rouge, par défaut), Améthyste (violet), Plan (clair), Nuit, Phosphore (CRT vert) et Ambre. On passe de l'un à l'autre par une transition circulaire, et le choix est mémorisé.
-- **Animations** : ouverture en rideau (une fois par visite), titre qui se déchiffre, aura qui suit la souris, curseur qui réagit aux liens et aux projets, boutons magnétiques avec reflet, bandeau défilant qui accélère avec le scroll, titres qui montent depuis un masque, barre de progression, et signature géante qui se remplit en bas de page.
-- **Une liste de projets filtrable**, avec un aperçu qui suit le curseur.
-- **Une palette de commandes** (<kbd>Ctrl</kbd>+<kbd>K</kbd>) pour aller à un projet, une section, un thème ou copier l'email.
-- **Un terminal** (<kbd>`</kbd>) avec les commandes `ls`, `cat breach`, `open frixx`, `repo recon`, `theme nuit`, `goto contact`…
-- Le raccourci <kbd>T</kbd> change de thème, et un code Konami est caché quelque part.
-- Le site est utilisable au clavier et respecte `prefers-reduced-motion`. La carte réseau s'arrête quand elle sort de l'écran.
+- **Un seul thème, noir et rouge** : Sora pour les titres et le texte, Bitcount (police pixel) pour les étiquettes, et des sections numérotées.
+- **Une carte réseau interactive en ouverture** : chaque projet est un hôte relié à « julio ». Le survol isole un nœud, le clic ouvre le projet.
+- **Une constellation rouge en fond de page**, avec des lignes de guide et un menu vertical à droite (en bas sur mobile).
+- **Des chiffres clés animés**, **des cartes projet** (filtrables, avec balayage lumineux au survol), **un carrousel de services** et **des compétences qui défilent**.
+- **Une page par projet** (`#projet-<id>`) avec un lien partageable.
+- **Une palette de commandes** (<kbd>Ctrl</kbd>+<kbd>K</kbd>) et **un terminal** (<kbd>`</kbd>).
+- **Des animations** : ouverture en rideau, titre qui se déchiffre, bouton à texte circulaire, curseur réactif, boutons magnétiques, titres qui montent depuis un masque, barre de progression et signature géante en pied de page.
+- Le site est utilisable au clavier et respecte `prefers-reduced-motion`.
 
 ## Lancer en local
 
@@ -30,15 +29,12 @@ src/data.js       TOUT le contenu : projets, parcours, compétences, contact
 src/app.js        point d'entrée
 src/network.js    carte réseau du héro (canvas)
 src/projects.js   liste filtrable, aperçu au survol, pages projet
-src/theme.js      thèmes et transition
 src/palette.js    palette de commandes
 src/terminal.js   terminal
-src/fx.js         titre décodé, apparitions, navigation, parcours
-src/motion.js     ouverture, curseur, boutons magnétiques, bandeau, titres masqués, signature
+src/fx.js         titre décodé, chiffres clés, services, navigation, parcours
+src/motion.js     ouverture, curseur, constellation, bandeaux, titres masqués, signature
 src/style.css     styles et variables des thèmes
 public/assets/    captures des projets
 ```
 
 **Ajouter un projet** : ajoute une entrée dans `PROJECTS` (`src/data.js`) et sa capture dans `public/assets/`. La carte, la liste, la page projet, la palette et le terminal se mettent à jour tout seuls.
-
-**Ajouter un thème** : ajoute un bloc `[data-theme="…"]` dans `src/style.css` et une entrée dans `THEMES` (`src/theme.js`).

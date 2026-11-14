@@ -37,9 +37,9 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
     // sur grand écran, la carte occupe la colonne de droite sans passer sous le texte
     const textRight = mobile ? 0 : (document.querySelector(".hero-copy")?.getBoundingClientRect().right || W * 0.5);
     const cx = mobile ? W * 0.5 : (textRight + W) / 2 + 10;
-    const cy = mobile ? H * 0.27 : H * 0.53;
+    const cy = mobile ? H * 0.21 : H * 0.53;
     const rx = mobile ? W * 0.36 : Math.min((W - textRight) / 2 - 130, 330);
-    const ry = mobile ? H * 0.13 : Math.min(H * 0.32, 300);
+    const ry = mobile ? H * 0.1 : Math.min(H * 0.32, 300);
 
     const center = { id: "julio", label: "julio", x: cx, y: cy, r: 9, kind: "self", born: 0, phase: 0 };
     nodes = [center];
@@ -56,7 +56,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
     const decor = mobile ? 10 : 26;
     for (let i = 0; i < decor; i++) {
       const x = mobile ? rnd() * W : textRight + 20 + rnd() * (W - textRight - 20);
-      const y = mobile ? 76 + rnd() * H * 0.3 : 80 + rnd() * (H - 140);
+      const y = mobile ? 70 + rnd() * H * 0.26 : 80 + rnd() * (H - 140);
       nodes.push({ id: "d" + i, x, y, r: 2.2 + rnd() * 1.6, kind: "decor", born: 0.2 + rnd() * 0.9, phase: rnd() * 6.28 });
     }
     nodes.forEach(n => { n.bx = n.x; n.by = n.y; });
@@ -164,7 +164,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
       }
 
       // étiquette
-      ctx.font = `${isHover ? 650 : 500} ${isHover ? 16 : (mobile ? 12 : 13.5)}px "Bricolage Grotesque", system-ui, sans-serif`;
+      ctx.font = `${isHover ? 650 : 500} ${isHover ? 16 : (mobile ? 12 : 13.5)}px "Sora", system-ui, sans-serif`;
       // étiquette du côté extérieur, sauf si elle sortirait de l'écran
       const lw = ctx.measureText(n.label).width;
       let right = n.x >= nodes[0].x ? 1 : -1;
@@ -178,7 +178,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
       ctx.lineWidth = 4; ctx.strokeStyle = colors.bg; ctx.strokeText(label, tx, n.y);
       ctx.fillText(label, tx, n.y);
       if (isHover && n.project) {
-        ctx.font = `400 12px "JetBrains Mono", monospace`;
+        ctx.font = `400 12px "Bitcount Single", monospace`;
         ctx.fillStyle = colors.muted;
         const sub = KINDS[n.kind];
         ctx.strokeText(sub, tx, n.y + 18); ctx.fillText(sub, tx, n.y + 18);
@@ -222,7 +222,6 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
     if (n) onOpen(n.project.id);
   });
 
-  window.addEventListener("themechange", () => { colors = readColors(); if (REDUCED) draw(performance.now()); });
   new ResizeObserver(() => { layout(); if (!running || REDUCED) draw(performance.now()); }).observe(canvas);
 
   // ne consomme rien quand le héro est hors écran

@@ -205,3 +205,19 @@ export const STACK = [
 ];
 
 export const imageUrl = name => "/assets/" + encodeURIComponent(name);
+
+/* Chiffres clés : uniquement des valeurs vérifiables dans les dépôts. */
+export const STATS = [
+  { value: PROJECTS.length, suffix: "", label: "Projets réalisés" },
+  { value: PROJECTS.filter(p => p.kind === "cyber").length, suffix: "", label: "Outils de cybersécurité" },
+  { value: 75, suffix: "+", label: "Tests automatisés" },
+  { value: 1, suffix: "", label: "Jeu de hacking jouable" },
+];
+
+export const SERVICES = [
+  { title: "Test d'intrusion", text: "Reconnaissance, recherche de failles et exploitation contrôlée sur un site, une API ou un réseau, avec un rapport clair et des correctifs priorisés." },
+  { title: "Revue de sécurité du code", text: "Lecture ciblée d'une application : injections, XSS, contrôle d'accès, secrets exposés, dépendances à risque. Chaque problème arrive avec sa correction." },
+  { title: "Développement web", text: "Sites et applications en Next.js, Django ou Supabase, pensés sécurisés dès le départ : RLS, validation des entrées, paiements vérifiés." },
+  { title: "Outils et automatisation", text: "Scripts et outils Python sur mesure : scanners, collecte OSINT, analyse de fichiers, intégration en CI." },
+  { title: "Sensibilisation au phishing", text: "Cartographie de ce qu'une organisation expose publiquement et préparation de campagnes de sensibilisation, dans un cadre autorisé." },
+];

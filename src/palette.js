@@ -1,7 +1,6 @@
 /* Palette de commandes (Ctrl+K) : projets, sections, thèmes et actions au clavier. */
 
 import { PROJECTS, KINDS, PROFILE } from "./data.js";
-import { THEMES, setTheme } from "./theme.js";
 
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
@@ -15,10 +14,11 @@ export function initPalette({ openProject, openTerminal, copyEmail }) {
   const ALL = [
     ...PROJECTS.map(p => ({ label: p.name, hint: "Projet, " + KINDS[p.kind].toLowerCase(), keys: p.tagline, run: () => openProject(p.id) })),
     { label: "Projets", hint: "Section", run: goto("projets") },
+    { label: "Chiffres clés", hint: "Section", run: goto("chiffres") },
+    { label: "Services", hint: "Section", run: goto("services") },
+    { label: "Compétences", hint: "Section", run: goto("competences") },
     { label: "Parcours", hint: "Section", run: goto("parcours") },
-    { label: "Compétences", hint: "Section", run: goto("stack") },
     { label: "Contact", hint: "Section", run: goto("contact") },
-    ...THEMES.map(t => ({ label: "Thème " + t.name, hint: t.desc, keys: "theme couleur", run: () => setTheme(t.id) })),
     { label: "Copier l'adresse email", hint: PROFILE.email, keys: "mail contact", run: copyEmail },
     { label: "Ouvrir le terminal", hint: "Raccourci `", keys: "console shell", run: openTerminal },
     { label: "Profil GitHub", hint: "github.com/" + PROFILE.handle, keys: "code", run: () => window.open(PROFILE.github, "_blank", "noopener") },

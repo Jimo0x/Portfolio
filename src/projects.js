@@ -10,7 +10,6 @@ const GH_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="tr
 export function initProjects() {
   renderFilters();
   renderList();
-  initPeek();
   initSheet();
 }
 
@@ -27,57 +26,39 @@ function renderFilters() {
     if (!b) return;
     box.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
     const f = b.dataset.filter;
-    const rows = [...document.querySelectorAll(".project-row")];
+    const rows = [...document.querySelectorAll(".card")];
     // FLIP : les lignes restantes glissent à leur nouvelle place
-    const before = new Map(rows.map(r => [r, r.getBoundingClientRect().top]));
+    const before = new Map(rows.map(r => { const b = r.getBoundingClientRect(); return [r, { x: b.left, y: b.top, shown: !r.hidden }]; }));
     rows.forEach(r => (r.hidden = f !== "all" && r.dataset.kind !== f));
     rows.filter(r => !r.hidden).forEach((r, i) => {
-      const dy = before.get(r) - r.getBoundingClientRect().top;
-      r.animate([{ transform: `translateY(${dy}px)`, opacity: dy ? 1 : 0 }, { transform: "none", opacity: 1 }],
-        { duration: 500, easing: "cubic-bezier(.22,1,.36,1)", delay: i * 30 });
+      const b = r.getBoundingClientRect(), old = before.get(r);
+      const from = old.shown ? `translate(${old.x - b.left}px, ${old.y - b.top}px)` : "translateY(30px) scale(.96)";
+      r.animate([{ transform: from, opacity: old.shown ? 1 : 0 }, { transform: "none", opacity: 1 }],
+        { duration: 600, easing: "cubic-bezier(.22,1,.36,1)", delay: i * 40 });
     });
   });
 }
 
-/* ---------------- liste ---------------- */
-function renderList() {
-  $("projectList").innerHTML = PROJECTS.map((p, i) => `
-    <li class="project-row reveal" data-kind="${p.kind}" data-id="${p.id}" style="--d:${i * 0.05}s">
-      <a href="#projet-${p.id}">
-        <h3><span class="kind">${KINDS[p.kind]}</span>${esc(p.name)}</h3>
-        <p>${esc(p.tagline)}</p>
-        <span class="open" aria-hidden="true">${ARROW}</span>
-      </a>
-    </li>`).join("");
+/* ---------------- cartes ---------------- */
+function cardMedia(p) {
+  if (p.images[0]) return `<img src="${imageUrl(p.images[0])}" alt="" loading="lazy">`;
+  const code = esc(p.code || p.name).replace(/BLOCK/, "<b>BLOCK</b>");
+  return `<pre>${code}</pre>`;
 }
 
-/* ---------------- aperçu au survol ---------------- */
-function initPeek() {
-  const peek = $("peek");
-  if (matchMedia("(hover: none)").matches) return;
-  let x = 0, y = 0, tx = 0, ty = 0, raf = 0, current = null;
-  const follow = () => {
-    x += (tx - x) * 0.18; y += (ty - y) * 0.18;
-    peek.style.left = x + "px"; peek.style.top = y + "px";
-    raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(follow) : 0;
-  };
-  const list = $("projectList");
-  list.addEventListener("pointermove", e => {
-    // l'aperçu reste dans la moitié droite pour ne jamais cacher le titre survolé
-    const box = list.getBoundingClientRect();
-    tx = Math.min(Math.max(e.clientX + 120, box.left + box.width * 0.62), innerWidth - 190);
-    ty = e.clientY;
-    if (!raf) raf = requestAnimationFrame(follow);
-    const row = e.target.closest(".project-row");
-    if (row && row.dataset.id !== current) {
-      current = row.dataset.id;
-      const p = PROJECTS.find(q => q.id === current);
-      peek.innerHTML = p.images[0] ? `<img alt="" src="${imageUrl(p.images[0])}">` : `<pre>${esc(p.code || p.name)}</pre>`;
-      if (!peek.classList.contains("show")) { x = tx; y = ty; }
-      peek.classList.add("show");
-    }
-  });
-  list.addEventListener("pointerleave", () => { peek.classList.remove("show"); current = null; });
+function renderList() {
+  $("projectList").innerHTML = PROJECTS.map((p, i) => `
+    <article class="card reveal" data-kind="${p.kind}" data-id="${p.id}" style="--d:${(i % 2) * 0.08}s">
+      <a class="cover" href="#projet-${p.id}" aria-label="Voir le projet ${esc(p.name)}"></a>
+      <div class="card-media"><span class="corner tl"></span><span class="corner br"></span>${cardMedia(p)}</div>
+      <div class="card-body">
+        <span class="kind">${KINDS[p.kind]}</span>
+        <h3>${esc(p.name)}</h3>
+        <p>${esc(p.tagline)}</p>
+        <div class="tags">${p.stack.slice(0, 4).map(t => `<span>${esc(t)}</span>`).join("")}</div>
+        <span class="more">Voir le projet ${ARROW}</span>
+      </div>
+    </article>`).join("");
 }
 
 /* ---------------- page projet ---------------- */
