@@ -33,7 +33,7 @@ src/palette.js    palette de commandes
 src/terminal.js   terminal
 src/fx.js         titre décodé, chiffres clés, services, navigation, parcours
 src/motion.js     ouverture, curseur, constellation, bandeaux, titres masqués, signature
-src/style.css     styles et variables des thèmes
+src/style.css     styles (un seul thème)
 public/assets/    captures des projets
 ```
 
