@@ -43,3 +43,11 @@ public/assets/    captures des projets
 ```
 
 **Ajouter un projet** : ajoute une entrée dans `PROJECTS` (`src/data.js`) et sa capture dans `public/assets/`. La carte, la liste, la page projet, la palette et le terminal se mettent à jour tout seuls.
+
+## Pages et partage
+
+Le site est multi-pages : accueil, `/projets/`, une page par projet (`/projets/<id>/`), `/services/`, `/a-propos/`, `/contact/` et une page 404.
+Les pages sont générées depuis `src/data.js` par `scripts/pages.mjs` (`npm run pages`, lancé aussi par `npm run build`).
+
+Chaque page a ses métadonnées de partage (Open Graph, Twitter, données structurées) et sa propre image en pixel art (1200 x 630, dans `public/og/`).
+Pour les régénérer après une modification des projets : `npm run og` (Python 3 et Pillow).
