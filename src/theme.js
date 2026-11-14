@@ -1,6 +1,8 @@
 /* Thèmes : changement animé (cercle qui s'ouvre depuis le clic) et mémorisé. */
 
 export const THEMES = [
+  { id: "obsidienne", name: "Obsidienne", desc: "Noir profond et rouge carmin", bg: "#09080a", a: "#e5263e", b: "#f3ede8" },
+  { id: "amethyste", name: "Améthyste", desc: "Nuit violette", bg: "#0b0814", a: "#a274ff", b: "#ff5fa2" },
   { id: "plan", name: "Plan", desc: "Clair, schéma d'ingénieur", bg: "#eef2f5", a: "#0f2238", b: "#e5484d" },
   { id: "nuit", name: "Nuit", desc: "Sombre, bleu glacier", bg: "#0a1322", a: "#7cc4ff", b: "#ff6b6b" },
   { id: "phosphore", name: "Phosphore", desc: "Écran CRT vert", bg: "#030805", a: "#39ff88", b: "#ffd84d" },
@@ -10,7 +12,7 @@ export const THEMES = [
 const root = document.documentElement;
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export const currentTheme = () => root.dataset.theme || "plan";
+export const currentTheme = () => root.dataset.theme || "obsidienne";
 
 export function setTheme(id, origin) {
   const theme = THEMES.find(t => t.id === id);
