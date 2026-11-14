@@ -11,13 +11,30 @@ export function playIntro() {
   let seen = false;
   try { seen = sessionStorage.getItem("intro") === "1"; sessionStorage.setItem("intro", "1"); } catch (e) {}
   if (!el) return Promise.resolve(0);
-  // pas de rideau quand on arrive directement sur une page projet partagée
+  // pas d'ouverture quand on arrive directement sur une page projet partagée
   if (REDUCED || seen || location.hash.startsWith("#projet-")) { el.remove(); return Promise.resolve(0); }
   document.documentElement.classList.add("intro-on");
+  const boot = document.getElementById("boot");
+  const lines = [
+    ["chargement du noyau", "ok"],
+    ["montage de ~/projets", "ok"],
+    ["connexion au réseau", "ok"],
+    ["vérification des accès", "autorisé"],
+  ];
   return new Promise(resolve => {
-    requestAnimationFrame(() => el.classList.add("play"));
-    setTimeout(() => { el.classList.add("leave"); resolve(400); }, 1450);
-    setTimeout(() => { el.remove(); document.documentElement.classList.remove("intro-on"); }, 2300);
+    let i = 0;
+    const next = () => {
+      if (i < lines.length) {
+        const [txt, st] = lines[i++];
+        boot.insertAdjacentHTML("beforeend", `<span>[ <span class="ok">${st}</span> ] ${txt}</span>\n`);
+        setTimeout(next, 190);
+      } else {
+        boot.insertAdjacentHTML("beforeend", `<span class="big">Julio Dahou</span>`);
+        setTimeout(() => { el.classList.add("leave"); resolve(400); }, 650);
+        setTimeout(() => { el.remove(); document.documentElement.classList.remove("intro-on"); }, 1500);
+      }
+    };
+    setTimeout(next, 150);
   });
 }
 
@@ -56,7 +73,7 @@ export function initCursor() {
 
   const refresh = t => {
     if (!t) return;
-    const row = t.closest?.(".card");
+    const row = t.closest?.(".tile");
     const hot = t.closest?.("a, button, [role=option], input");
     const node = document.querySelector(".hero")?.style.cursor === "pointer";
     ring.classList.toggle("big", !!row || node);
@@ -100,7 +117,7 @@ export function initMagnetic(selector = ".btn, .tool, .sheet-close") {
 
 /* ---------- Bandeau défilant ---------- */
 export function initTicker() {
-  const words = ["Je casse", "Je comprends", "Je corrige", "Je documente", "Je construis", "Je sécurise"];
+  const words = ["Analyser", "Casser", "Comprendre", "Corriger", "Documenter", "Construire", "Sécuriser"];
   const row = document.getElementById("tickerA");
   if (row) {
     const chunk = words.map(w => `<span>${w}</span><i></i>`).join("");
@@ -117,19 +134,6 @@ export function initTicker() {
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
-}
-
-/* ---------- Compétences : deux rangées de puces qui défilent en sens inverse ---------- */
-export function initSkillsMarquee(groups) {
-  const box = document.getElementById("skills");
-  if (!box) return;
-  const all = groups.flatMap(g => g.items);
-  const half = Math.ceil(all.length / 2);
-  const row = items => {
-    const chunk = items.map(x => `<span class="chip">${x}</span>`).join("");
-    return `<div class="ticker-row"><div class="ticker-track">${chunk}${chunk}${chunk}</div></div>`;
-  };
-  box.innerHTML = row(all.slice(0, half)) + row(all.slice(half));
 }
 
 /* ---------- Titres de section : les mots montent depuis un masque ---------- */
@@ -189,34 +193,3 @@ export function initWordmark() {
   addEventListener("scroll", update, { passive: true }); update();
 }
 
-/* ---------- Constellation de fond : points rouges reliés, très lente ---------- */
-export function initStars() {
-  const cv = document.getElementById("stars");
-  if (!cv) return;
-  const ctx = cv.getContext("2d");
-  let W, H, pts = [];
-  const resize = () => {
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    W = cv.clientWidth; H = cv.clientHeight;
-    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.round((W * H) / 26000);
-    pts = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .12, vy: (Math.random() - .5) * .12, r: Math.random() * 1.6 + .6 }));
-  };
-  const draw = () => {
-    ctx.clearRect(0, 0, W, H);
-    for (const p of pts) {
-      if (!REDUCED) { p.x = (p.x + p.vx + W) % W; p.y = (p.y + p.vy + H) % H; }
-    }
-    ctx.lineWidth = 1;
-    for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
-      const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
-      if (d < 130) { ctx.strokeStyle = `rgba(255,36,36,${(1 - d / 130) * .22})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
-    }
-    ctx.fillStyle = "#ff2424";
-    for (const p of pts) { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill(); }
-    if (!REDUCED && !document.hidden) requestAnimationFrame(draw);
-  };
-  addEventListener("resize", resize);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden && !REDUCED) requestAnimationFrame(draw); });
-  resize(); requestAnimationFrame(draw);
-}

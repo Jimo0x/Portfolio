@@ -8,9 +8,11 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
 
 /* Le titre se « déchiffre » de gauche à droite au chargement, morceau par morceau. */
 export async function decodeTitle(root) {
-  if (REDUCED || !root) return;
+  if (!root) return;
+  if (REDUCED) { root.classList.add("declassified"); return; }
   root.setAttribute("aria-label", root.textContent.trim());
   for (const el of root.querySelectorAll(".decode")) await decode(el);
+  root.classList.add("declassified");
 }
 function decode(el) {
   const final = el.textContent;
@@ -41,76 +43,107 @@ export function initReveal() {
 
 export function initNav() {
   const bar = document.getElementById("topbar");
-  const onScroll = () => bar.classList.toggle("scrolled", scrollY > 30);
-  addEventListener("scroll", onScroll, { passive: true }); onScroll();
-
-  const links = [...document.querySelectorAll("#rail a")];
+  const links = [...document.querySelectorAll(".st-tabs a")];
   const sections = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  const pct = document.getElementById("stScroll");
+  let lastActive = null;
   const update = () => {
+    bar.classList.toggle("scrolled", scrollY > 30);
     const y = innerHeight * 0.4;
     let active = links[0];
     sections.forEach((s, i) => { if (s.getBoundingClientRect().top < y) active = links[i]; });
-    links.forEach(a => a.classList.toggle("active", a === active));
+    if (active !== lastActive) {
+      links.forEach(a => a.classList.toggle("active", a === active));
+      const tabs = active.parentElement;
+      tabs.scrollTo({ left: active.offsetLeft - tabs.clientWidth / 2 + active.offsetWidth / 2, behavior: "smooth" });
+      lastActive = active;
+    }
+    const max = document.documentElement.scrollHeight - innerHeight;
+    pct.textContent = Math.round(max > 0 ? (scrollY / max) * 100 : 0) + "%";
   };
   addEventListener("scroll", update, { passive: true }); update();
+
+  // heure locale de Cotonou (UTC+1)
+  const clock = document.getElementById("stClock");
+  const fmt = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Africa/Porto-Novo" });
+  const tick = () => { clock.textContent = fmt.format(new Date()); };
+  tick(); setInterval(tick, 15000);
 }
 
-/* Chiffres clés : comptent jusqu'à leur valeur quand ils entrent à l'écran. */
+/* Chiffres clés : un rapport de scan, chaque ligne compte et sa barre se remplit. */
 export function renderStats() {
   const box = document.getElementById("stats");
-  box.innerHTML = STATS.map((s, i) => `
-    <div class="stat reveal" style="--d:${i * 0.08}s"><b data-to="${s.value}" data-suffix="${s.suffix}">${REDUCED ? s.value + s.suffix : "0"}</b><span>${esc(s.label)}</span></div>`).join("");
-  if (REDUCED) return;
+  const max = Math.max(...STATS.map(s => s.value));
+  const date = new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium" }).format(new Date());
+  box.innerHTML = `<div class="report-head"><span>rapport généré le ${date}</span><b>4 éléments</b></div>` +
+    STATS.map((s, i) => `
+    <div class="r-line" role="listitem" style="--w:${Math.max(6, (s.value / max) * 100)}%">
+      <span class="r-label">${esc(s.label)}</span>
+      <b class="r-val" data-to="${s.value}" data-suffix="${s.suffix}">${REDUCED ? s.value + s.suffix : "0"}</b>
+      <span class="r-bar"><i></i></span>
+    </div>`).join("");
+  const lines = box.querySelectorAll(".r-line");
+  if (REDUCED) { lines.forEach(l => l.classList.add("in")); return; }
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     io.unobserve(e.target);
-    const b = e.target.querySelector("b"), to = +b.dataset.to, suf = b.dataset.suffix;
-    const start = performance.now(), dur = 1400 + to * 6;
-    const frame = now => {
-      const p = Math.min(1, (now - start) / dur), k = 1 - Math.pow(1 - p, 4);
-      b.textContent = Math.round(to * k) + suf;
-      if (p < 1) requestAnimationFrame(frame);
-    };
-    requestAnimationFrame(frame);
-  }), { threshold: 0.6 });
-  box.querySelectorAll(".stat").forEach(s => io.observe(s));
+    const line = e.target, b = line.querySelector(".r-val"), to = +b.dataset.to, suf = b.dataset.suffix;
+    const delay = [...lines].indexOf(line) * 160;
+    setTimeout(() => {
+      line.classList.add("in");
+      const start = performance.now(), dur = 1300 + to * 6;
+      const frame = now => {
+        const p = Math.min(1, (now - start) / dur), k = 1 - Math.pow(1 - p, 4);
+        b.textContent = Math.round(to * k) + suf;
+        if (p < 1) requestAnimationFrame(frame);
+      };
+      requestAnimationFrame(frame);
+    }, delay);
+  }), { threshold: 0.8 });
+  lines.forEach(l => io.observe(l));
 }
 
-/* Services : carrousel une carte à la fois. */
-const ICONS = [
-  '<path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
-  '<path d="m8 7-5 5 5 5M16 7l5 5-5 5"/><circle cx="12" cy="12" r="1.6"/>',
-  '<rect x="3" y="4" width="18" height="14"/><path d="M3 8h18M8 21h8"/>',
-  '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
-  '<path d="M4 6h16v10H8l-4 4z"/><path d="M8 10h8M8 13h5"/>',
-];
+/* Services : une console. On choisit une commande, la réponse s'écrit. */
+const slug = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 export function initServices() {
-  const stage = document.getElementById("slideStage"), count = document.getElementById("slideCount");
-  const dots = document.createElement("div"); dots.className = "slide-dots";
-  dots.innerHTML = SERVICES.map(() => "<i></i>").join("");
-  document.getElementById("slider").appendChild(dots);
-  let i = 0, timer = 0;
-  const pad = n => String(n).padStart(2, "0");
-  const show = (n, dir = 1) => {
-    i = (n + SERVICES.length) % SERVICES.length;
+  const list = document.getElementById("serviceList"), out = document.getElementById("serviceOut");
+  list.innerHTML = SERVICES.map((s, i) => `<li><button type="button" role="tab" id="svc-${i}" aria-selected="false" aria-controls="serviceOut">${slug(s.title)}</button></li>`).join("");
+  const btns = [...list.querySelectorAll("button")];
+  let typing = 0, auto = 0, current = -1;
+  const show = i => {
+    current = i;
+    btns.forEach((b, k) => b.setAttribute("aria-selected", String(k === i)));
+    out.setAttribute("aria-labelledby", btns[i].id);
     const s = SERVICES[i];
-    const old = stage.querySelector(".slide:not(.leave)");
-    if (old) { old.classList.add("leave"); setTimeout(() => old.remove(), 500); }
-    const el = document.createElement("div");
-    el.className = "slide enter";
-    if (dir < 0) el.style.animationDirection = "normal";
-    el.innerHTML = `<div class="slide-top"><span class="slide-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[i % ICONS.length]}</svg></span><span class="slide-num">${pad(i + 1)} / ${pad(SERVICES.length)}</span></div>
-      <h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>`;
-    stage.appendChild(el);
-    count.textContent = `${pad(i + 1)} / ${pad(SERVICES.length)}`;
-    dots.querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === i));
+    cancelAnimationFrame(typing);
+    out.innerHTML = `<div class="cmd">$ ./services.sh --${slug(s.title)}</div><h3></h3><p></p><div class="ok"></div>`;
+    const h = out.querySelector("h3"), p = out.querySelector("p"), ok = out.querySelector(".ok");
+    if (REDUCED) { h.textContent = s.title; p.textContent = s.text; ok.textContent = "[ok] disponible"; return; }
+    const full = s.title + "\n" + s.text;
+    const start = performance.now();
+    const frame = now => {
+      const n = Math.min(full.length, Math.floor((now - start) / 9));
+      h.textContent = full.slice(0, Math.min(n, s.title.length));
+      p.textContent = n > s.title.length ? full.slice(s.title.length + 1, n) : "";
+      if (n < full.length) typing = requestAnimationFrame(frame); else ok.textContent = "[ok] disponible";
+    };
+    typing = requestAnimationFrame(frame);
   };
-  const auto = () => { clearInterval(timer); if (!REDUCED) timer = setInterval(() => show(i + 1), 6000); };
-  document.getElementById("nextService").addEventListener("click", () => { show(i + 1); auto(); });
-  document.getElementById("prevService").addEventListener("click", () => { show(i - 1, -1); auto(); });
-  stage.addEventListener("pointerenter", () => clearInterval(timer));
-  stage.addEventListener("pointerleave", auto);
-  show(0); auto();
+  const restart = () => { clearInterval(auto); if (!REDUCED) auto = setInterval(() => show((current + 1) % SERVICES.length), 7000); };
+  btns.forEach((b, i) => b.addEventListener("click", () => { show(i); restart(); }));
+  list.addEventListener("keydown", e => {
+    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(e.key)) return;
+    e.preventDefault();
+    const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : -1;
+    const n = (current + d + SERVICES.length) % SERVICES.length;
+    show(n); btns[n].focus(); restart();
+  });
+  const con = document.getElementById("console");
+  con.addEventListener("pointerenter", () => clearInterval(auto));
+  con.addEventListener("pointerleave", restart);
+  // la console démarre quand elle arrive à l'écran
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); show(0); restart(); } }, { threshold: 0.4 });
+  io.observe(con);
 }
 
 export function renderTimeline() {
@@ -133,9 +166,34 @@ export function renderTimeline() {
   addEventListener("scroll", update, { passive: true }); update();
 }
 
+/* Compétences : la sortie d'un scan de ports. Les numéros de port sont décoratifs. */
 export function renderStack() {
-  document.getElementById("stackGrid").innerHTML = STACK.map((s, i) => `
-    <div class="grp reveal" style="--d:${i * 0.06}s"><h3>${esc(s.group)}</h3><p>${s.items.map(esc).join(", ")}</p></div>`).join("");
+  const box = document.getElementById("scan");
+  let port = 1336, i = 0;
+  const rows = STACK.flatMap(g => g.items.map(item => {
+    port += 7 + ((item.length * 13) % 31);
+    return `<tr class="row" style="--i:${i++}"><td>${port}/tcp</td><td class="open-state">ouvert</td><td class="svc">${esc(item)}</td><td class="grp">${esc(g.group.toLowerCase())}</td></tr>`;
+  }));
+  box.innerHTML = `<div class="scan-cmd">$ <b>scan</b> --cible julio-dahou --tous-les-ports</div>
+    <table><thead><tr><th>PORT</th><th>ÉTAT</th><th>COMPÉTENCE</th><th>FAMILLE</th></tr></thead><tbody>${rows.join("")}</tbody></table>
+    <div class="scan-foot">${i} ports ouverts, 0 filtré. Scan terminé.</div>`;
+  if (REDUCED) { box.classList.add("in"); return; }
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { box.classList.add("in"); io.disconnect(); } }, { threshold: 0.15 });
+  io.observe(box);
+}
+
+/* Contact : la poignée de main TCP se joue quand la section arrive. */
+export function initHandshake() {
+  const hs = document.getElementById("handshake");
+  if (!hs) return;
+  if (REDUCED) { hs.classList.add("done"); return; }
+  const io = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    hs.classList.add("run");
+    setTimeout(() => hs.classList.add("done"), 2800);
+  }, { threshold: 0.6 });
+  io.observe(hs);
 }
 
 let toastTimer = 0;

@@ -26,7 +26,7 @@ export function run(input) {
         L("  repo <projet>     ouvrir le code sur GitHub"),
         L("  skills            compétences"),
         L("  contact           me contacter"),
-        L("  goto <section>    projets, services, competences, parcours, contact"),
+        L("  goto <section>    accueil, rapport, projets, services, competences, parcours, contact"),
         L("  clear / exit"),
       ];
     case "whoami":
@@ -54,7 +54,7 @@ export function run(input) {
     case "contact":
       return [L(`  email   ${PROFILE.email}`, "link", `mailto:${PROFILE.email}`), L(`  github  ${PROFILE.github}`, "link", PROFILE.github)];
     case "goto": {
-      const ok = { accueil: "accueil", chiffres: "chiffres", projets: "projets", services: "services", competences: "competences", stack: "competences", parcours: "parcours", contact: "contact" };
+      const ok = { accueil: "accueil", rapport: "chiffres", chiffres: "chiffres", projets: "projets", services: "services", competences: "competences", stack: "competences", parcours: "parcours", contact: "contact" };
       if (!ok[arg]) return [L(`goto: section inconnue. Choix : ${Object.keys(ok).filter(k => k !== "stack").join(", ")}`, "err")];
       return { action: "goto", id: ok[arg], lines: [] };
     }
