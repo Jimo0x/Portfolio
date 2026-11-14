@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="plan">
+<html lang="fr" data-theme="obsidienne">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Julio Dahou, cybersécurité et développement</title>
 <meta name="description" content="Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. Outils de sécurité, applications web et un jeu de hacking.">
-<meta name="theme-color" content="#eef2f5">
+<meta name="theme-color" content="#09080a">
 <meta property="og:title" content="Julio Dahou, cybersécurité et développement">
 <meta property="og:description" content="Outils de sécurité, applications web et un metroidvania de hacking.">
 <meta property="og:image" content="/assets/BREACH.png">
@@ -20,6 +20,14 @@
 <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
+<!-- Ouverture : une seule fois par visite -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-name"><span>Julio</span> <span>Dahou</span></div>
+  <div class="intro-line"></div>
+  <p class="intro-sub">Cybersécurité et développement</p>
+</div>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<div class="grain" aria-hidden="true"></div>
 <a class="skip" href="#projets">Aller aux projets</a>
 
 <header class="topbar" id="topbar">
@@ -54,11 +62,12 @@
 <main id="top">
   <!-- ============ HÉRO : la carte réseau est la navigation ============ -->
   <section class="hero" aria-labelledby="heroTitle">
+    <div class="aura" aria-hidden="true"></div>
     <canvas id="netmap" aria-hidden="true"></canvas>
     <div class="hero-copy">
       <p class="hello">Julio Dahou, Cotonou, ouvert au remote</p>
       <h1 id="heroTitle" class="decode">Je casse des systèmes pour apprendre à les protéger, et j'en construis aussi.</h1>
-      <p class="lede">Spécialiste cybersécurité et développeur : pentest, analyse SOC, C bas niveau, Python et web. Chaque nœud de la carte est un projet, clique dessus.</p>
+      <p class="lede">Spécialiste cybersécurité et développeur : pentest, analyse SOC, C, Python et web. Chaque nœud de la carte est un projet, clique dessus.</p>
       <div class="cta">
         <a class="btn primary" href="#projets">Voir les projets</a>
         <a class="btn" href="#contact">Me contacter</a>
@@ -67,6 +76,12 @@
     <ul class="node-list" id="nodeList" aria-label="Projets sur la carte"></ul>
     <p class="map-hint" id="mapHint" aria-hidden="true">Survole un nœud</p>
   </section>
+
+  <!-- ============ BANDEAU ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-row" id="tickerA"></div>
+    <div class="ticker-row reverse" id="tickerB"></div>
+  </div>
 
   <!-- ============ PROJETS ============ -->
   <section class="block" id="projets" aria-labelledby="projTitle">
@@ -105,6 +120,7 @@
   </section>
 </main>
 
+<div class="wordmark" aria-hidden="true"><span id="wordmark">Julio Dahou</span></div>
 <footer class="foot">
   <span>© 2026 Julio Dahou</span>
   <span>Raccourcis : <kbd>Ctrl K</kbd> palette, <kbd>`</kbd> terminal, <kbd>T</kbd> thème</span>

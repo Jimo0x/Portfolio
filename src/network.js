@@ -5,13 +5,13 @@ import { KINDS } from "./data.js";
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export function initNetwork(canvas, projects, { onOpen, hint, list }) {
+export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 }) {
   const ctx = canvas.getContext("2d");
   let W = 0, H = 0, DPR = 1, mobile = false;
   let colors = readColors();
   let nodes = [], edges = [], packets = [];
   let hover = null, mouse = { x: -9999, y: -9999 };
-  let t0 = performance.now(), running = true, raf = 0;
+  let t0 = performance.now() + delay, running = true, raf = 0;
 
   // liens accessibles au clavier pour chaque nœud
   list.innerHTML = projects.map(p => `<li><a href="#projet-${p.id}">${p.name}</a></li>`).join("");
@@ -154,7 +154,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list }) {
         }
       } else {
         ctx.fillStyle = colors.bg;
-        ctx.strokeStyle = n.kind === "web" ? colors.accent : colors.signal;
+        ctx.strokeStyle = n.kind === "web" ? colors.ink : colors.signal;
         ctx.lineWidth = 2.4;
         ctx.beginPath();
         if (n.kind === "jeu") { ctx.rect(n.x - r, n.y - r, r * 2, r * 2); }
