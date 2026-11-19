@@ -1,5 +1,5 @@
 /* Effets et petites interactions : décodage du titre, apparitions, barre de navigation,
-   parcours tracé au scroll, copie de l'email, raccourcis. */
+   parcours tracé au scroll, lien email, raccourcis. */
 
 import { TIMELINE, STACK, PROFILE, STATS, SERVICES } from "./data.js";
 
@@ -220,10 +220,9 @@ export function toast(msg) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
 }
 
-export async function copyEmail() {
-  try { await navigator.clipboard.writeText(PROFILE.email); toast("Adresse copiée : " + PROFILE.email); }
-  catch { toast("Copie impossible ici. L'adresse : " + PROFILE.email); }
-}
+/* Ouvre la messagerie de l'utilisateur sur un nouveau message (plus de copie dans le presse-papiers). */
+export const MAIL_HREF = `mailto:${PROFILE.email}?subject=${encodeURIComponent("Contact depuis ton portfolio")}`;
+export function writeEmail() { location.href = MAIL_HREF; }
 
 /* ↑ ↑ ↓ ↓ ← → ← → B A */
 export function onKonami(cb) {

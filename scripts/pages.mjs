@@ -204,7 +204,7 @@ const HOME_PICKS = ["phishing", "safe-install", "breach"];
 write("index.html", `${head({
   path: "/",
   title: "Julio Dahou, cybersécurité et développement",
-  description: `Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. ${cap(word(count("cyber")))} outils de sécurité, des applications web et un jeu de hacking.`,
+  description: `Portfolio de Julio Dahou, spécialiste cybersécurité et développeur à Cotonou, ouvert au remote. ${cap(word(count("cyber")))} outils de sécurité, des projets d'IA, des applications web et des jeux jouables dans le navigateur.`,
   image: "/og/accueil.png",
   imageAlt: "Julio Dahou : je casse des systèmes pour mieux les protéger. Carte réseau en pixel art.",
   jsonld: [{ "@context": "https://schema.org", ...PERSON }, { "@context": "https://schema.org", "@type": "WebSite", name: "Julio Dahou", url: SITE + "/", inLanguage: "fr" }],
@@ -253,7 +253,7 @@ ${side("accueil")}
     <p class="path">ls -l ~/</p>
     <h2 id="dirTitle">La suite <em>du portfolio</em></h2>
     <ul class="dirlist">
-      <li><a href="/projets/" class="reveal"><span class="perm">drwxr-xr-x</span><b>projets/</b><span class="dir-d">Les ${word(PROJECTS.length)} projets en détail : outils de sécurité, applications web et un jeu.</span><span class="dir-n">${PROJECTS.length} entrées</span></a></li>
+      <li><a href="/projets/" class="reveal"><span class="perm">drwxr-xr-x</span><b>projets/</b><span class="dir-d">Les ${word(PROJECTS.length)} projets en détail : sécurité, IA, web, outils système, jeux et créations.</span><span class="dir-n">${PROJECTS.length} entrées</span></a></li>
       <li><a href="/services/" class="reveal" style="--d:.06s"><span class="perm">drwxr-xr-x</span><b>services/</b><span class="dir-d">Test d'intrusion, revue de code, développement web, outils sur mesure.</span><span class="dir-n">${SERVICES.length} services</span></a></li>
       <li><a href="/a-propos/" class="reveal" style="--d:.12s"><span class="perm">drwxr-xr-x</span><b>a-propos/</b><span class="dir-d">Mon parcours, ma formation et le scan complet de mes compétences.</span><span class="dir-n">${TIMELINE.length} étapes</span></a></li>
       <li><a href="/contact/" class="reveal" style="--d:.18s"><span class="perm">-rw-r--r--</span><b>contact</b><span class="dir-d">Email, téléphone et GitHub. Je réponds vite.</span><span class="dir-n">ouvert</span></a></li>
@@ -266,7 +266,7 @@ ${foot()}`);
 write("projets/index.html", `${head({
   path: "/projets/",
   title: "Projets | Julio Dahou",
-  description: `${cap(word(PROJECTS.length))} projets de Julio Dahou : ${word(count("cyber"))} outils de cybersécurité en Python, ${word(count("web"))} applications web et un metroidvania de hacking jouable dans le navigateur.`,
+  description: `${cap(word(PROJECTS.length))} projets de Julio Dahou : ${word(count("cyber"))} outils de cybersécurité, ${word(count("ia"))} projets d'IA, ${word(count("web"))} applications web, ${word(count("jeu"))} jeux jouables dans le navigateur, des outils système et des projets créatifs.`,
   image: "/og/projets.png",
   imageAlt: `Les ${PROJECTS.length} projets de Julio Dahou, en pixel art.`,
   jsonld: [crumbs([["Accueil", "/"], ["Projets", "/projets/"]]), {
@@ -281,7 +281,7 @@ ${side("projets")}
 ${pageHead({
   path: "projets",
   title: "Ce que <em>j'ai construit</em>",
-  lede: `${cap(word(PROJECTS.length))} projets, du scanner réseau au jeu vidéo : ${word(count("cyber"))} outils de cybersécurité, ${word(count("web"))} applications web et un metroidvania jouable dans le navigateur. Ouvre une fenêtre pour lire l'étude complète.`,
+  lede: `${cap(word(PROJECTS.length))} projets, du scanner réseau au jeu vidéo : ${word(count("cyber"))} outils de cybersécurité, ${word(count("ia"))} projets d'IA, ${word(count("web"))} applications web, ${word(count("jeu"))} jeux, un lecteur de musique multiplateforme et des expériences créatives. Ouvre une fenêtre pour lire l'étude complète.`,
 })}
   <section class="block tight" aria-label="Liste des projets">
     <div class="block-head">
@@ -505,7 +505,7 @@ ${pageHead({
     </div>
     <a class="mail" id="mailLink" href="mailto:${PROFILE.email}">${PROFILE.email}</a>
     <div class="contact-actions">
-      <button class="btn" id="copyMail" type="button">Copier l'adresse</button>
+      <a class="btn" href="mailto:${PROFILE.email}?subject=${encodeURIComponent("Contact depuis ton portfolio")}">${svg("mail")}Écrire un email</a>
       <a class="btn ghost" href="${PROFILE.github}" target="_blank" rel="noopener">GitHub</a>
       <a class="btn ghost" href="${PROFILE.phoneHref}">${PROFILE.phone}</a>
     </div>
