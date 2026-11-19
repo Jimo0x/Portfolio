@@ -4,7 +4,7 @@ import { PROJECTS, KINDS, PROFILE } from "./data.js";
 
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-export function initPalette({ openProject, openTerminal, copyEmail }) {
+export function initPalette({ openProject, openTerminal, writeEmail }) {
   const root = document.getElementById("palette");
   const input = document.getElementById("paletteInput");
   const list = document.getElementById("paletteList");
@@ -18,7 +18,7 @@ export function initPalette({ openProject, openTerminal, copyEmail }) {
     { label: "Services", hint: "Page", keys: "pentest audit developpement offre methode", run: go("/services/") },
     { label: "À propos", hint: "Page", keys: "parcours competences formation bio", run: go("/a-propos/") },
     { label: "Contact", hint: "Page", keys: "email telephone ecrire", run: go("/contact/") },
-    { label: "Copier l'adresse email", hint: PROFILE.email, keys: "mail contact", run: copyEmail },
+    { label: "Écrire un email", hint: PROFILE.email, keys: "mail email contact ecrire", run: writeEmail },
     { label: "Ouvrir le terminal", hint: "Raccourci `", keys: "console shell", run: openTerminal },
     { label: "Profil GitHub", hint: "github.com/" + PROFILE.handle, keys: "code", run: () => window.open(PROFILE.github, "_blank", "noopener") },
   ];
