@@ -33,9 +33,12 @@ DEEP = (92, 8, 20)
 # On lit src/data.js avec node pour garder une seule source de vérité.
 DATA = json.loads(subprocess.check_output(
     ["node", "--input-type=module", "-e",
-     "import * as d from './src/data.js'; console.log(JSON.stringify({p: d.PROJECTS, k: d.KINDS, s: d.SERVICES}))"],
+     "import * as d from './src/data.js'; console.log(JSON.stringify({p: d.PROJECTS, k: d.KINDS, s: d.SERVICES, m: d.MAP_IDS}))"],
     cwd=ROOT, text=True))
 PROJECTS, KINDS = DATA["p"], DATA["k"]
+MAP = [p for i in DATA["m"] for p in PROJECTS if p["id"] == i]   # projets de la carte réseau
+SPRITE_OF = {"cyber": "cyber", "web": "web", "app": "web", "jeu": "jeu"}   # autres domaines : terminal
+AVATAR = Image.open(ROOT / "public" / "assets" / "avatar-pixel.png").convert("RGBA")
 
 # ------------------------------------------------------------------ sprites 16 px
 # . transparent   I encre   R rouge   M gris   D fond (pour découper)
@@ -241,8 +244,8 @@ def network(d, cx, cy, rx, ry, labels=False):
         return seed[0] / 2147483647
 
     pts = []
-    for i, p in enumerate(PROJECTS):
-        a = -math.pi / 2 + i / len(PROJECTS) * math.pi * 2 + 0.25
+    for i, p in enumerate(MAP):
+        a = -math.pi / 2 + i / len(MAP) * math.pi * 2 + 0.25
         j = 0.85 + rnd() * 0.25
         pts.append((round(cx + math.cos(a) * rx * j), round(cy + math.sin(a) * ry * j), p))
     # hôtes de décor reliés à leurs voisins
@@ -262,7 +265,7 @@ def network(d, cx, cy, rx, ry, labels=False):
     for (x, y) in decor:
         d.point((x, y), fill=MUTED)
     for (x, y, p) in pts:
-        col = INK if p["kind"] == "web" else RED
+        col = INK if p["kind"] in ("web", "app") else RED
         if p["kind"] == "jeu":
             d.rectangle([x - 3, y - 3, x + 3, y + 3], fill=BG, outline=col)
         else:
@@ -271,10 +274,9 @@ def network(d, cx, cy, rx, ry, labels=False):
             t = p["id"]
             lx = x + 6 if x >= cx else x - 6 - SMALL.getlength(t)
             d.text((lx, y - 4), t, font=SMALL, fill=INK)
-    # centre
-    d.rectangle([cx - 3, cy - 3, cx + 3, cy + 3], fill=RED)
-    d.rectangle([cx - 6, cy - 6, cx + 6, cy + 6], outline=DEEP)
-    d.text((cx - SMALL.getlength("julio") / 2, cy + 9), "julio", font=SMALL, fill=RED)
+    # centre : le portrait en pixel art (28 px sur la toile logique)
+    av = AVATAR.resize((28, 28), Image.NEAREST)
+    d._image.paste(av, (cx - 14, cy - 14), av)
 
 
 def finish(img, name):
@@ -314,13 +316,24 @@ def art_sprite(name, scale=4):
     return draw
 
 
+def art_avatar(img, d):
+    dither_glow(d, 254, 88, 46)
+    av = AVATAR.resize((56, 56), Image.NEAREST)
+    img.paste(av, (254 - 28, 86 - 28), av)
+
+
 def art_grid(img, d):
     dither_glow(d, 254, 88, 48)
-    icons = {"cyber": "cyber", "web": "web", "jeu": "jeu"}
+    # une icône par projet, 7 colonnes de 12 px
     for i, p in enumerate(PROJECTS):
-        col, row = i % 3, i // 3
-        x, y = 224 + col * 24, 56 + row * 24
-        sprite(d, icons[p["kind"]], x, y, 1, shadow=False)
+        col, row = i % 7, i // 7
+        x, y = 212 + col * 12, 50 + row * 12
+        rows = SPRITES[SPRITE_OF.get(p["kind"], "term")].strip("\n").split("\n")
+        for j in range(0, len(rows), 2):
+            for k in range(0, len(rows[j]), 2):
+                ch = rows[j][k]
+                if ch not in ".D":
+                    d.point((x + k // 2, y + j // 2), fill=COLORS[ch])
 
 
 n = len(PROJECTS)
@@ -330,14 +343,14 @@ page("accueil", "~/accueil", "Je casse des systèmes", "pour mieux les protéger
      "Spécialiste cybersécurité et développeur à Cotonou. Pentest, analyse SOC, C, Python, web.",
      ["pentest", "python", "c", "web", "remote"], art_network)
 page("projets", "~/projets", "Ce que", "j'ai construit.",
-     f"{n} projets : {count('cyber')} outils de cybersécurité, {count('web')} applications web et un jeu de hacking jouable.",
-     ["cybersécurité", "web", "jeu vidéo"], art_grid)
+     f"{n} projets : {count('cyber')} outils de cybersécurité, {count('ia')} projets d'IA, {count('web')} applications web et {count('jeu')} jeux jouables.",
+     ["cybersécurité", "ia", "web", "jeux"], art_grid)
 page("services", "~/services", "Ce que je peux", "faire pour toi.",
      "Test d'intrusion, revue de sécurité du code, développement web sécurisé et outils sur mesure.",
      ["pentest", "audit", "dev web", "outils"], art_sprite("cyber"))
 page("a-propos", "~/a-propos", "Derrière", "le terminal.",
      "Étudiant en cybersécurité à ESGIS Bénin et Epitech Bénin. Parcours, formation et compétences.",
-     ["c", "python", "réseaux", "soc"], art_sprite("term"))
+     ["c", "python", "réseaux", "soc"], art_avatar)
 page("contact", "~/contact", "Établissons", "la connexion.",
      "Un audit, un projet, un stage : écris-moi, je réponds vite. Cotonou, ouvert au remote.",
      ["email", "github", "remote"], art_sprite("mail"))
@@ -347,7 +360,7 @@ for i, p in enumerate(PROJECTS):
     # nom sur la première ligne, domaine caviardé sur la seconde
     page(f"projet-{p['id']}", f"~/projets/{p['id']}", name, KINDS[p["kind"]].lower(),
          p["tagline"], [s.lower() for s in p["stack"][:4]],
-         art_sprite(p["kind"], 4 if p["kind"] != "jeu" else 3))
+         art_sprite(SPRITE_OF.get(p["kind"], "term"), 4 if p["kind"] != "jeu" else 3))
 
 
 # ------------------------------------------------------------------ icônes

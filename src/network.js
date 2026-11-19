@@ -1,9 +1,14 @@
-/* Carte réseau du héro : chaque projet est un hôte relié à « julio ».
-   Des paquets circulent sur les liens ; survoler un nœud l'isole, cliquer ouvre le projet. */
+/* Carte réseau du héro : chaque projet est un hôte relié au portrait en pixel art.
+   Des paquets circulent sur les liens ; survoler un nœud l'isole, cliquer ouvre le projet
+   (ou la page « À propos » pour le portrait). */
 
 import { KINDS } from "./data.js";
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// portrait en pixel art (56 × 56 px, cercle et anneau rouge inclus), agrandi sans lissage
+const AVATAR = new Image();
+AVATAR.src = "/assets/avatar-pixel.png";
 
 export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 }) {
   const ctx = canvas.getContext("2d");
@@ -42,7 +47,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
          passent sous chaque nœud, assez espacées pour ne jamais se chevaucher. */
       const cx = W / 2, cy = H * 0.47;
       const rx = Math.min(W * 0.34, 250), ry = Math.min(H * 0.34, 130);
-      const center = { id: "julio", label: "julio", x: cx, y: cy, r: 8, kind: "self", born: 0, phase: 0 };
+      const center = { id: "moi", label: "", x: cx, y: cy, r: 28, kind: "self", born: 0, phase: 0 };
       nodes = [center];
       projects.forEach((p, i) => {
         const a = -Math.PI / 2 + (i / projects.length) * Math.PI * 2;
@@ -62,7 +67,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
       const cx = (textRight + W) / 2 + 10, cy = H * 0.53;
       const rx = Math.max(120, Math.min((W - textRight) / 2 - 130, 330));
       const ry = Math.min(H * 0.32, 300);
-      const center = { id: "julio", label: "julio", x: cx, y: cy, r: 9, kind: "self", born: 0, phase: 0 };
+      const center = { id: "moi", label: "", x: cx, y: cy, r: 42, kind: "self", born: 0, phase: 0 };
       nodes = [center];
       projects.forEach((p, i) => {
         const a = -Math.PI / 2 + (i / projects.length) * Math.PI * 2 + 0.25;
@@ -165,17 +170,29 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
       }
       const r = (isHover ? n.r * 1.7 : n.r) * p;
       if (n.kind === "self") {
-        ctx.fillStyle = colors.signal;
-        ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 7); ctx.fill();
-        // onde qui part du centre
+        // taille du portrait : multiple entier des pixels de l'écran quand c'est possible (pixels nets)
+        const src = AVATAR.naturalWidth || 56, k = (n.r * 2 * DPR) / src, ki = Math.floor(k);
+        const half = src * (ki >= 0.8 * k ? ki : k) / DPR / 2 * (0.6 + 0.4 * p) * (isHover ? 1.06 : 1);
+        // onde qui part du portrait
         if (!REDUCED) {
           const w = (time % 2.4) / 2.4;
           ctx.strokeStyle = colors.signal; ctx.globalAlpha = (1 - w) * 0.6 * p; ctx.lineWidth = 1.5;
-          ctx.beginPath(); ctx.arc(n.x, n.y, r + w * 46, 0, 7); ctx.stroke();
+          ctx.beginPath(); ctx.arc(n.x, n.y, half + 2 + w * 46, 0, 7); ctx.stroke();
         }
+        ctx.globalAlpha = p;
+        // fond plein sous le portrait : les liens qui arrivent au centre passent dessous
+        ctx.fillStyle = colors.bg; ctx.beginPath(); ctx.arc(n.x, n.y, half - 1, 0, 7); ctx.fill();
+        if (AVATAR.complete && AVATAR.naturalWidth) {
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(AVATAR, Math.round(n.x - half), Math.round(n.y - half), half * 2, half * 2);
+          ctx.imageSmoothingEnabled = true;
+        } else {
+          ctx.fillStyle = colors.signal; ctx.beginPath(); ctx.arc(n.x, n.y, 9, 0, 7); ctx.fill();
+        }
+        continue;
       } else {
         ctx.fillStyle = colors.bg;
-        ctx.strokeStyle = n.kind === "web" ? colors.ink : colors.signal;
+        ctx.strokeStyle = n.kind === "web" || n.kind === "app" ? colors.ink : colors.signal;
         ctx.lineWidth = 2.4;
         ctx.beginPath();
         if (n.kind === "jeu") { ctx.rect(n.x - r, n.y - r, r * 2, r * 2); }
@@ -226,8 +243,8 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
   function pick(x, y) {
     let best = null, bd = mobile ? 30 : 26;
     for (const n of nodes) {
-      if (!n.project) continue;
-      const d = Math.hypot(n.x - x, n.y - y);
+      if (!n.project && n.kind !== "self") continue;
+      const d = Math.hypot(n.x - x, n.y - y) - (n.kind === "self" ? n.r - 8 : 0);
       if (d < bd) { bd = d; best = n; }
     }
     return best;
@@ -249,7 +266,7 @@ export function initNetwork(canvas, projects, { onOpen, hint, list, delay = 0 })
   host.addEventListener("click", e => {
     if (e.target.closest("a, button")) return;
     const n = pick(...Object.values(local(e)));
-    if (n) onOpen(n.project.id);
+    if (n) n.project ? onOpen(n.project.id) : (location.href = "/a-propos/");
   });
 
   new ResizeObserver(() => { layout(); if (!running || REDUCED) draw(performance.now()); }).observe(canvas);

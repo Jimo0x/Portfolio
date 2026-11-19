@@ -1,12 +1,12 @@
 /* Point d'entrée commun à toutes les pages. Chaque module ne démarre que si
    les éléments dont il a besoin sont présents sur la page. */
 
-import { PROJECTS } from "./data.js";
+import { PROJECTS, MAP_IDS } from "./data.js";
 import { initNetwork } from "./network.js";
 import { initProjects, openProject } from "./projects.js";
 import { initPalette } from "./palette.js";
 import { initTerminal } from "./terminal.js";
-import { decodeTitle, initReveal, initNav, renderTimeline, renderStack, renderStats, initServices, initHandshake, initSide, copyEmail, toast, onKonami } from "./fx.js";
+import { decodeTitle, initReveal, initNav, renderTimeline, renderStack, renderStats, initServices, initHandshake, initSide, writeEmail, toast, onKonami } from "./fx.js";
 import { playIntro, initProgress, initAura, initCursor, initMagnetic, splitTitles, scrambleOnHover, initWordmark } from "./motion.js";
 
 const $ = id => document.getElementById(id);
@@ -30,12 +30,12 @@ initWordmark();
 scrambleOnHover(".mail, .cmd-text");
 
 const terminal = initTerminal({ openProject });
-initPalette({ openProject, openTerminal: terminal.open, copyEmail });
+initPalette({ openProject, openTerminal: terminal.open, writeEmail });
 
 const map = $("netmap");
 if (map) {
   // la carte et le titre démarrent quand l'écran de démarrage se lève
-  initNetwork(map, PROJECTS, {
+  initNetwork(map, MAP_IDS.map(id => PROJECTS.find(p => p.id === id)).filter(Boolean), {
     onOpen: openProject,
     hint: $("mapHint"),
     list: $("nodeList"),
@@ -44,7 +44,6 @@ if (map) {
   introDone.then(() => decodeTitle($("heroTitle")));
 }
 
-$("copyMail")?.addEventListener("click", copyEmail);
 
 // sur la page 404, la commande affiche le chemin réellement demandé
 const missing = document.querySelector("[data-missing]");
