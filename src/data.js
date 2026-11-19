@@ -2,6 +2,8 @@
    Ajouter un projet = ajouter une entrée dans PROJECTS (la carte réseau, la liste,
    la page projet, la palette de commandes et le terminal se mettent à jour seuls). */
 
+import { MUSIC, TEK3 } from "./data-more.js";
+
 const GH = "https://github.com/Jimo0x";
 
 export const PROFILE = {
@@ -19,6 +21,10 @@ export const PROFILE = {
 export const KINDS = {
   cyber: "Cybersécurité",
   web: "Web",
+  app: "Application",
+  ia: "IA et données",
+  outil: "Outils système",
+  creatif: "Créatif",
   jeu: "Jeu vidéo",
 };
 
@@ -176,6 +182,12 @@ lodahs@1.0.1 (npm)
   },
 ];
 
+// le lecteur de musique, puis les 30 projets Tek3 (src/data-more.js)
+PROJECTS.push(MUSIC, ...TEK3);
+
+/* Projets affichés sur la carte réseau de l'accueil (les autres sont dans /projets/). */
+export const MAP_IDS = ["frixx", "phishing", "safe-install", "breach", "recon", "scraper", "synergy", "music-player"];
+
 export const TIMELINE = [
   {
     when: "En cours",
@@ -204,14 +216,14 @@ export const STACK = [
   { group: "Données et outils", items: ["PostgreSQL", "MySQL", "MariaDB", "Docker", "Git", "Linux"] },
 ];
 
-export const imageUrl = name => "/assets/" + encodeURIComponent(name);
+export const imageUrl = name => "/assets/" + name.split("/").map(encodeURIComponent).join("/");
 
 /* Chiffres clés : uniquement des valeurs vérifiables dans les dépôts. */
 export const STATS = [
   { value: PROJECTS.length, suffix: "", label: "Projets réalisés" },
   { value: PROJECTS.filter(p => p.kind === "cyber").length, suffix: "", label: "Outils de cybersécurité" },
-  { value: 75, suffix: "+", label: "Tests automatisés" },
-  { value: 1, suffix: "", label: "Jeu de hacking jouable" },
+  { value: 190, suffix: "+", label: "Tests automatisés" },
+  { value: PROJECTS.filter(p => p.kind === "jeu").length, suffix: "", label: "Jeux jouables" },
 ];
 
 export const SERVICES = [
