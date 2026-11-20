@@ -289,3 +289,33 @@ export const TEK3 = [
     ["Profil de style et radar", "Markov, souvenirs et LLM", "Import WhatsApp", "Test de Turing"],
     ["JavaScript", "NLP", "Markov", "TF-IDF"], 3),
 ];
+
+/* PWA de révision pour l'examen du code de la route au Bénin (permis B). */
+export const PERMIS_B_BENIN = {
+  id: "permis-b-benin",
+  name: "Permis B Bénin",
+  kind: "app",
+  tagline: "PWA de révision pour l'examen du code de la route au Bénin (permis B).",
+  summary: "Tout le cours résumé en 12 chapitres, une carte de 53 panneaux dessinés à la main et un générateur de QCM à partir de 119 questions, avec suivi de progression. Installable et utilisable hors connexion.",
+  body: [
+    "Le cours couvre la réglementation béninoise de bout en bout : signalisation, priorités, vitesses, alcool et fatigue, équipements obligatoires, comportement au volant, premiers secours, infractions, conduite de nuit ou sous la pluie, spécificités des deux-roues et zémidjans, et environnement. Chaque chapitre tient en quelques sections courtes pour réviser vite.",
+    "Les 53 panneaux sont des illustrations SVG originales, par catégorie (danger, interdiction, priorité, obligation, indication), pour éviter tout problème de droits sur des photos. Le générateur de QCM pioche parmi 119 questions avec trois familles d'exercices : cours, panneaux et mises en situation, et peut rejouer uniquement les erreurs passées.",
+    "Une page de progression garde la trace des réponses par chapitre et des scores d'examen successifs, stockés uniquement en local sur l'appareil. L'ensemble fonctionne comme une PWA installable, avec mise en cache hors connexion via un service worker.",
+  ],
+  features: [
+    "12 chapitres de cours, résumés sans rien omettre du programme officiel",
+    "53 panneaux en SVG original, classés par catégorie",
+    "119 questions de QCM : cours, panneaux et situations",
+    "Mode révision des erreurs et suivi de progression par chapitre",
+    "Installable et 100% utilisable hors connexion (PWA + service worker)",
+  ],
+  stack: ["JavaScript", "PWA", "Service Worker", "SVG"],
+  repo: `${GH}/permis-b-benin`,
+  images: [],
+  code: `$ permis-b-benin --revision
+12 chapitres · 53 panneaux · 119 questions
+  mode    : QCM examen (20 questions)
+  score   : 17/20
+  erreurs : priorités (2), vitesses (1)
+  -> rejouer uniquement mes erreurs ? [o/n]`,
+};
