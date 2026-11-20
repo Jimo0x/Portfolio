@@ -1,4 +1,5 @@
-/* Projets supplémentaires : le lecteur de musique et la série des 30 projets Tek3.
+/* Projets supplémentaires : le langage Vyrn et son éditeur, le lecteur de musique
+   et la série des 30 projets Tek3.
    Chaque projet a une interface graphique, des tests et son dépôt public. */
 
 const GH = "https://github.com/Jimo0x";
@@ -24,6 +25,54 @@ export const MUSIC = {
   repo: "https://github.com/LoickAmg/Music-Player",
   images: shots("music-player", 1),
 };
+
+/* Le langage Vyrn et son éditeur dédié. */
+export const VYRN = [
+  {
+    id: "vyrn",
+    name: "Vyrn",
+    kind: "outil",
+    tagline: "Mon propre langage de programmation : la syntaxe de Python, la vitesse du C.",
+    summary: "Langage typé statiquement, à indentation, compilé en C puis en exécutable natif. Inférence de types, structs, listes, chaînes riches et appel direct de fonctions C.",
+    body: [
+      "Le compilateur suit la chaîne classique : un lexer qui gère l'indentation, un parser récursif descendant, un vérificateur de types avec inférence et un générateur de C accompagné d'un petit runtime. Le C produit passe ensuite par gcc ou clang pour donner un binaire natif, sans machine virtuelle.",
+      "Les erreurs sont pensées pour être lues : chacune indique la ligne et la colonne avec un extrait du code, et plusieurs erreurs sont signalées en une passe. À l'exécution, un accès hors limites ou une division par zéro donne un message clair avec la ligne, au lieu d'un plantage. Sur un même calcul récursif (fib(35)), Vyrn est environ dix fois plus rapide que CPython.",
+    ],
+    features: [
+      "Compilation native via C : environ 10× plus rapide que CPython sur fib(35)",
+      "Types vérifiés avant l'exécution, avec inférence",
+      "Structs, listes génériques, méthodes de chaînes",
+      "Interopérabilité C : cinclude et extern fn",
+      "Erreurs localisées (ligne, colonne) et contrôle des bornes",
+      "CLI run, build, check (sortie JSON) et emit-c, 20 tests automatisés",
+    ],
+    stack: ["Python", "C", "Compilation", "gcc / clang"],
+    repo: `${GH}/vyrn`,
+    images: shots("vyrn", 1),
+  },
+  {
+    id: "vyrn-studio",
+    name: "Vyrn Studio",
+    kind: "app",
+    tagline: "L'éditeur de code du langage Vyrn, bâti sur le moteur de VS Code.",
+    summary: "Monaco avec un thème noir et rouge, coloration et complétion Vyrn, erreurs soulignées pendant la frappe, exécution en un raccourci et vue du C généré.",
+    body: [
+      "Un serveur local en Python relie l'interface au compilateur : à chaque frappe, le code est vérifié et les erreurs apparaissent sous le texte et dans un onglet Problèmes. Ctrl+Entrée compile et exécute le fichier, avec la sortie, les temps de compilation et d'exécution, et une entrée standard qu'on peut préparer à l'avance.",
+      "L'éditeur reprend les réflexes de VS Code : onglets, explorateur, ouverture rapide floue (Ctrl+P), recherche dans tout le projet, aller à la définition, renommage et palette de commandes. Le serveur n'écoute qu'en local, exige un jeton aléatoire et confine les chemins au dossier du projet.",
+    ],
+    features: [
+      "Moteur Monaco (VS Code), thème noir et rouge",
+      "Diagnostics en direct fournis par le compilateur",
+      "Exécution Ctrl+Entrée, sortie et temps mesurés",
+      "Vue du C généré",
+      "Ouverture rapide, recherche dans le projet, F12 et F2",
+      "Serveur local protégé par jeton, chemins confinés",
+    ],
+    stack: ["JavaScript", "Monaco Editor", "Python", "HTTP"],
+    repo: `${GH}/vyrn-studio`,
+    images: shots("vyrn-studio", 1),
+  },
+];
 
 const P = (id, name, kind, tagline, summary, body, features, stack, n) =>
   ({ id, name, kind, tagline, summary, body, features, stack, repo: `${GH}/${id}`, images: shots(id, n) });

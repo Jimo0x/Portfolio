@@ -2,7 +2,7 @@
    Ajouter un projet = ajouter une entrée dans PROJECTS (la carte réseau, la liste,
    la page projet, la palette de commandes et le terminal se mettent à jour seuls). */
 
-import { MUSIC, TEK3 } from "./data-more.js";
+import { VYRN, MUSIC, TEK3 } from "./data-more.js";
 
 const GH = "https://github.com/Jimo0x";
 
@@ -182,8 +182,8 @@ lodahs@1.0.1 (npm)
   },
 ];
 
-// le lecteur de musique, puis les 30 projets Tek3 (src/data-more.js)
-PROJECTS.push(MUSIC, ...TEK3);
+// le langage Vyrn et son éditeur, le lecteur de musique, puis les 30 projets Tek3 (src/data-more.js)
+PROJECTS.push(...VYRN, MUSIC, ...TEK3);
 
 /* Projets affichés sur la carte réseau de l'accueil (les autres sont dans /projets/). */
 export const MAP_IDS = ["frixx", "phishing", "safe-install", "breach", "recon", "scraper", "synergy", "music-player"];
