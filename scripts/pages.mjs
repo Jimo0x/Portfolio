@@ -320,10 +320,11 @@ ${jsonld.map(j => `<script type="application/ld+json">${JSON.stringify(j)}</scri
     const otherHref = L(logicalPath ?? "/", otherLocale);
     const langLabel = otherLocale.toUpperCase();
     const langTip = locale === "fr" ? "Switch to English" : "Passer en français";
-    const langLink = `    <a href="${otherHref}" id="langToggle" data-label="${langTip}" onclick="try{localStorage.setItem('lang','${otherLocale}')}catch(e){}"><span class="lang-ic" aria-hidden="true">${langLabel}</span><span class="lbl">${langTip}</span></a>`;
+    const langLink = `<a class="lang-switch" id="langToggle" href="${otherHref}" title="${langTip}" aria-label="${langTip}" onclick="try{localStorage.setItem('lang','${otherLocale}')}catch(e){}"><span class="lang-ic" aria-hidden="true">${langLabel}</span></a>`;
     return `<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 <div class="scanline" aria-hidden="true"></div>
 <a class="skip" href="#contenu">${t.skip}</a>
+${langLink}
 
 <header class="mobilebar" id="topbar">
   <button class="side-toggle" type="button" data-side-toggle aria-controls="side" aria-expanded="false" aria-label="${t.openMenu}"><span></span><span></span><span></span></button>
@@ -343,7 +344,6 @@ ${links}
   <div class="side-tools">
     <button type="button" id="paletteBtn" data-label="${t.search}">${svg("search")}<span class="lbl">${t.search} <kbd>Ctrl K</kbd></span></button>
     <button type="button" id="termBtn" data-terminal data-label="${t.terminal}">${svg("term")}<span class="lbl">${t.terminal} <kbd>\`</kbd></span></button>
-${langLink}
     <a href="${PROFILE.github}" target="_blank" rel="noopener" data-label="${t.github}">${GH}<span class="lbl">${t.github}</span></a>
     <a href="mailto:${PROFILE.email}" data-label="${t.email}">${svg("mail")}<span class="lbl">${t.email}</span></a>
   </div>
