@@ -1,6 +1,6 @@
 /* Palette de commandes (Ctrl+K) : projets, pages et actions au clavier. */
 
-import { PROJECTS, KINDS, PROFILE } from "./data.js";
+import { PROJECTS, KINDS, PROFILE } from "./i18n.js";
 
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 

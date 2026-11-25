@@ -1,7 +1,7 @@
 /* Effets et petites interactions : décodage du titre, apparitions, barre de navigation,
    parcours tracé au scroll, lien email, raccourcis. */
 
-import { TIMELINE, STACK, PROFILE, STATS, SERVICES } from "./data.js";
+import { TIMELINE, STACK, PROFILE, STATS, SERVICES } from "./i18n.js";
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);

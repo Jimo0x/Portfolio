@@ -2,7 +2,7 @@
    Des paquets circulent sur les liens ; survoler un nœud l'isole, cliquer ouvre le projet
    (ou la page « À propos » pour le portrait). */
 
-import { KINDS } from "./data.js";
+import { KINDS } from "./i18n.js";
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 

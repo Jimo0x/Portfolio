@@ -1,7 +1,7 @@
 /* Point d'entrée commun à toutes les pages. Chaque module ne démarre que si
    les éléments dont il a besoin sont présents sur la page. */
 
-import { PROJECTS, MAP_IDS } from "./data.js";
+import { PROJECTS, MAP_IDS } from "./i18n.js";
 import { initNetwork } from "./network.js";
 import { initProjects, openProject } from "./projects.js";
 import { initPalette } from "./palette.js";

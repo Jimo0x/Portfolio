@@ -3,10 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{var want=localStorage.getItem("lang");var cur=document.documentElement.lang;if(!want||want===cur)return;var p=location.pathname,target;if(want==="en"){target=cur==="fr"?("/en"+(p==="/"?"/":p)):p;}else{target=p.replace(/^\/en(\/|$)/,"/");if(target==="")target="/";}if(target!==p)location.replace(target+location.search+location.hash);}catch(e){}})();</script>
 <title>Digital Identity | Julio Dahou</title>
 <meta name="description" content="Visualise votre empreinte numérique et vous aide à la réduire. Graphe de vos comptes et identifiants, indice d&#39;exposition et recommandations priorisées, entièrement dans le navigateur.">
 <meta name="author" content="Julio Dahou">
 <link rel="canonical" href="https://jimoox.vercel.app/projets/digital-identity/">
+<link rel="alternate" hreflang="fr" href="https://jimoox.vercel.app/projets/digital-identity/">
+<link rel="alternate" hreflang="en" href="https://jimoox.vercel.app/en/projets/digital-identity/">
+<link rel="alternate" hreflang="x-default" href="https://jimoox.vercel.app/projets/digital-identity/">
 <meta name="theme-color" content="#050505">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Julio Dahou">
@@ -62,6 +66,7 @@
   <div class="side-tools">
     <button type="button" id="paletteBtn" data-label="Rechercher"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg><span class="lbl">Rechercher <kbd>Ctrl K</kbd></span></button>
     <button type="button" id="termBtn" data-terminal data-label="Terminal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 7 5 5-5 5M12 18h7"/></svg><span class="lbl">Terminal <kbd>`</kbd></span></button>
+    <a href="/en/projets/digital-identity/" id="langToggle" data-label="Switch to English" onclick="try{localStorage.setItem('lang','en')}catch(e){}"><span class="lang-ic" aria-hidden="true">EN</span><span class="lbl">Switch to English</span></a>
     <a href="https://github.com/Jimo0x" target="_blank" rel="noopener" data-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg><span class="lbl">GitHub</span></a>
     <a href="mailto:juliodh2006@gmail.com" data-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="m3 7 9 6 9-6"/></svg><span class="lbl">Email</span></a>
   </div>
@@ -119,6 +124,7 @@
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script>document.documentElement.lang="fr";</script>
 <script type="module" src="/src/app.js"></script>
 </body>
 </html>

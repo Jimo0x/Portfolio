@@ -1,6 +1,6 @@
 /* Liste des projets (filtres, fenêtres inclinées). Chaque projet a sa propre page : /projets/<id>/. */
 
-import { PROJECTS, KINDS, imageUrl } from "./data.js";
+import { PROJECTS, KINDS, imageUrl } from "./i18n.js";
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);

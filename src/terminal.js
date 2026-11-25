@@ -1,7 +1,7 @@
 /* Mode terminal : explorer le portfolio en ligne de commande.
    Ouverture : bouton du haut ou touche ` (backtick). */
 
-import { PROJECTS, KINDS, PROFILE, STACK } from "./data.js";
+import { PROJECTS, KINDS, PROFILE, STACK } from "./i18n.js";
 
 const L = (text, cls, href) => ({ text, cls, href });
 
