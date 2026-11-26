@@ -180,6 +180,31 @@ lodahs@1.0.1 (npm)
     repo: `${GH}/Project_Synergy`,
     images: ["synergy_craftt.png"],
   },
+  {
+    id: "maps-benin",
+    name: "Maps Bénin",
+    kind: "app",
+    tagline: "Carte interactive des centres commerciaux et restaurants du Bénin, avec catalogues de prix.",
+    summary: "Localise les centres commerciaux et restaurants d'une ville (Cotonou pour l'instant), avec fiche lieu et catalogue (nom, prix, photo), plus un écran d'administration pour gérer le contenu. Une seule base de code Flutter pour Linux, Windows, Android et iOS.",
+    body: [
+      "Maps Bénin affiche une carte OpenStreetMap avec les centres commerciaux et restaurants d'une ville, chacun avec sa fiche (adresse, description) et son catalogue de produits ou de plats avec leur prix. Le sélecteur de ville et le modèle de données sont prêts pour l'ajout d'autres villes béninoises.",
+      "Le contenu est géré depuis un écran d'administration protégé par mot de passe (vérifié côté serveur via une fonction PostgreSQL, sans exposer le hash), avec création, édition et suppression de lieux et d'articles. Les lieux de Cotonou ont été renseignés à partir de recherches publiques (Erevan, Dantokpa, La Plage by Code Bar, etc.).",
+    ],
+    features: [
+      "Carte OpenStreetMap, sans clé API, avec recherche et vue liste",
+      "Fiche lieu avec catalogue (nom, prix, photo)",
+      "Écran admin protégé par mot de passe (fonction Postgres dédiée)",
+      "Backend Supabase (Postgres, RLS) et modèle multi-villes",
+      "Cible Linux, Windows, Android et iOS depuis un seul code Flutter",
+    ],
+    stack: ["Flutter", "Dart", "Supabase", "PostgreSQL", "OpenStreetMap"],
+    repo: `${GH}/maps-benin`,
+    images: [],
+    code: `$ Maps Bénin — Cotonou
+12 lieux chargés : 4 centres commerciaux, 8 restaurants
+> La Plage by Code Bar (restaurant) — Fidjrossè
+> Erevan Shopping Center (centre commercial) — Haie Vive`,
+  },
 ];
 
 // le langage Vyrn et son éditeur, le lecteur de musique, puis les 30 projets Tek3 (src/data-more.js)

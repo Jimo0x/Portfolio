@@ -670,4 +670,23 @@ lodahs@1.0.1 (npm)
   mistakes: right of way (2), speed limits (1)
   -> replay only my mistakes? [y/n]`,
   },
+  "maps-benin": {
+    tagline: "Interactive map of shopping centers and restaurants in Benin, with price catalogs.",
+    summary: "Locates shopping centers and restaurants in a city (Cotonou for now), with a place page and a catalog (name, price, photo), plus an admin screen to manage content. One Flutter codebase for Linux, Windows, Android and iOS.",
+    body: [
+      "Maps Bénin shows an OpenStreetMap map with a city's shopping centers and restaurants, each with its own page (address, description) and a catalog of products or dishes with their price. The city selector and data model are ready for more Beninese cities to be added.",
+      "Content is managed from a password-protected admin screen (checked server-side via a dedicated PostgreSQL function, without exposing the hash), with create, edit and delete for places and catalog items. Cotonou's places were populated from public research (Erevan, Dantokpa, La Plage by Code Bar, etc.).",
+    ],
+    features: [
+      "OpenStreetMap map, no API key, with search and a list view",
+      "Place page with catalog (name, price, photo)",
+      "Password-protected admin screen (dedicated Postgres function)",
+      "Supabase backend (Postgres, RLS) and multi-city data model",
+      "Targets Linux, Windows, Android and iOS from one Flutter codebase",
+    ],
+    code: `$ Maps Bénin — Cotonou
+12 places loaded: 4 shopping centers, 8 restaurants
+> La Plage by Code Bar (restaurant) — Fidjrossè
+> Erevan Shopping Center (shopping center) — Haie Vive`,
+  },
 };
